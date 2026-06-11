@@ -1,73 +1,159 @@
-# React + TypeScript + Vite
+# ARS Admin UI System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript 기반 관리자 UI 시스템 구축 프로젝트
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Project Overview
 
-## React Compiler
+실무에서 반복적으로 사용되는 관리자 UI 컴포넌트를 React + TypeScript 환경으로 재구성하고,
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+재사용 가능한 UI System 및 CRUD 예제 프로젝트를 구축하는 것을 목표로 한다.
 
-## Expanding the ESLint configuration
+본 프로젝트는 퍼블리셔 관점의 UI 설계 경험을 React 컴포넌트 구조로 확장하기 위한 개인 학습 프로젝트이다.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Goals
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### UI System
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+* Button
+* Input
+* Radio
+* Checkbox
+* Select
+* Table
+* Pagination
+* Modal
+* Loading
+* Empty State
+* Error State
+
+### Admin CRUD
+
+* 목록 조회
+* 상세 조회
+* 등록
+* 수정
+* 삭제
+
+### Architecture
+
+* Design Token
+* SCSS Architecture
+* Reusable Component Structure
+* Route Management
+* API State Management
+
+---
+
+## Tech Stack
+
+### Frontend
+
+* React
+* TypeScript
+* Vite
+
+### State Management
+
+* React Query
+
+### Routing
+
+* React Router
+
+### Styling
+
+* SCSS (Sass)
+
+### Version Control
+
+* Git
+* GitHub
+
+---
+
+## Directory Structure
+
+```txt
+src
+
+├ assets
+├ components
+├ hooks
+├ layouts
+├ pages
+├ routes
+├ services
+├ styles
+├ types
+
+├ App.tsx
+└ main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### styles
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```txt
+styles
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+├ abstracts
+├ base
+├ components
+├ layout
+├ pages
+
+├ common.scss
+└ main.scss
 ```
+
+---
+
+## Development Progress
+
+### Week 1
+
+* [x] Requirements Documentation
+* [x] Screen Definition Documentation
+* [x] Data Structure Documentation
+* [x] React + TypeScript Setup
+* [x] React Router Setup
+* [x] React Query Setup
+* [x] SCSS Architecture Setup
+* [x] GitHub Repository Setup
+
+### Week 2
+
+* [ ] Design Token
+* [ ] Button
+* [ ] Input
+* [ ] Radio
+* [ ] Checkbox
+
+### Week 3
+
+* [ ] Select
+* [ ] Table
+* [ ] Pagination
+
+### Week 4
+
+* [ ] Modal
+* [ ] Loading
+* [ ] Empty State
+* [ ] Error State
+
+### Week 5
+
+* [ ] CRUD Example
+* [ ] Mock API Integration
+
+---
+
+## Author
+
+Frontend Publishing & UI System Study Project
+
+2026
