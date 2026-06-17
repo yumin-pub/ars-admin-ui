@@ -1,0 +1,24 @@
+
+
+// ========================================
+// Z-Index
+// modal, dropdown, header 층위 기준
+// ========================================
+
+$z-index-hide: -1;
+
+$z-index-base: 1;
+
+$z-index-sticky: 100;
+$z-index-header: 200;
+
+$z-index-dropdown: 300;
+$z-index-tooltip: 400;
+
+$z-index-overlay: 900;
+
+$z-index-modal: 1000;
+
+$z-index-toast: 1100;
+
+$z-index-loading: 1200;

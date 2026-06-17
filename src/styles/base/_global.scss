@@ -1,0 +1,13 @@
+@use '../tokens' as *;
+
+html {
+  font-size: $font-size-md;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family-base;
+  font-size: $font-size-md;
+  color: $gray-900;
+  background: $gray-50;
+}

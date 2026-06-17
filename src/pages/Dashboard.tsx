@@ -1,18 +1,20 @@
 function Dashboard() {
   return (
-    <div className="dashboard">
-      <h1>ARS Admin UI System</h1>
+    <div>
+      <button className="ui-btn ui-btn--solid ui-btn--primary ui-btn--md">
+        Primary
+      </button>
 
-      <ul>
-        <li>Button</li>
-        <li>Input</li>
-        <li>Radio</li>
-        <li>Checkbox</li>
-        <li>Select</li>
-        <li>Table</li>
-        <li>Pagination</li>
-        <li>Modal</li>
-      </ul>
+      <button className="ui-btn ui-btn--outline ui-btn--neutral ui-btn--md">
+        Neutral
+      </button>
+
+      <button
+        className="ui-btn ui-btn--solid ui-btn--secondary ui-btn--lg"
+        disabled
+      >
+        Disabled
+      </button>
     </div>
   );
 }

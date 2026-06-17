@@ -1,0 +1,255 @@
+// ========================================
+// Button
+// ========================================
+
+@use '../tokens' as *;
+
+.ui-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-2;
+
+    height: $space-10;
+    padding: 0 $space-4;
+
+    border: 1px solid transparent;
+    border-radius: $radius-md;
+
+    font-family: $font-family-base;
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    line-height: 1;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    cursor: pointer;
+    user-select: none;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+
+    &:focus-visible {
+        outline: 2px solid $primary;
+        outline-offset: 2px;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'],
+    &.is-disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+}
+
+// ========================================
+// Size
+// ========================================
+
+.ui-btn--md {
+    height: $space-10;
+    padding: 0 $space-4;
+    font-size: $font-size-md;
+}
+
+.ui-btn--lg {
+    height: $space-12;
+    padding: 0 $space-5;
+    font-size: $font-size-lg;
+}
+
+// ========================================
+// Solid
+// ========================================
+
+.ui-btn--solid.ui-btn--primary {
+    color: $white;
+    background-color: $primary;
+    border-color: $primary;
+
+    &:hover,
+    &:active,
+    &.is-pressed,
+    &.is-selected {
+        background-color: $primary-pressed;
+        border-color: $primary-pressed;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'],
+    &.is-disabled {
+        color: $white;
+        background-color: $primary-disabled;
+        border-color: $primary-disabled;
+    }
+}
+
+.ui-btn--solid.ui-btn--secondary {
+    color: $white;
+    background-color: $secondary;
+    border-color: $secondary;
+
+    &:hover,
+    &:active,
+    &.is-pressed,
+    &.is-selected {
+        background-color: $secondary-pressed;
+        border-color: $secondary-pressed;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'],
+    &.is-disabled {
+        color: $white;
+        background-color: $secondary-disabled;
+        border-color: $secondary-disabled;
+    }
+}
+
+.ui-btn--solid.ui-btn--neutral {
+    color: $gray-900;
+    background-color: $neutral;
+    border-color: $neutral;
+
+    &:hover,
+    &:active,
+    &.is-pressed,
+    &.is-selected {
+        background-color: $neutral-pressed;
+        border-color: $neutral-pressed;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'],
+    &.is-disabled {
+        color: $gray-400;
+        background-color: $neutral-disabled;
+        border-color: $neutral-disabled;
+    }
+}
+
+// ========================================
+// Outline
+// ========================================
+
+.ui-btn--outline.ui-btn--primary {
+    color: $primary;
+    background-color: $white;
+    border-color: $primary;
+
+    &:hover,
+    &:active,
+    &.is-pressed,
+    &.is-selected {
+        color: $white;
+        background-color: $primary;
+        border-color: $primary;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'],
+    &.is-disabled {
+        color: $primary-disabled;
+        border-color: $primary-disabled;
+        background-color: $white;
+    }
+}
+
+.ui-btn--outline.ui-btn--secondary {
+    color: $secondary;
+    background-color: $white;
+    border-color: $secondary;
+
+    &:hover,
+    &:active,
+    &.is-pressed,
+    &.is-selected {
+        color: $white;
+        background-color: $secondary;
+        border-color: $secondary;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'],
+    &.is-disabled {
+        color: $secondary-disabled;
+        border-color: $secondary-disabled;
+        background-color: $white;
+    }
+}
+
+.ui-btn--outline.ui-btn--neutral {
+    color: $gray-700;
+    background-color: $white;
+    border-color: $gray-300;
+
+    &:hover,
+    &:active,
+    &.is-pressed,
+    &.is-selected {
+        background-color: $gray-100;
+        border-color: $gray-400;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'],
+    &.is-disabled {
+        color: $gray-400;
+        border-color: $gray-200;
+        background-color: $white;
+    }
+}
+
+// ========================================
+// Icon Button
+// ========================================
+
+.ui-btn--icon.ui-btn--md {
+    width: $space-10;
+    height: $space-10;
+    padding: 0;
+}
+
+.ui-btn--icon.ui-btn--lg {
+    width: $space-12;
+    height: $space-12;
+    padding: 0;
+}
+
+.ui-btn--icon {
+    .ui-btn__icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+// ========================================
+// Box Button
+// ========================================
+
+.ui-btn--box {
+    flex-direction: column;
+    width: 120px;
+    height: 88px;
+    padding: $space-4;
+    gap: $space-2;
+}
+
+// ========================================
+// Inner Elements
+// ========================================
+
+.ui-btn__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ui-btn__text {
+    display: inline-block;
+}

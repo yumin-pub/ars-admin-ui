@@ -1,0 +1,43 @@
+@use '../tokens' as *;
+
+.ui-doc {
+    padding: $space-8;
+}
+
+.ui-doc__title {
+    margin-bottom: $space-6;
+
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+}
+
+.ui-doc__section {
+    padding: $space-5;
+    margin-bottom: $space-6;
+
+    border: 1px solid $gray-200;
+    border-radius: $radius-lg;
+
+    background: $white;
+}
+
+.ui-doc__section-title {
+    margin-bottom: $space-4;
+
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    }
+
+.ui-doc__row {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+
+    padding: $space-3 0;
+
+    border-bottom: 1px solid $gray-100;
+}
+
+.ui-doc__row:last-child {
+    border-bottom: 0;
+}
