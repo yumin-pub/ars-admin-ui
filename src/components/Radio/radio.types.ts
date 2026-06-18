@@ -10,7 +10,7 @@ export interface RadioProps
      * 라벨 텍스트
      */
     label?: ReactNode;
-
+    children?: ReactNode;
     /**
      * Label Wrap / Detached Label
      *

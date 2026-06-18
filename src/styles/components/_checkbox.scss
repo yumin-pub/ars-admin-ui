@@ -1,0 +1,172 @@
+// ========================================
+// Checkbox
+// ========================================
+
+@use '../tokens' as *;
+
+.ui-checkbox {
+    display: inline-flex;
+    align-items: center;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+// Structure
+.ui-checkbox--wrap {
+    gap: $space-2;
+}
+
+.ui-checkbox--detached {
+    .ui-checkbox__wrapper {
+        display: inline-flex;
+        align-items: center;
+        gap: $space-2;
+
+        cursor: pointer;
+    }
+}
+
+// Input
+.ui-checkbox__input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    overflow: hidden;
+
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+}
+
+// Control
+.ui-checkbox__control {
+    position: relative;
+
+    flex-shrink: 0;
+
+    width: 20px;
+    height: 20px;
+
+    border: 1px solid $gray-300;
+    border-radius: $radius-sm;
+
+    background-color: $white;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+// Label
+.ui-checkbox__label {
+    font-size: $font-size-md;
+    line-height: 1.4;
+    color: $gray-900;
+}
+
+// ========================================
+// Checked
+// ========================================
+
+// Wrap
+.ui-checkbox__input:checked + .ui-checkbox__control {
+    border-color: $primary;
+    background-color: $primary;
+}
+
+.ui-checkbox__input:checked + .ui-checkbox__control::after {
+    content: '';
+
+    position: absolute;
+    top: 1px;
+    left: 6px;
+
+    width: 6px;
+    height: 12px;
+
+    border-right: 2px solid $white;
+    border-bottom: 2px solid $white;
+
+    transform: rotate(45deg);
+}
+
+// Detached
+.ui-checkbox__input:checked
++ .ui-checkbox__wrapper
+.ui-checkbox__control {
+    border-color: $primary;
+    background-color: $primary;
+}
+
+.ui-checkbox__input:checked
++ .ui-checkbox__wrapper
+.ui-checkbox__control::after {
+    content: '';
+
+    position: absolute;
+    top: 1px;
+    left: 6px;
+
+    width: 6px;
+    height: 12px;
+
+    border-right: 2px solid $white;
+    border-bottom: 2px solid $white;
+
+    transform: rotate(45deg);
+}
+
+// ========================================
+// Focus
+// ========================================
+
+.ui-checkbox__input:focus-visible + .ui-checkbox__control,
+.ui-checkbox__input:focus-visible
++ .ui-checkbox__wrapper
+.ui-checkbox__control {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+}
+
+// ========================================
+// Disabled
+// ========================================
+
+// Wrap
+.ui-checkbox__input:disabled + .ui-checkbox__control {
+    background-color: $gray-100;
+    border-color: $gray-200;
+}
+
+.ui-checkbox__input:disabled ~ .ui-checkbox__label {
+    color: $gray-400;
+}
+
+// Detached
+.ui-checkbox__input:disabled
++ .ui-checkbox__wrapper
+.ui-checkbox__control {
+    background-color: $gray-100;
+    border-color: $gray-200;
+}
+
+.ui-checkbox__input:disabled
++ .ui-checkbox__wrapper
+.ui-checkbox__label {
+    color: $gray-400;
+}
+
+// ========================================
+// Checked + Disabled
+// ========================================
+
+.ui-checkbox__input:checked:disabled
++ .ui-checkbox__control::after,
+.ui-checkbox__input:checked:disabled
++ .ui-checkbox__wrapper
+.ui-checkbox__control::after {
+    border-color: $gray-400;
+}

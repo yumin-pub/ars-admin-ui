@@ -8,6 +8,7 @@ import Components from '../pages/Components';
 import ButtonPage from '../pages/UISystem/ButtonPage';
 import InputPage from '../pages/UISystem/InputPage';
 import RadioPage from '../pages/UISystem/RadioPage';
+import CheckboxPage from '../pages/UISystem/CheckboxPage';
 
 export const router = createBrowserRouter([
     {
@@ -33,5 +34,9 @@ export const router = createBrowserRouter([
     {
         path: '/ui/radio',
         element: <RadioPage />,
+    },
+    {
+        path: '/ui/checkbox',
+        element: <CheckboxPage />,
     },
 ]);

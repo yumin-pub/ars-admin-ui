@@ -2,4 +2,7 @@ export { default as Button } from './Button';
 
 export type {
     ButtonProps,
-} from './button.types';
+    ButtonVariant,
+    ButtonColor,
+    ButtonSize,
+} from './Button.types';
