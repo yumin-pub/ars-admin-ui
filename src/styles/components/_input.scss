@@ -1,0 +1,283 @@
+// ========================================
+// Input
+// ========================================
+
+@use '../tokens' as *;
+
+// ========================================
+// Field Layout
+// ========================================
+
+.ui-field {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+    width: 100%;
+}
+
+.ui-field--column {
+    flex-direction: column;
+}
+
+.ui-field--row {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: $space-4;
+
+    .ui-field__label {
+        flex: none;
+        min-width: 5rem;
+        padding-top: $space-2;
+    }
+
+    .ui-field__content {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+.ui-field__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $gray-700;
+}
+
+.ui-field__content {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+    width: 100%;
+}
+
+// ========================================
+// Input Base
+// ========================================
+
+.ui-input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    border: 1px solid $gray-300;
+    border-radius: $radius-md;
+    background-color: $white;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.ui-input__control {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+
+    border: 0;
+    outline: none;
+    background: transparent;
+
+    font-family: $font-family-base;
+    font-size: $font-size-md;
+    color: $gray-900;
+
+    &::placeholder {
+        color: $gray-400;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+
+    &:read-only {
+        cursor: default;
+    }
+}
+
+// ========================================
+// Variant
+// ========================================
+
+.ui-input--outline {
+    border: 1px solid $gray-300;
+}
+
+.ui-input--underline {
+    border: 0;
+    border-bottom: 1px solid $gray-300;
+    border-radius: 0;
+}
+
+.ui-input--ghost {
+    border: 0;
+    background-color: transparent;
+}
+
+// ========================================
+// Size
+// ========================================
+
+.ui-input--md {
+    min-height: $space-10;
+    padding: 0 $space-3;
+
+    .ui-input__control {
+        height: $space-10;
+    }
+}
+
+.ui-input--lg {
+    min-height: $space-12;
+    padding: 0 $space-4;
+
+    .ui-input__control {
+        height: $space-12;
+        font-size: $font-size-lg;
+    }
+}
+
+// ========================================
+// Addon
+// ========================================
+
+.ui-input__prefix,
+.ui-input__suffix {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    color: $gray-500;
+    font-size: $font-size-sm;
+}
+
+.ui-input__prefix {
+    margin-right: $space-2;
+}
+
+.ui-input__suffix {
+    margin-left: $space-2;
+}
+
+.ui-input__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 20px;
+    height: 20px;
+    margin-left: $space-2;
+
+    border-radius: $radius-full;
+
+    font-size: $font-size-xs;
+    line-height: 1;
+    color: $white;
+    background-color: $gray-400;
+
+    cursor: pointer;
+}
+
+// ========================================
+// Meta
+// ========================================
+
+.ui-field__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-2;
+    min-height: 18px;
+}
+
+.ui-field__message {
+    font-size: $font-size-xs;
+    line-height: $line-height-base;
+    color: $gray-500;
+}
+
+.ui-field__counter {
+    flex-shrink: 0;
+    font-size: $font-size-xs;
+    color: $gray-500;
+}
+
+// ========================================
+// State
+// ========================================
+
+.ui-field:focus-within {
+    .ui-input {
+        border-color: $primary;
+        box-shadow: 0 0 0 2px rgba($primary, 0.12);
+    }
+
+    .ui-field__label {
+        color: $primary;
+    }
+}
+
+.ui-field.is-error {
+    .ui-input {
+        border-color: $error;
+    }
+
+    .ui-field__label,
+    .ui-field__message {
+        color: $error;
+    }
+}
+
+.ui-field.is-success {
+    .ui-input {
+        border-color: $success;
+    }
+
+    .ui-field__label,
+    .ui-field__message {
+        color: $success;
+    }
+}
+
+.ui-field.is-disabled {
+    .ui-field__label,
+    .ui-field__message {
+        color: $gray-400;
+    }
+
+    .ui-input {
+        border-color: $gray-200;
+        background-color: $gray-100;
+    }
+
+    .ui-input__control {
+        color: $gray-400;
+        cursor: not-allowed;
+    }
+}
+
+.ui-field.is-readonly {
+    .ui-input {
+        background-color: $gray-50;
+    }
+
+    .ui-input__control {
+        cursor: default;
+    }
+}
+
+// ========================================
+// Responsive
+// ========================================
+
+.ui-field--responsive {
+    @media (max-width: 768px) {
+        flex-direction: column;
+
+        .ui-field__label {
+            min-width: 0;
+            padding-top: 0;
+        }
+    }
+}

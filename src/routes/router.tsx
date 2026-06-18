@@ -6,6 +6,8 @@ import Components from '../pages/Components';
 
 // element 단위 페이지 라우팅 
 import ButtonPage from '../pages/UISystem/ButtonPage';
+import InputPage from '../pages/UISystem/InputPage';
+import RadioPage from '../pages/UISystem/RadioPage';
 
 export const router = createBrowserRouter([
     {
@@ -23,5 +25,13 @@ export const router = createBrowserRouter([
     {
         path: '/ui/button',
         element: <ButtonPage />,
+    },
+    {
+        path: '/ui/input',
+        element: <InputPage />,
+    },
+    {
+        path: '/ui/radio',
+        element: <RadioPage />,
     },
 ]);

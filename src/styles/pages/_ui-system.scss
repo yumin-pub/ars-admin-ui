@@ -28,6 +28,18 @@
     font-weight: $font-weight-semibold;
     }
 
+.ui-doc__group {
+    margin-bottom: $space-5;
+}
+
+.ui-doc__group:last-child {
+    margin-bottom: 0;
+}
+
+
+.ui-doc__group-title {
+    margin-bottom: $space-2;
+}
 .ui-doc__row {
     display: flex;
     align-items: center;
