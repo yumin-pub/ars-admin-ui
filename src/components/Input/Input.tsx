@@ -6,11 +6,11 @@ function Input({
     helperText,
     counter,
     variant = 'outline',
-    size = 'md',
+    InputSize = 'md',
     layout = 'column',
     state = 'default',
-    prefix,
-    suffix,
+    prefixContent,
+    suffixContent,
     clearable = false,
     disabled,
     readOnly,
@@ -33,7 +33,7 @@ function Input({
     const inputClassNameList = [
         'ui-input',
         `ui-input--${variant}`,
-        `ui-input--${size}`,
+        `ui-input--${InputSize}`,
         inputClassName,
     ]
         .filter(Boolean)
@@ -49,7 +49,7 @@ function Input({
             )}
 
             <div className={inputClassNameList}>
-            {prefix && <span className="ui-input__prefix">{prefix}</span>}
+            {prefixContent && <span className="ui-input__prefix">{prefixContent}</span>}
 
             <input
                 id={id}
@@ -72,7 +72,7 @@ function Input({
                 </button>
             )}
 
-            {suffix && <span className="ui-input__suffix">{suffix}</span>}
+            {suffixContent && <span className="ui-input__suffix">{suffixContent}</span>}
             </div>
 
             {(helperText || counter) && (

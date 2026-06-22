@@ -1,0 +1,189 @@
+// ========================================
+// Select
+// ========================================
+
+@use '../tokens' as *;
+
+// ========================================
+// Field
+// ========================================
+
+.ui-select-field {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+    width: 100%;
+}
+
+.ui-select-field__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $gray-700;
+}
+
+.ui-select-field__message {
+    font-size: $font-size-xs;
+    line-height: $line-height-base;
+    color: $gray-500;
+}
+
+// ========================================
+// Select Base
+// ========================================
+
+.ui-select {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    border: 1px solid $gray-300;
+    border-radius: $radius-md;
+    background-color: $white;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+    &::after {
+        content: '';
+
+        position: absolute;
+        top: 50%;
+        right: $space-3;
+
+        width: 8px;
+        height: 8px;
+
+        border-right: 2px solid $gray-500;
+        border-bottom: 2px solid $gray-500;
+
+        pointer-events: none;
+
+        transform: translateY(-65%) rotate(45deg);
+    }
+}
+
+.ui-select__control {
+    width: 100%;
+    min-width: 0;
+
+    border: 0;
+    outline: none;
+    background: transparent;
+
+    font-family: $font-family-base;
+    font-size: $font-size-md;
+    color: $gray-900;
+
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+// ========================================
+// Variant
+// ========================================
+
+.ui-select--outline {
+    border: 1px solid $gray-300;
+}
+
+.ui-select--underline {
+    border: 0;
+    border-bottom: 1px solid $gray-300;
+    border-radius: 0;
+}
+
+.ui-select--ghost {
+    border: 0;
+    background-color: transparent;
+}
+
+// ========================================
+// Size
+// ========================================
+
+.ui-select--md {
+    min-height: $space-10;
+
+    .ui-select__control {
+        height: $space-10;
+        padding: 0 $space-10 0 $space-3;
+    }
+}
+
+.ui-select--lg {
+    min-height: $space-12;
+
+    .ui-select__control {
+        height: $space-12;
+        padding: 0 $space-11 0 $space-4;
+        font-size: $font-size-lg;
+    }
+}
+
+// ========================================
+// State
+// ========================================
+
+.ui-select-field:focus-within {
+    .ui-select {
+        border-color: $primary;
+        box-shadow: 0 0 0 2px rgba($primary, 0.12);
+    }
+
+    .ui-select-field__label {
+        color: $primary;
+    }
+}
+
+.ui-select-field.is-error {
+    .ui-select {
+        border-color: $error;
+    }
+
+    .ui-select-field__label,
+    .ui-select-field__message {
+        color: $error;
+    }
+}
+
+.ui-select-field.is-success {
+    .ui-select {
+        border-color: $success;
+    }
+
+    .ui-select-field__label,
+    .ui-select-field__message {
+        color: $success;
+    }
+}
+
+.ui-select-field.is-disabled {
+    .ui-select-field__label,
+    .ui-select-field__message {
+        color: $gray-400;
+    }
+
+    .ui-select {
+        border-color: $gray-200;
+        background-color: $gray-100;
+
+        &::after {
+            border-color: $gray-400;
+        }
+    }
+
+    .ui-select__control {
+        color: $gray-400;
+        cursor: not-allowed;
+    }
+}

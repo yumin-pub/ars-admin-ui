@@ -51,19 +51,19 @@ export interface InputProps
     variant?: InputVariant;
 
     // Size
-    size?: InputSize;
+    InputSize?: InputSize;
 
-    // Layout
+    // LayoutX
     layout?: InputLayout;
 
     // State
     state?: InputState;
 
     // Input 앞 영역
-    prefix?: ReactNode;
+    prefixContent?: ReactNode;
 
     // Input 뒤 영역
-    suffix?: ReactNode;
+    suffixContent?: ReactNode;
 
     // Clear Button 표시 여부
     clearable?: boolean;

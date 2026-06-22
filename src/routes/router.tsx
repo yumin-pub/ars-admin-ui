@@ -9,6 +9,7 @@ import ButtonPage from '../pages/UISystem/ButtonPage';
 import InputPage from '../pages/UISystem/InputPage';
 import RadioPage from '../pages/UISystem/RadioPage';
 import CheckboxPage from '../pages/UISystem/CheckboxPage';
+import SelectPage from '../pages/UISystem/SelectPage';
 
 export const router = createBrowserRouter([
     {
@@ -38,5 +39,9 @@ export const router = createBrowserRouter([
     {
         path: '/ui/checkbox',
         element: <CheckboxPage />,
+    },
+    {
+        path: '/ui/select',
+        element: <SelectPage />,
     },
 ]);
