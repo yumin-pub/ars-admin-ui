@@ -32,4 +32,4 @@ export interface SelectProps
     state?: SelectState;
     fieldClassName?: string;
     selectClassName?: string;  
-}
+}  
