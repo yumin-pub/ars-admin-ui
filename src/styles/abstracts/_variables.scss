@@ -1,0 +1,21 @@
+// ==============================
+// Variables
+// SCSS 내부에서 사용하는 프로젝트 설정값
+// 프로젝트마다 달라질 수 있음
+// ==============================
+
+// Font Family
+$font-family-base:
+  'Pretendard',
+  'Noto Sans KR',
+  sans-serif;
+
+// Transition
+$transition-duration: 0.2s;
+$transition-timing: ease;
+
+// Breakpoint
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;

@@ -3,6 +3,7 @@
 // ========================================
 
 @use '../tokens' as *;
+@use '../abstracts' as *;
 
 // ========================================
 // Field
@@ -16,14 +17,14 @@
 }
 
 .ui-select-field__label {
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
+    font-size: $fs-sm;
+    font-weight: $fw-medium;
     color: $gray-700;
 }
 
 .ui-select-field__message {
-    font-size: $font-size-xs;
-    line-height: $line-height-base;
+    font-size: $fs-xs;
+    line-height: $lh-base;
     color: $gray-500;
 }
 
@@ -74,7 +75,7 @@
     background: transparent;
 
     font-family: $font-family-base;
-    font-size: $font-size-md;
+    font-size: $fs-md;
     color: $gray-900;
 
     cursor: pointer;
@@ -126,7 +127,7 @@
     .ui-select__control {
         height: $space-12;
         padding: 0 $space-11 0 $space-4;
-        font-size: $font-size-lg;
+        font-size: $fs-lg;
     }
 }
 

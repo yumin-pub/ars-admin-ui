@@ -1,0 +1,140 @@
+// ========================================
+// Modal
+// ========================================
+
+@use '../tokens' as *;
+@use '../abstracts' as *;
+
+.ui-modal {
+    position: fixed;
+    inset: 0;
+    z-index: $z-modal;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    padding: $space-6;
+}
+
+.ui-modal.is-open {
+    display: flex;
+}
+
+.ui-modal__dimmed {
+    position: absolute;
+    inset: 0;
+
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+.ui-modal__panel {
+    position: relative;
+    z-index: 1;
+
+    @include flex-column(flex-start, stretch);
+
+    width: 100%;
+    max-height: calc(100vh - #{$space-12});
+
+    border-radius: $radius-lg;
+    background-color: $white;
+    box-shadow: $shadow-lg;
+
+    overflow: hidden;
+}
+
+.ui-modal__panel--sm {
+    max-width: 360px;
+}
+
+.ui-modal__panel--md {
+    max-width: 560px;
+}
+
+.ui-modal__panel--lg {
+    max-width: 800px;
+}
+
+.ui-modal__header {
+    @include flex(space-between, center, $space-4);
+
+    padding: $space-3 $space-4;
+
+    border-bottom: 1px solid $gray-200;
+}
+
+.ui-modal__title {
+    @include font($fw-semibold);
+
+    font-size: $fs-lg;
+    line-height: $lh-base;
+    color: $gray-900;
+}
+
+.ui-modal__close {
+    @include flex(center, center);
+    @include size($space-8);
+
+    flex-shrink: 0;
+    border: 0;
+    background: transparent;
+    border-radius: $radius-md;
+
+    font-size: $fs-xl;
+    line-height: 1;
+    color: $gray-500;
+
+    cursor: pointer;
+
+    &:hover {
+        background-color: $gray-100;
+        color: $gray-900;
+    }
+}
+
+.ui-modal__body {
+    flex: 1;
+    min-height: 0;
+
+    padding: $space-6;
+
+    font-size: $fs-md;
+    line-height: $lh-base;
+    color: $gray-700;
+
+    overflow-y: auto;
+
+    @include scrollbar;
+}
+
+.ui-modal__footer {
+    @include flex(flex-end, center, $space-2);
+
+    padding: $space-3 $space-4;
+
+    // border-top: 1px solid $gray-200;
+}
+
+.ui-modal__actions {
+    @include flex(flex-end, center, $space-2);
+
+    margin-top: $space-5;
+}
+
+@media (max-width: 768px) {
+    .ui-modal {
+        padding: $space-4;
+    }
+
+    .ui-modal__panel {
+        max-height: calc(100vh - #{$space-8});
+    }
+
+    .ui-modal__header,
+    .ui-modal__body,
+    .ui-modal__footer {
+        padding-left: $space-4;
+        padding-right: $space-4;
+    }
+}

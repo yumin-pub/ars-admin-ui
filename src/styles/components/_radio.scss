@@ -3,6 +3,7 @@
 // ========================================
 
 @use '../tokens' as *;
+@use '../abstracts' as *;
 
 .ui-radio {
     display: inline-flex;
@@ -61,7 +62,7 @@
 }
 
 .ui-radio__label {
-    font-size: $font-size-md;
+    font-size: $fs-md;
     line-height: 1.4;
     color: $gray-900;
 }

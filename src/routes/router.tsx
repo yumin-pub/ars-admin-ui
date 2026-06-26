@@ -10,6 +10,7 @@ import InputPage from '../pages/UISystem/InputPage';
 import RadioPage from '../pages/UISystem/RadioPage';
 import CheckboxPage from '../pages/UISystem/CheckboxPage';
 import SelectPage from '../pages/UISystem/SelectPage';
+import ModalPage from '../pages/UISystem/ModalPage';
 
 export const router = createBrowserRouter([
     {
@@ -43,5 +44,9 @@ export const router = createBrowserRouter([
     {
         path: '/ui/select',
         element: <SelectPage />,
+    },
+    {
+        path: '/ui/modal',
+        element: <ModalPage />,
     },
 ]);

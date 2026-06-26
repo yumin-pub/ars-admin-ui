@@ -5,28 +5,23 @@
 // font-size, font-weight, line-height 기준
 // ========================================
 
-// Font Family
-$font-family-base:
-  'Pretendard',
-  'Noto Sans KR',
-  sans-serif;
 
 // Font Size
-$font-size-xs: 12px;
-$font-size-sm: 13px;
-$font-size-md: 14px; // Base
-$font-size-lg: 16px;
-$font-size-xl: 18px;
-$font-size-2xl: 20px;
-$font-size-3xl: 24px;
+$fs-xs: 12px;
+$fs-sm: 13px;
+$fs-md: 14px; // Base
+$fs-lg: 16px;
+$fs-xl: 18px;
+$fs-2xl: 20px;
+$fs-3xl: 24px;
 
 // Font Weight
-$font-weight-regular: 400;
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-semibold: 600;
+$fw-bold: 700;
 
 // Line Height
-$line-height-tight: 1.2;
-$line-height-base: 1.5;
-$line-height-relaxed: 1.7;
+$lh-tight: 1.2;
+$lh-base: 1.5;
+$lh-relaxed: 1.7;

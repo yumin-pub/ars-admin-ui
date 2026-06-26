@@ -3,6 +3,7 @@
 // ========================================
 
 @use '../tokens' as *;
+@use '../abstracts' as *;
 
 // ========================================
 // Field Layout
@@ -37,8 +38,8 @@
 }
 
 .ui-field__label {
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
+    font-size: $fs-sm;
+    font-weight: $fw-medium;
     color: $gray-700;
 }
 
@@ -78,7 +79,7 @@
     background: transparent;
 
     font-family: $font-family-base;
-    font-size: $font-size-md;
+    font-size: $fs-md;
     color: $gray-900;
 
     &::placeholder {
@@ -132,7 +133,7 @@
 
     .ui-input__control {
         height: $space-12;
-        font-size: $font-size-lg;
+        font-size: $fs-lg;
     }
 }
 
@@ -148,7 +149,7 @@
     flex-shrink: 0;
 
     color: $gray-500;
-    font-size: $font-size-sm;
+    font-size: $fs-sm;
 }
 
 .ui-input__prefix {
@@ -171,7 +172,7 @@
 
     border-radius: $radius-full;
 
-    font-size: $font-size-xs;
+    font-size: $fs-xs;
     line-height: 1;
     color: $white;
     background-color: $gray-400;
@@ -192,14 +193,14 @@
 }
 
 .ui-field__message {
-    font-size: $font-size-xs;
-    line-height: $line-height-base;
+    font-size: $fs-xs;
+    line-height: $lh-base;
     color: $gray-500;
 }
 
 .ui-field__counter {
     flex-shrink: 0;
-    font-size: $font-size-xs;
+    font-size: $fs-xs;
     color: $gray-500;
 }
 

@@ -3,6 +3,7 @@
 // ========================================
 
 @use '../tokens' as *;
+@use '../abstracts' as *;
 
 .ui-checkbox {
     display: inline-flex;
@@ -62,7 +63,7 @@
 
 // Label
 .ui-checkbox__label {
-    font-size: $font-size-md;
+    font-size: $fs-md;
     line-height: 1.4;
     color: $gray-900;
 }

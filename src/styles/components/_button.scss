@@ -1,8 +1,9 @@
+@use '../tokens' as *;
+@use '../abstracts' as *;
+
 // ========================================
 // Button
 // ========================================
-
-@use '../tokens' as *;
 
 .ui-btn {
     display: inline-flex;
@@ -17,8 +18,8 @@
     border-radius: $radius-md;
 
     font-family: $font-family-base;
-    font-size: $font-size-md;
-    font-weight: $font-weight-medium;
+    font-size: $fs-md;
+    font-weight: $fw-medium;
     line-height: 1;
 
     text-decoration: none;
@@ -53,13 +54,13 @@
 .ui-btn--md {
     height: $space-10;
     padding: 0 $space-4;
-    font-size: $font-size-md;
+    font-size: $fs-md;
 }
 
 .ui-btn--lg {
     height: $space-12;
     padding: 0 $space-5;
-    font-size: $font-size-lg;
+    font-size: $fs-lg;
 }
 
 // ========================================
