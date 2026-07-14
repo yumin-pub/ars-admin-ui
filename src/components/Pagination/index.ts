@@ -1,0 +1,6 @@
+export { default as Pagination } from './Pagination';
+
+export type {
+    PaginationProps,
+    PaginationAlign,
+} from './Pagination.types';

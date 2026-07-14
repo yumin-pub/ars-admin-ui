@@ -12,6 +12,7 @@ import CheckboxPage from '../pages/UISystem/CheckboxPage';
 import SelectPage from '../pages/UISystem/SelectPage';
 import ModalPage from '../pages/UISystem/ModalPage';
 import TablePage from '../pages/UISystem/TablePage';
+import PaginationPage from '../pages/UISystem/PaginationPage';
 
 export const router = createBrowserRouter([
     {
@@ -53,5 +54,9 @@ export const router = createBrowserRouter([
     {
         path: '/ui/table',
         element: <TablePage />,
+    },
+    {
+        path: '/ui/pagination',
+        element: <PaginationPage />,
     },
 ]);

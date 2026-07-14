@@ -1,0 +1,118 @@
+// ========================================
+// Pagination
+// ========================================
+
+@use '../tokens' as *;
+@use '../abstracts' as *;
+
+// ========================================
+// Container
+// ========================================
+
+.ui-pagination {
+    @include flex(center, center);
+
+    width: 100%;
+}
+
+.ui-pagination--left {
+    justify-content: flex-start;
+}
+
+.ui-pagination--right {
+    justify-content: flex-end;
+}
+
+// ========================================
+// List
+// ========================================
+
+.ui-pagination__list {
+    @include flex(center, center, $space-2);
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.ui-pagination__item {
+    flex-shrink: 0;
+}
+
+// ========================================
+// Button
+// ========================================
+
+.ui-pagination__button {
+    @include flex(center, center);
+    @include size($space-8);
+    @include font($fw-medium);
+
+    padding: 0;
+
+    border: 1px solid $gray-300;
+    border-radius: $radius-md;
+    background-color: $white;
+
+    font-size: $fs-sm;
+    line-height: 1;
+    color: $gray-700;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s,
+        background-color 0.2s,
+        color 0.2s;
+
+    &:hover:not(:disabled, .is-active) {
+        border-color: $primary;
+        color: $primary;
+    }
+
+    &:focus-visible {
+        outline: 2px solid rgba($primary, 0.3);
+        outline-offset: 2px;
+    }
+
+    &.is-active {
+        border-color: $primary;
+        background-color: $primary;
+        color: $white;
+
+        cursor: default;
+    }
+
+    &:disabled {
+        border-color: $gray-200;
+        background-color: $gray-100;
+        color: $gray-400;
+
+        cursor: not-allowed;
+    }
+}
+
+// ========================================
+// Responsive
+// ========================================
+
+@media (max-width: 768px) {
+    .ui-pagination {
+        overflow-x: auto;
+
+        @include scrollbar(4px);
+    }
+
+    .ui-pagination__list {
+        width: max-content;
+
+        gap: $space-1;
+    }
+
+    .ui-pagination__button {
+        @include size($space-8);
+
+        font-size: $fs-xs;
+    }
+}
