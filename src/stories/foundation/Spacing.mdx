@@ -1,0 +1,78 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as SpacingStories from './Spacing.stories';
+
+<Meta title="Foundation/Spacing" />
+
+# Spacing
+
+Spacing Token은 UI의 여백을 일관된 기준으로 관리하기 위한 디자인 토큰이다.
+
+Margin, Padding, Gap을 동일한 Scale로 관리하여 컴포넌트 간 간격과 화면의 리듬을 유지한다.
+
+## Why Spacing Tokens?
+
+Spacing은 화면의 완성도를 결정하는 가장 중요한 요소 중 하나이다.
+
+프로젝트마다 임의의 여백을 사용하는 대신 공통 Scale을 정의하여 일관성을 유지한다.
+
+Spacing Token을 사용하면 새로운 프로젝트에서도 동일한 기준을 그대로 사용할 수 있으며, 디자인 변경 시에도 전체 여백 체계를 쉽게 관리할 수 있다.
+
+## Usage Guidelines
+
+Spacing은 Margin, Padding, Gap에만 사용한다.
+
+### Good
+
+```scss
+padding: $space-4;
+margin-bottom: $space-6;
+gap: $space-2;
+```
+
+### Bad
+
+```scss
+padding: 17px;
+margin-bottom: 23px;
+gap: 7px;
+```
+
+가능한 경우 기존 Scale을 우선 사용한다.
+
+새로운 값을 추가하기 전에 기존 Token으로 해결 가능한지 먼저 확인한다.
+
+## Preview
+
+<Canvas of={SpacingStories.Preview} />
+
+## Source
+
+```txt
+src/styles/tokens/_spacing.scss
+```
+
+```scss
+$space-0: 0;
+
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+$space-6: 24px;
+$space-7: 28px;
+$space-8: 32px;
+
+$space-10: 40px;
+$space-11: 44px;
+$space-12: 48px;
+$space-16: 64px;
+$space-20: 80px;
+$space-24: 96px;
+
+$space-label-row: 5rem;
+```
+
+## Summary
+
+Spacing Token을 기준으로 화면의 여백을 관리하여 프로젝트 전반의 일관성과 재사용성을 확보한다.

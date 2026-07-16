@@ -1,0 +1,106 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as TypographyStories from './Typography.stories';
+
+<Meta title="Foundation/Typography" />
+
+# Typography
+
+Typography Token은 UI 전반에서 사용하는 글자 크기, 굵기, 행간의 기준이다.
+
+페이지와 컴포넌트마다 개별 값을 작성하지 않고 공통 토큰을 사용하여 정보 위계와 가독성을 일관되게 유지한다.
+
+## Why Typography Tokens?
+
+Typography 기준을 토큰으로 분리하면 프로젝트마다 동일한 크기 체계를 재사용할 수 있다.
+
+텍스트 스타일이 변경되더라도 개별 컴포넌트를 수정하지 않고 토큰을 중심으로 대응할 수 있으며, 화면마다 서로 다른 글자 크기와 굵기가 임의로 사용되는 문제를 줄일 수 있다.
+
+## Token Categories
+
+| Category | Description |
+| --- | --- |
+| Font Size | 본문, 보조 문구, 제목 등에 사용하는 글자 크기 기준이다. |
+| Font Weight | 텍스트의 중요도와 강조 수준을 구분하는 굵기 기준이다. |
+| Line Height | 텍스트의 가독성과 수직 리듬을 관리하는 행간 기준이다. |
+
+## Usage Guidelines
+
+컴포넌트에서는 직접 `font-size`, `font-weight`, `line-height` 값을 작성하지 않고 Typography Token을 사용한다.
+
+### Good
+
+```scss
+.ui-title {
+    font-size: $fs-3xl;
+    font-weight: $fw-bold;
+    line-height: $lh-tight;
+}
+
+.ui-body {
+    font-size: $fs-md;
+    font-weight: $fw-regular;
+    line-height: $lh-base;
+}
+```
+
+### Bad
+
+```scss
+.ui-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.ui-body {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+```
+
+새로운 Typography 값이 필요한 경우 기존 토큰으로 표현할 수 있는지 먼저 확인한다.
+
+기존 체계로 표현할 수 없는 경우에만 새로운 토큰을 추가한다.
+
+## Preview
+
+아래에서 프로젝트에 정의된 실제 Font Size, Font Weight, Line Height Token을 확인할 수 있다.
+
+<Canvas of={TypographyStories.Preview} />
+
+## Source
+
+Typography Token은 다음 파일에서 관리한다.
+
+```txt
+src/styles/tokens/_typography.scss
+```
+
+```scss
+// Font Size
+$fs-xs: 12px;
+$fs-sm: 13px;
+$fs-md: 14px;
+$fs-lg: 16px;
+$fs-xl: 18px;
+$fs-2xl: 20px;
+$fs-3xl: 24px;
+
+// Font Weight
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-semibold: 600;
+$fw-bold: 700;
+
+// Line Height
+$lh-tight: 1.2;
+$lh-base: 1.5;
+$lh-relaxed: 1.7;
+```
+
+## Summary
+
+Typography Token을 통해 글자 크기, 굵기, 행간을 공통 기준으로 관리한다.
+
+이를 통해 정보 위계를 일관되게 유지하고, 여러 프로젝트에서도 동일한 Typography 체계를 재사용할 수 있다.

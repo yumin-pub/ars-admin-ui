@@ -1,0 +1,101 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ZIndexStories from './ZIndex.stories';
+
+<Meta title="Foundation/Z-index" />
+
+# Z-index
+
+Z-index Token은 화면에 겹쳐 표시되는 UI 요소의 층위를 관리하기 위한 디자인 토큰이다.
+
+Header, Dropdown, Tooltip, Modal, Toast와 같은 레이어가 임의의 값을 사용하지 않도록 공통 기준을 정의한다.
+
+## Why Z-index Tokens?
+
+컴포넌트마다 임의의 `z-index`를 사용하면 레이어 충돌이 발생하기 쉽다.
+
+공통 Z-index Scale을 사용하면 각 UI 요소의 상대적인 우선순위를 명확하게 관리할 수 있으며, 새로운 레이어가 추가되더라도 기존 구조를 유지하면서 확장할 수 있다.
+
+## Token Scale
+
+| Token | Value | Usage |
+| --- | ---: | --- |
+| `$z-hide` | -1 | 화면 뒤로 숨겨야 하는 요소에 사용한다. |
+| `$z-base` | 1 | 기본 콘텐츠 레이어에 사용한다. |
+| `$z-sticky` | 100 | Sticky UI 요소에 사용한다. |
+| `$z-header` | 200 | 고정 Header에 사용한다. |
+| `$z-dropdown` | 300 | Dropdown과 Select Option에 사용한다. |
+| `$z-tooltip` | 400 | Tooltip에 사용한다. |
+| `$z-overlay` | 900 | Dimmed와 Overlay 레이어에 사용한다. |
+| `$z-modal` | 1000 | Modal과 Dialog에 사용한다. |
+| `$z-toast` | 1100 | Toast와 Floating Notification에 사용한다. |
+| `$z-loading` | 1200 | 전역 Loading Layer에 사용한다. |
+
+## Usage Guidelines
+
+컴포넌트에서는 숫자를 직접 작성하지 않고 역할에 맞는 Z-index Token을 사용한다.
+
+### Good
+
+```scss
+.ui-header {
+    z-index: $z-header;
+}
+
+.ui-modal {
+    z-index: $z-modal;
+}
+```
+
+### Bad
+
+```scss
+.ui-header {
+    z-index: 250;
+}
+
+.ui-modal {
+    z-index: 9999;
+}
+```
+
+새로운 레이어가 필요한 경우 기존 Scale 사이에서 임의의 값을 추가하지 않고 전체 계층 구조를 먼저 검토한다.
+
+## Preview
+
+아래에서 프로젝트에 정의된 Z-index Token과 각 레이어의 상대적인 우선순위를 확인할 수 있다.
+
+<Canvas of={ZIndexStories.Preview} />
+
+## Source
+
+Z-index Token은 다음 파일에서 관리한다.
+
+```txt
+src/styles/tokens/_z-index.scss
+```
+
+```scss
+$z-hide: -1;
+
+$z-base: 1;
+
+$z-sticky: 100;
+$z-header: 200;
+
+$z-dropdown: 300;
+$z-tooltip: 400;
+
+$z-overlay: 900;
+
+$z-modal: 1000;
+
+$z-toast: 1100;
+
+$z-loading: 1200;
+```
+
+## Summary
+
+Z-index Token을 통해 화면의 레이어 우선순위를 공통 기준으로 관리한다.
+
+이를 통해 컴포넌트 간 충돌을 줄이고, 새로운 레이어가 추가되어도 안정적으로 확장할 수 있다.

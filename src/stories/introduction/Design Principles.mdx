@@ -1,0 +1,192 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction/Design Principles" />
+
+# Design Principles
+
+ARS Admin UI System은 단순히 UI를 구현하는 프로젝트가 아니라,
+
+재사용성과 유지보수성을 고려한 UI System 구축을 목표로 설계하였다.
+
+모든 컴포넌트는 일관된 규칙을 기반으로 제작하며, 프로젝트가 확장되더라도 동일한 개발 경험을 유지하는 것을 목표로 한다.
+
+---
+
+# Core UI First
+
+React Component보다 HTML과 SCSS 기반의 Core UI를 먼저 설계한다.
+
+```txt
+Design Token
+
+↓
+
+SCSS
+
+↓
+
+HTML
+
+↓
+
+React Component
+```
+
+Core UI를 먼저 구축하면 React뿐 아니라 Vue, JSP, Vanilla JS 등 다양한 환경에서도 동일한 UI를 재사용할 수 있다.
+
+React Component는 Core UI를 더욱 편리하게 사용할 수 있도록 구성한 Wrapper 역할을 수행한다.
+
+---
+
+# Reusability First
+
+특정 화면을 위한 컴포넌트보다 프로젝트 전체에서 재사용 가능한 구조를 우선한다.
+
+새로운 컴포넌트를 만들기 전에 기존 컴포넌트를 먼저 확인하며,
+
+중복 구현보다 공통화를 우선한다.
+
+---
+
+# Consistency
+
+프로젝트 전반에서 동일한 규칙을 유지한다.
+
+- UI Prefix 사용
+- BEM Naming 사용
+- Modifier 기반 클래스 설계
+- Component 구조 통일
+- Storybook 문서 구조 통일
+
+일관성은 유지보수성과 협업 효율을 높이는 가장 중요한 요소라고 판단하였다.
+
+---
+
+# Separation of Concerns
+
+역할을 명확하게 분리한다.
+
+```txt
+Design Token
+
+↓
+
+Style
+
+↓
+
+HTML
+
+↓
+
+React Component
+
+↓
+
+Business Logic
+```
+
+각 계층은 자신의 역할만 담당하도록 설계한다.
+
+UI Component에는 비즈니스 로직을 포함하지 않는다.
+
+---
+
+# Design Token
+
+모든 디자인 값은 Design Token을 기준으로 관리한다.
+
+직접 색상이나 간격을 하드코딩하지 않는다.
+
+관리 대상은 다음과 같다.
+
+- Color
+- Typography
+- Spacing
+- Radius
+- Shadow
+- Z-index
+
+Design Token을 기준으로 관리함으로써 일관성과 확장성을 확보한다.
+
+---
+
+# Accessibility
+
+접근성을 기본 설계 원칙으로 고려한다.
+
+가능한 경우 Semantic HTML을 사용하며,
+
+컴포넌트 특성에 맞는 속성을 적용한다.
+
+예를 들어
+
+- disabled
+- aria-disabled
+- aria-label
+- role
+- tabindex
+
+등을 상황에 맞게 사용한다.
+
+---
+
+# Storybook First Documentation
+
+Storybook은 단순한 컴포넌트 미리보기가 아니라
+
+UI System을 문서화하는 공간이다.
+
+모든 컴포넌트는 동일한 작성 규칙을 따른다.
+
+```txt
+Overview
+
+Playground
+
+Props
+
+Variants / Types
+
+States
+
+Accessibility
+
+Roadmap
+```
+
+컴포넌트가 추가되더라도 동일한 구조를 유지하여 문서의 일관성을 확보한다.
+
+---
+
+# Scalability
+
+프로젝트는 v1에서 종료되는 것이 아니라 지속적으로 확장하는 것을 목표로 한다.
+
+새로운 컴포넌트가 추가되더라도 기존 구조를 변경하지 않고 자연스럽게 확장할 수 있도록 설계하였다.
+
+향후 추가 예정인 컴포넌트는 다음과 같다.
+
+- Drawer
+- Toast
+- Tooltip
+- Tabs
+- Accordion
+- Calendar
+
+또한 Theme, Dark Mode, Animation 등 디자인 시스템 고도화도 계획하고 있다.
+
+---
+
+# Summary
+
+본 프로젝트는 다음 원칙을 기반으로 설계하였다.
+
+- Core UI를 먼저 설계한다.
+- React는 Wrapper Component로 구현한다.
+- 공통 컴포넌트를 우선한다.
+- Design Token을 적극 활용한다.
+- 역할을 명확하게 분리한다.
+- 접근성을 기본적으로 고려한다.
+- Storybook을 중심으로 문서화한다.
+- 지속 가능한 확장을 목표로 한다.

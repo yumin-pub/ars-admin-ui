@@ -1,0 +1,44 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as PrimitiveStories from './Primitive.stories';
+
+<Meta title="Foundation/Primitive" />
+
+# Primitive
+
+Primitive Token은 디자인 시스템에서 사용하는 가장 기본적인 색상 원본값이다.
+
+특정 컴포넌트나 화면에 종속되지 않으며, 프로젝트 전반의 색상 체계를 구성하는 기반으로 사용한다.
+
+## Why Primitive Tokens?
+
+Primitive Token은 현재 프로젝트에서만 사용하는 일회성 값이 아니다.
+
+새로운 프로젝트에서도 동일한 기준으로 재사용할 수 있도록 색상의 가장 기본 단위를 분리하여 관리한다.
+
+이 구조를 사용하면 프로젝트마다 색상 체계를 처음부터 다시 정의하지 않아도 되며, 브랜드 변경이나 디자인 개편이 발생해도 토큰을 중심으로 일관되게 대응할 수 있다.
+
+컴포넌트 내부에 색상값을 직접 작성하지 않고 토큰을 참조함으로써 코드 중복을 줄이고 유지보수성과 확장성을 확보한다.
+
+## Token Categories
+
+Primitive Token은 다음 범주로 구성한다.
+
+| Category | Description |
+| --- | --- |
+| Base | White와 Black처럼 색상 체계의 기준이 되는 기본값이다. |
+| Gray | 배경, 경계선, 텍스트 등에 사용하는 명도 단계별 무채색 값이다. |
+| Brand | Primary, Secondary, Neutral과 각 인터랙션 상태에 사용하는 브랜드 값이다. |
+| Status | Success, Warning, Error, Info 상태를 표현하는 값이다. |
+
+## Usage Guidelines
+
+컴포넌트에서는 HEX 값을 직접 작성하지 않고 Primitive Token을 사용한다.
+
+### Good
+
+```scss
+.ui-button {
+    color: $white;
+    background-color: $primary;
+    border-color: $primary;
+}

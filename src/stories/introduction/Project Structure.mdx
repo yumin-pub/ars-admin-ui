@@ -1,0 +1,154 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction/Project Structure" />
+
+# Project Structure
+
+ARS Admin UI System은 유지보수성과 재사용성을 고려하여 구조를 설계하였다.
+
+프로젝트는 UI Component, Design Token, SCSS Architecture, Storybook을 서로 독립적으로 관리할 수 있도록 구성하였다.
+
+---
+
+# Directory Structure
+
+```txt
+src
+
+├── assets
+├── components
+│   ├── Button
+│   ├── Input
+│   ├── Radio
+│   ├── Checkbox
+│   ├── Select
+│   ├── Modal
+│   ├── Table
+│   └── Pagination
+│
+├── hooks
+├── layouts
+├── pages
+├── routes
+├── services
+├── stories
+│   ├── introduction
+│   ├── foundation
+│   ├── components
+│   └── resources
+│
+└── styles
+    ├── abstracts
+    ├── base
+    ├── components
+    ├── layout
+    ├── pages
+    └── tokens
+```
+
+---
+
+# Project Architecture
+
+프로젝트는 다음과 같은 계층으로 구성한다.
+
+```txt
+Design Token
+
+↓
+
+SCSS
+
+↓
+
+HTML
+
+↓
+
+React Component
+
+↓
+
+Storybook
+```
+
+모든 Component는 Design Token을 기반으로 스타일을 구성하며,
+
+React Component는 HTML 기반 Core UI를 재사용하는 Wrapper 형태로 구현한다.
+
+---
+
+# Component Structure
+
+모든 Component는 동일한 구조를 유지한다.
+
+```txt
+Button
+
+├── Button.tsx
+├── Button.types.ts
+└── index.ts
+```
+
+Component마다 동일한 규칙을 적용하여
+
+유지보수성과 일관성을 높인다.
+
+---
+
+# Styling Structure
+
+스타일은 SCSS Architecture를 기준으로 관리한다.
+
+```txt
+styles
+
+├── abstracts
+├── base
+├── components
+├── layout
+├── pages
+└── tokens
+```
+
+모든 디자인 값은 Design Token을 사용하며,
+
+색상, 간격, Radius, Typography 등을 직접 하드코딩하지 않는다.
+
+---
+
+# Storybook Structure
+
+Storybook은 프로젝트 문서가 아니라
+
+UI System을 문서화하는 공간이다.
+
+```txt
+Introduction
+
+Foundation
+
+Components
+
+Resources
+```
+
+모든 Component는 동일한 작성 규칙을 따른다.
+
+```txt
+Overview
+
+Playground
+
+Props
+
+Variants / Types
+
+States
+
+Accessibility
+
+Roadmap
+```
+
+---
