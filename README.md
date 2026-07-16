@@ -126,21 +126,21 @@ styles
 
 ### Week 2
 
-* [ ] Design Token
-* [ ] Button
-* [ ] Input
-* [ ] Radio
-* [ ] Checkbox
+* [x] Design Token
+* [x] Button
+* [x] Input
+* [x] Radio
+* [x] Checkbox
 
 ### Week 3
 
-* [ ] Select
-* [ ] Table
-* [ ] Pagination
+* [x] Select
+* [x] Table
+* [x] Pagination
 
 ### Week 4
 
-* [ ] Modal
+* [x] Modal
 * [ ] Loading
 * [ ] Empty State
 * [ ] Error State
