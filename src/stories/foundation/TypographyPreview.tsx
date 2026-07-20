@@ -1,4 +1,5 @@
 import './_foundation.scss';
+import { TokenMeta } from './TokenMeta';
 
 type FontSizeToken = {
     name: string;
@@ -117,19 +118,11 @@ export function TypographyPreview() {
                             key={item.token}
                             className="sb-typography-item"
                         >
-                            <div className="sb-typography-item__meta">
-                                <strong className="sb-typography-item__name">
-                                    {item.name}
-                                </strong>
-
-                                <code className="sb-token-card__token">
-                                    {item.token}
-                                </code>
-
-                                <span className="sb-token-card__value">
-                                    {item.value}
-                                </span>
-                            </div>
+                            <TokenMeta
+                                name={item.name}
+                                token={item.token}
+                                value={item.value}
+                            />
 
                             <p
                                 className={`sb-typography-item__preview ${item.className}`}
@@ -150,19 +143,11 @@ export function TypographyPreview() {
                             key={item.token}
                             className="sb-typography-item"
                         >
-                            <div className="sb-typography-item__meta">
-                                <strong className="sb-typography-item__name">
-                                    {item.name}
-                                </strong>
-
-                                <code className="sb-token-card__token">
-                                    {item.token}
-                                </code>
-
-                                <span className="sb-token-card__value">
-                                    {item.value}
-                                </span>
-                            </div>
+                            <TokenMeta
+                                name={item.name}
+                                token={item.token}
+                                value={item.value}
+                            />
 
                             <p
                                 className="sb-typography-item__preview sb-typography-preview--fs-xl"
@@ -184,19 +169,11 @@ export function TypographyPreview() {
                             key={item.token}
                             className="sb-typography-item"
                         >
-                            <div className="sb-typography-item__meta">
-                                <strong className="sb-typography-item__name">
-                                    {item.name}
-                                </strong>
-
-                                <code className="sb-token-card__token">
-                                    {item.token}
-                                </code>
-
-                                <span className="sb-token-card__value">
-                                    {item.value}
-                                </span>
-                            </div>
+                            <TokenMeta
+                                name={item.name}
+                                token={item.token}
+                                value={item.value}
+                            />
 
                             <p
                                 className="sb-typography-item__preview sb-typography-preview--fs-lg"

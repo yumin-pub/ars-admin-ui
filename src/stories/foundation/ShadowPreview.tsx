@@ -1,4 +1,5 @@
 import './_foundation.scss';
+import { TokenMeta } from './TokenMeta';
 
 type ShadowToken = {
     name: string;
@@ -65,21 +66,12 @@ export function ShadowPreview() {
                             />
 
                             <div className="sb-shadow-item__body">
-                                <strong className="sb-shadow-item__name">
-                                    {item.name}
-                                </strong>
-
-                                <code className="sb-token-card__token">
-                                    {item.token}
-                                </code>
-
-                                <span className="sb-token-card__value">
-                                    {item.value}
-                                </span>
-
-                                <p className="sb-shadow-item__usage">
-                                    {item.usage}
-                                </p>
+                                <TokenMeta
+                                    name={item.name}
+                                    token={item.token}
+                                    value={item.value}
+                                    description={item.usage}
+                                />
                             </div>
                         </article>
                     ))}

@@ -1,4 +1,5 @@
 import './_foundation.scss';
+import { TokenMeta } from './TokenMeta';
 
 type SpacingToken = {
     token: string;
@@ -37,21 +38,20 @@ export function SpacingPreview() {
                             key={item.token}
                             className="sb-spacing-item"
                         >
-                            <div className="sb-spacing-item__meta">
-                                <strong className="sb-token-card__name">
-                                    {item.token}
-                                </strong>
-
-                                <span className="sb-token-card__value">
-                                    {item.value}
-                                </span>
-                            </div>
+                            <TokenMeta
+                                name={item.token.replace('$', '')}
+                                token={item.token}
+                                value={item.value}
+                            />
 
                             <div className="sb-spacing-item__preview">
                                 <div
                                     className="sb-spacing-item__bar"
                                     style={{
-                                        width: item.value === '0' ? '1px' : item.value,
+                                        width:
+                                            item.value === '0'
+                                                ? '1px'
+                                                : item.value,
                                     }}
                                 />
                             </div>

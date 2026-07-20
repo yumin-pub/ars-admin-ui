@@ -1,4 +1,5 @@
 import './_foundation.scss';
+import { TokenMeta } from './TokenMeta';
 
 type PrimitiveColor = {
     category: string;
@@ -197,17 +198,11 @@ export function PrimitivePreview() {
                                     />
 
                                     <div className="sb-token-card__body">
-                                        <strong className="sb-token-card__name">
-                                            {item.name}
-                                        </strong>
-
-                                        <code className="sb-token-card__token">
-                                            {item.token}
-                                        </code>
-
-                                        <span className="sb-token-card__value">
-                                            {item.value}
-                                        </span>
+                                        <TokenMeta
+                                            name={item.name}
+                                            token={item.token}
+                                            value={item.value}
+                                        />
                                     </div>
                                 </article>
                             ))}

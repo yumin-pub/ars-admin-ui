@@ -26,6 +26,10 @@
     gap: $space-5;
 }
 
+// ========================================
+// Token Card
+// ========================================
+
 .sb-token-card {
     overflow: hidden;
 
@@ -54,34 +58,7 @@
 }
 
 .sb-token-card__body {
-    display: flex;
-    flex-direction: column;
-    gap: $space-2;
-
     padding: $space-4;
-}
-
-.sb-token-card__name {
-    font-size: $fs-lg;
-    font-weight: $fw-semibold;
-    line-height: $lh-base;
-
-    color: $gray-900;
-}
-
-.sb-token-card__token {
-    font-size: $fs-sm;
-    line-height: $lh-base;
-    font-family: Consolas, Monaco, 'Courier New', monospace;
-
-    color: $info;
-}
-
-.sb-token-card__value {
-    font-size: $fs-sm;
-    line-height: $lh-base;
-
-    color: $gray-500;
 }
 
 // ========================================
@@ -106,21 +83,8 @@
     border-radius: $radius-xl;
 
     background-color: $white;
+
     box-shadow: $shadow-sm;
-}
-
-.sb-typography-item__meta {
-    display: flex;
-    flex-direction: column;
-    gap: $space-1;
-}
-
-.sb-typography-item__name {
-    font-size: $fs-md;
-    font-weight: $fw-semibold;
-    line-height: $lh-base;
-
-    color: $gray-900;
 }
 
 .sb-typography-item__preview {
@@ -190,12 +154,6 @@
     box-shadow: $shadow-sm;
 }
 
-.sb-spacing-item__meta {
-    display: flex;
-    flex-direction: column;
-    gap: $space-1;
-}
-
 .sb-spacing-item__preview {
     display: flex;
     align-items: center;
@@ -217,6 +175,7 @@
         gap: $space-4;
     }
 }
+
 // ========================================
 // Radius Preview
 // ========================================
@@ -238,15 +197,9 @@
     border: 1px solid $gray-200;
     border-radius: $radius-xl;
 
-    background: $white;
+    background-color: $white;
 
     box-shadow: $shadow-sm;
-}
-
-.sb-radius-item__meta {
-    display: flex;
-    flex-direction: column;
-    gap: $space-1;
 }
 
 .sb-radius-item__preview {
@@ -260,7 +213,7 @@
 
     border: 2px solid $primary;
 
-    background: rgba($primary, 0.08);
+    background-color: rgba($primary, 0.08);
 }
 
 @media (max-width: 768px) {
@@ -269,6 +222,7 @@
         gap: $space-4;
     }
 }
+
 // ========================================
 // Shadow Preview
 // ========================================
@@ -321,31 +275,11 @@
 }
 
 .sb-shadow-item__body {
-    display: flex;
-    flex-direction: column;
-    gap: $space-2;
-
     padding: $space-5;
 
     border-top: 1px solid $gray-200;
 }
 
-.sb-shadow-item__name {
-    font-size: $fs-lg;
-    font-weight: $fw-semibold;
-    line-height: $lh-base;
-
-    color: $gray-900;
-}
-
-.sb-shadow-item__usage {
-    margin: $space-1 0 0;
-
-    font-size: $fs-sm;
-    line-height: $lh-relaxed;
-
-    color: $gray-600;
-}
 // ========================================
 // Z-index Preview
 // ========================================
@@ -368,30 +302,8 @@
     border-radius: $radius-xl;
 
     background-color: $white;
+
     box-shadow: $shadow-sm;
-}
-
-.sb-z-index-item__meta {
-    display: flex;
-    flex-direction: column;
-    gap: $space-1;
-}
-
-.sb-z-index-item__name {
-    font-size: $fs-lg;
-    font-weight: $fw-semibold;
-    line-height: $lh-base;
-
-    color: $gray-900;
-}
-
-.sb-z-index-item__usage {
-    margin: $space-1 0 0;
-
-    font-size: $fs-sm;
-    line-height: $lh-relaxed;
-
-    color: $gray-600;
 }
 
 .sb-z-index-item__preview {
@@ -424,4 +336,52 @@
     .sb-z-index-item {
         grid-template-columns: 1fr;
     }
+}
+
+// ========================================
+// Token Meta
+// ========================================
+
+.sb-token-meta {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+}
+
+.sb-token-meta__name {
+    font-size: $fs-lg;
+    font-weight: $fw-semibold;
+    line-height: $lh-base;
+
+    color: $gray-900;
+}
+
+.sb-token-meta__token {
+    width: fit-content;
+
+    padding: $space-1 $space-2;
+
+    border-radius: $radius-sm;
+
+    background-color: $gray-100;
+
+    font-size: $fs-sm;
+    line-height: $lh-base;
+    color: $primary;
+}
+
+.sb-token-meta__value {
+    font-size: $fs-sm;
+    line-height: $lh-base;
+
+    color: $gray-600;
+}
+
+.sb-token-meta__description {
+    margin: $space-1 0 0;
+
+    font-size: $fs-sm;
+    line-height: $lh-relaxed;
+
+    color: $gray-600;
 }

@@ -1,4 +1,5 @@
 import './_foundation.scss';
+import { TokenMeta } from './TokenMeta';
 
 type RadiusToken = {
     name: string;
@@ -58,19 +59,11 @@ export function RadiusPreview() {
                             key={item.token}
                             className="sb-radius-item"
                         >
-                            <div className="sb-radius-item__meta">
-                                <strong className="sb-token-card__name">
-                                    {item.name}
-                                </strong>
-
-                                <code className="sb-token-card__token">
-                                    {item.token}
-                                </code>
-
-                                <span className="sb-token-card__value">
-                                    {item.value}
-                                </span>
-                            </div>
+                            <TokenMeta
+                                name={item.name}
+                                token={item.token}
+                                value={item.value}
+                            />
 
                             <div className="sb-radius-item__preview">
                                 <div

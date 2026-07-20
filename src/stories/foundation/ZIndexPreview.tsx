@@ -1,4 +1,5 @@
 import './_foundation.scss';
+import { TokenMeta } from './TokenMeta';
 
 type ZIndexToken = {
     name: string;
@@ -82,23 +83,12 @@ export function ZIndexPreview() {
                             key={item.token}
                             className="sb-z-index-item"
                         >
-                            <div className="sb-z-index-item__meta">
-                                <strong className="sb-z-index-item__name">
-                                    {item.name}
-                                </strong>
-
-                                <code className="sb-token-card__token">
-                                    {item.token}
-                                </code>
-
-                                <span className="sb-token-card__value">
-                                    {item.value}
-                                </span>
-
-                                <p className="sb-z-index-item__usage">
-                                    {item.usage}
-                                </p>
-                            </div>
+                            <TokenMeta
+                                name={item.name}
+                                token={item.token}
+                                value={item.value}
+                                description={item.usage}
+                            />
 
                             <div className="sb-z-index-item__preview">
                                 <span
