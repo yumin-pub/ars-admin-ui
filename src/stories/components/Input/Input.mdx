@@ -1,0 +1,101 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+
+import * as InputStories from './Input.stories';
+
+<Meta of={InputStories} />
+
+# Input
+
+사용자로부터 텍스트를 입력받는 기본 입력 컴포넌트입니다.
+
+## Overview
+
+지원 기능
+
+- 3가지 Variant
+  - Outline
+  - Underline
+  - Ghost
+- 2가지 Size
+  - Medium
+  - Large
+- Label 지원
+- Helper Message 지원
+- Prefix / Suffix 지원
+- Clear Button 지원
+- Success / Error 상태 지원
+- Disabled / Readonly 지원
+
+---
+
+## Import
+
+```tsx
+import { Input } from '@/components/Input';
+```
+
+---
+
+## Playground
+
+<Canvas of={InputStories.Playground} />
+
+---
+
+## Variants
+
+### Outline
+
+<Canvas of={InputStories.Outline} />
+
+### Underline
+
+<Canvas of={InputStories.Underline} />
+
+### Ghost
+
+<Canvas of={InputStories.Ghost} />
+
+---
+
+## Sizes
+
+### Large
+
+<Canvas of={InputStories.Large} />
+
+### Medium
+
+<Canvas of={InputStories.Medium} />
+
+---
+
+## States
+
+### Success
+
+<Canvas of={InputStories.Success} />
+
+### Error
+
+<Canvas of={InputStories.Error} />
+
+### Disabled
+
+<Canvas of={InputStories.Disabled} />
+
+### ReadOnly
+
+<Canvas of={InputStories.ReadOnly} />
+
+---
+
+## Features
+
+### Clearable
+
+<Canvas of={InputStories.Clearable} />
+
+### Prefix / Suffix
+
+<Canvas of={InputStories.PrefixSuffix} />

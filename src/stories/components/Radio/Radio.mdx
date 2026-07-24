@@ -1,0 +1,60 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+
+import * as RadioStories from './Radio.stories';
+
+<Meta of={RadioStories} />
+
+# Radio
+
+사용자가 하나의 항목을 선택할 수 있는 라디오 컴포넌트입니다.
+
+## Overview
+
+지원 기능
+
+- Wrap 구조
+- Detached 구조
+- Checked 상태
+- Disabled 상태
+
+---
+
+## Import
+
+```tsx
+import { Radio } from '@/components/Radio';
+```
+
+---
+
+## Playground
+
+<Canvas of={RadioStories.Playground} />
+
+---
+
+## Structure
+
+### Wrap
+
+<Canvas of={RadioStories.Wrap} />
+
+### Detached
+
+<Canvas of={RadioStories.Detached} />
+
+---
+
+## States
+
+### Checked
+
+<Canvas of={RadioStories.Checked} />
+
+### Disabled
+
+<Canvas of={RadioStories.Disabled} />
+
+### Checked + Disabled
+
+<Canvas of={RadioStories.CheckedDisabled} />
