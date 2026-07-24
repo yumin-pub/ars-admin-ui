@@ -1,4 +1,5 @@
 @use './variables' as *;
+@use '../tokens' as *;
 // ======================================================
 // Flex
 // ======================================================
@@ -197,7 +198,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--color-gray-300);
+    background-color: $gray-300;
     border-radius: 999px;
   }
 
