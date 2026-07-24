@@ -1,12 +1,13 @@
-import type { TableProps } from './Table.types';
+import type { ReactNode } from 'react';
+import type { TableProps, TableRow } from './Table.types';
 
-function Table({
+function Table<T extends TableRow = TableRow>({
     columns,
     data,
     emptyMessage = '검색 결과가 없습니다.',
     loading = false,
     className = '',
-}: TableProps) {
+}: TableProps<T>) {
     const tableClassNameList = [
         'ui-table',
         className,
@@ -21,8 +22,8 @@ function Table({
                     <tr>
                         {columns.map((columnData) => (
                             <th
-                                key={columnData.dataIndex}
-                                scope="col"                                                                                                                                                                                                                                             Z
+                                key={String(columnData.dataIndex)}
+                                scope="col"
                                 style={{
                                     width: columnData.width,
                                     textAlign: columnData.align,
@@ -45,13 +46,19 @@ function Table({
                             </td>
                         </tr>
                     ) : data.length > 0 ? (
-                        data.map((row) => (
+                        data.map((row, index) => (
                             <tr key={row.id}>
-                                {columns.map((column) => (
-                                    <td key={column.dataIndex}>
-                                        {row[column.dataIndex]}
-                                    </td>
-                                ))}
+                                {columns.map((column) => {
+                                    const value = row[column.dataIndex];
+
+                                    return (
+                                        <td key={String(column.dataIndex)}>
+                                            {column.render
+                                                ? column.render(value, row, index)
+                                                : (value as ReactNode)}
+                                        </td>
+                                    );
+                                })}
                             </tr>
                         ))
                     ) : (
@@ -69,6 +76,5 @@ function Table({
         </div>
     );
 }
-
 
 export default Table;

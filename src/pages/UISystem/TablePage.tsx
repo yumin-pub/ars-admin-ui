@@ -6,31 +6,56 @@ import type {
     TableColumn,
     TableRow,
 } from '../../components/Table';
+
+/* ==========================
+ * Row 타입 정의
+ * (백엔드에서 내려올 법한 원시 데이터 모양)
+ * ========================== */
+
+interface BasicRow extends TableRow {
+    id: number;
+    title: string;
+    status: 'exposed' | 'hidden';
+    date: string;
+}
+
+interface SelectableRow extends TableRow {
+    id: number;
+    checked: boolean;
+    title: string;
+    status: 'exposed' | 'hidden' | 'scheduled';
+    date: string;
+}
+
 function TablePage() {
 
     /* ==========================
      * Basic Table
      * ========================== */
 
-    const basicColumns: TableColumn[] = [
+    const basicColumns: TableColumn<BasicRow>[] = [
         { dataIndex: 'id', title: '번호' },
         { dataIndex: 'title', title: '제목' },
-        { dataIndex: 'status', title: '상태' },
-        { dataIndex: 'date', title: '등록일' },
-        { dataIndex: 'action', title: '관리' },
-    ];
-
-    const basicData: TableRow[] = [
         {
-            id: 1,
-            title: '긴급공지 안내',
-            status: (
-                <span className="ui-badge ui-badge--success">
-                    노출중
+            dataIndex: 'status',
+            title: '상태',
+            render: (value) => (
+                <span
+                    className={
+                        value === 'exposed'
+                            ? 'ui-badge ui-badge--success'
+                            : 'ui-badge ui-badge--neutral'
+                    }
+                >
+                    {value === 'exposed' ? '노출중' : '미노출'}
                 </span>
             ),
-            date: '2026-06-10',
-            action: (
+        },
+        { dataIndex: 'date', title: '등록일' },
+        {
+            dataIndex: 'id', // 별도 raw 데이터가 필요 없는 컬럼이라 id를 재사용
+            title: '관리',
+            render: () => (
                 <div className="ui-table__actions">
                     <Button variant="outline" color="neutral" size="md">
                         수정
@@ -42,26 +67,20 @@ function TablePage() {
                 </div>
             ),
         },
+    ];
+
+    const basicData: BasicRow[] = [
+        {
+            id: 1,
+            title: '긴급공지 안내',
+            status: 'exposed',
+            date: '2026-06-10',
+        },
         {
             id: 2,
             title: '시스템 점검 안내',
-            status: (
-                <span className="ui-badge ui-badge--neutral">
-                    미노출
-                </span>
-            ),
+            status: 'hidden',
             date: '2026-06-12',
-            action: (
-                <div className="ui-table__actions">
-                    <Button variant="outline" color="neutral" size="md">
-                        수정
-                    </Button>
-
-                    <Button variant="outline" color="neutral" size="md">
-                        삭제
-                    </Button>
-                </div>
-            ),
         },
     ];
 
@@ -70,33 +89,40 @@ function TablePage() {
      * Selectable Table
      * ========================== */
 
-    const selectableColumns: TableColumn[] = [
-        { dataIndex: 'checkbox', title: '선택' },
-        { dataIndex: 'id', title: '번호' },
-        { dataIndex: 'title', title: '제목' },
-        { dataIndex: 'status', title: '상태' },
-        { dataIndex: 'date', title: '등록일' },
-        { dataIndex: 'action', title: '관리' },
-    ];
-
-    const selectableData: TableRow[] = [
+    const selectableColumns: TableColumn<SelectableRow>[] = [
         {
-            id: 1,
-            checkbox: (
+            dataIndex: 'id', // checked 값을 쓰지만 컬럼 키 자체는 id로 재사용
+            title: '선택',
+            render: (_, row) => (
                 <Checkbox
-                    id="table-row-1"
-                    aria-label="1번 항목 선택"
-                    defaultChecked
+                    id={`table-row-${row.id}`}
+                    aria-label={`${row.id}번 항목 선택`}
+                    defaultChecked={row.checked}
                 />
             ),
-            title: '긴급공지 안내',
-            status: (
-                <span className="ui-badge ui-badge--success">
-                    노출중
-                </span>
-            ),
-            date: '2026-06-10',
-            action: (
+        },
+        { dataIndex: 'id', title: '번호' },
+        { dataIndex: 'title', title: '제목' },
+        {
+            dataIndex: 'status',
+            title: '상태',
+            render: (value) => {
+                const statusMap = {
+                    exposed: { className: 'ui-badge--success', label: '노출중' },
+                    hidden: { className: 'ui-badge--neutral', label: '미노출' },
+                    scheduled: { className: 'ui-badge--warning', label: '예약' },
+                } as const;
+
+                const { className, label } = statusMap[value];
+
+                return <span className={`ui-badge ${className}`}>{label}</span>;
+            },
+        },
+        { dataIndex: 'date', title: '등록일' },
+        {
+            dataIndex: 'id',
+            title: '관리',
+            render: () => (
                 <div className="ui-table__actions">
                     <Button variant="outline" color="neutral" size="md">
                         수정
@@ -108,32 +134,22 @@ function TablePage() {
                 </div>
             ),
         },
+    ];
+
+    const selectableData: SelectableRow[] = [
+        {
+            id: 1,
+            checked: true,
+            title: '긴급공지 안내',
+            status: 'exposed',
+            date: '2026-06-10',
+        },
         {
             id: 2,
-            checkbox: (
-                <Checkbox
-                    id="table-row-2"
-                    aria-label="2번 항목 선택"
-                />
-            ),
+            checked: false,
             title: '시스템 점검 안내',
-            status: (
-                <span className="ui-badge ui-badge--warning">
-                    예약
-                </span>
-            ),
+            status: 'scheduled',
             date: '2026-06-12',
-            action: (
-                <div className="ui-table__actions">
-                    <Button variant="outline" color="neutral" size="md">
-                        수정
-                    </Button>
-
-                    <Button variant="outline" color="neutral" size="md">
-                        삭제
-                    </Button>
-                </div>
-            ),
         },
     ];
 
@@ -142,7 +158,7 @@ function TablePage() {
      * Empty Table
      * ========================== */
 
-    const emptyColumns: TableColumn[] = [
+    const emptyColumns: TableColumn<BasicRow>[] = [
         { dataIndex: 'id', title: '번호' },
         { dataIndex: 'title', title: '제목' },
         { dataIndex: 'status', title: '상태' },
@@ -316,7 +332,7 @@ function TablePage() {
                         Basic Table
                     </h3>
 
-                    <Table
+                    <Table<BasicRow>
                         columns={basicColumns}
                         data={basicData}
                     />
@@ -327,7 +343,7 @@ function TablePage() {
                         Selectable Table
                     </h3>
 
-                    <Table
+                    <Table<SelectableRow>
                         className="ui-table--selectable"
                         columns={selectableColumns}
                         data={selectableData}
@@ -339,7 +355,7 @@ function TablePage() {
                         Empty Table
                     </h3>
 
-                    <Table
+                    <Table<BasicRow>
                         columns={emptyColumns}
                         data={[]}
                         emptyMessage="검색 결과가 없습니다."
@@ -350,7 +366,7 @@ function TablePage() {
                         Loading Table
                     </h3>
 
-                    <Table
+                    <Table<BasicRow>
                         columns={emptyColumns}
                         data={[]}
                         loading
