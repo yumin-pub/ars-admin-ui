@@ -84,13 +84,32 @@
         cursor: default;
     }
 
-    &:disabled {
+    // 현재 페이지 버튼(is-active)에 disabled를 함께 줄 때도
+    // 회색 disabled 스타일이 아니라 활성 스타일이 유지되도록
+    // is-active를 제외하고 disabled 스타일을 적용한다
+    &:disabled:not(.is-active) {
         border-color: $gray-200;
         background-color: $gray-100;
         color: $gray-400;
 
         cursor: not-allowed;
     }
+
+    &.is-active:disabled {
+        cursor: default;
+    }
+}
+
+// ========================================
+// Ellipsis ( ... )
+// ========================================
+
+.ui-pagination__ellipsis {
+    @include flex(center, center);
+    @include size($space-8);
+
+    color: $gray-400;
+    font-size: $fs-sm;
 }
 
 // ========================================
