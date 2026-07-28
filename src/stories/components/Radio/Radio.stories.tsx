@@ -1,8 +1,35 @@
+import { useEffect, useState } from 'react';
+
+import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Radio } from '../../../components/Radio';
+import RadioPage from '../../../pages/UISystem/RadioPage';
 
-const meta: Meta<typeof Radio> = {
+function RadioPlayground({
+    checked,
+    onChange,
+    ...props
+}: ComponentProps<typeof Radio>) {
+    const [isChecked, setIsChecked] = useState(Boolean(checked));
+
+    useEffect(() => {
+        setIsChecked(Boolean(checked));
+    }, [checked]);
+
+    return (
+        <Radio
+            {...props}
+            checked={isChecked}
+            onChange={(event) => {
+                setIsChecked(event.target.checked);
+                onChange?.(event);
+            }}
+        />
+    );
+}
+
+const meta = {
     title: 'Components/Radio',
     component: Radio,
 
@@ -14,65 +41,75 @@ const meta: Meta<typeof Radio> = {
         structure: {
             control: 'inline-radio',
             options: ['wrap', 'detached'],
+            description: '라디오와 라벨의 HTML 구조',
         },
 
         label: {
             control: 'text',
+            description: '라디오 라벨',
         },
 
         checked: {
             control: 'boolean',
+            description: '선택 여부',
         },
 
         disabled: {
             control: 'boolean',
+            description: '비활성화 여부',
+        },
+
+        id: {
+            control: 'text',
+            description: '라디오 식별자',
         },
 
         name: {
             control: 'text',
+            description: '같은 그룹을 묶는 name',
+        },
+
+        children: {
+            control: false,
+        },
+
+        className: {
+            control: 'text',
+            description: '추가 클래스',
+        },
+
+        onChange: {
+            action: 'changed',
         },
     },
 
     args: {
+        id: 'radio-playground',
+        name: 'radio-group',
         label: 'Radio',
         structure: 'wrap',
-        name: 'radio-group',
+        checked: false,
+        disabled: false,
+        className: '',
     },
-};
+} satisfies Meta<typeof Radio>;
 
 export default meta;
 
-type Story = StoryObj<typeof Radio>;
+type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
-
-export const Wrap: Story = {
-    args: {
-        structure: 'wrap',
-    },
+export const Playground: Story = {
+    render: (args) => <RadioPlayground {...args} />,
 };
 
-export const Detached: Story = {
-    args: {
-        structure: 'detached',
-    },
-};
+export const Examples: Story = {
+    render: () => <RadioPage />,
 
-export const Checked: Story = {
-    args: {
-        checked: true,
-    },
-};
+    parameters: {
+        layout: 'fullscreen',
 
-export const Disabled: Story = {
-    args: {
-        disabled: true,
-    },
-};
-
-export const CheckedDisabled: Story = {
-    args: {
-        checked: true,
-        disabled: true,
+        controls: {
+            disable: true,
+        },
     },
 };

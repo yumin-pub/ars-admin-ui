@@ -8,23 +8,56 @@ import * as InputStories from './Input.stories';
 
 사용자로부터 텍스트를 입력받는 기본 입력 컴포넌트입니다.
 
+HTML 클래스 방식과 React 컴포넌트 방식을 모두 지원하며, 다양한 상태와 레이아웃을 제공합니다.
+
+---
+
 ## Overview
 
-지원 기능
+Input은 일반적인 텍스트 입력뿐 아니라 상태 표시, Helper Message, Prefix/Suffix, Counter 등 실무에서 자주 사용하는 기능을 제공합니다.
 
-- 3가지 Variant
-  - Outline
-  - Underline
-  - Ghost
-- 2가지 Size
-  - Medium
-  - Large
-- Label 지원
-- Helper Message 지원
-- Prefix / Suffix 지원
-- Clear Button 지원
-- Success / Error 상태 지원
-- Disabled / Readonly 지원
+```tsx
+<Input
+  label="이름"
+  placeholder="이름을 입력하세요"
+/>
+```
+
+기본 구조는 다음과 같습니다.
+
+```html
+<div class="ui-field ui-field--column">
+  <label class="ui-field__label">Label</label>
+
+  <div class="ui-field__content">
+    <div class="ui-input ui-input--outline ui-input--md">
+      <input
+        class="ui-input__control"
+        type="text"
+      />
+    </div>
+
+    <div class="ui-field__meta">
+      <p class="ui-field__message">Helper Message</p>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+## Features
+
+- Outline / Underline / Ghost Variant
+- Medium / Large Size
+- Row / Column Layout
+- Success / Error State
+- Disabled / Readonly
+- Prefix / Suffix
+- Helper Message
+- Counter
+- Clear Button
+- HTML 클래스 방식과 React 컴포넌트 방식 지원
 
 ---
 
@@ -36,66 +69,180 @@ import { Input } from '@/components/Input';
 
 ---
 
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `ReactNode` | - | Label |
+| `helperText` | `ReactNode` | - | Helper Message |
+| `counter` | `ReactNode` | - | Counter |
+| `variant` | `'outline' \| 'underline' \| 'ghost'` | `'outline'` | Input 스타일 |
+| `InputSize` | `'md' \| 'lg'` | `'md'` | Input 크기 |
+| `layout` | `'column' \| 'row'` | `'column'` | Label 배치 |
+| `state` | `'default' \| 'success' \| 'error'` | `'default'` | Input 상태 |
+| `prefixContent` | `ReactNode` | - | Prefix 영역 |
+| `suffixContent` | `ReactNode` | - | Suffix 영역 |
+| `clearable` | `boolean` | `false` | Clear Button 표시 |
+| `disabled` | `boolean` | `false` | 비활성화 |
+| `readOnly` | `boolean` | `false` | 읽기 전용 |
+| `fieldClassName` | `string` | `''` | ui-field 추가 클래스 |
+| `inputClassName` | `string` | `''` | ui-input 추가 클래스 |
+| `className` | `string` | `''` | input 추가 클래스 |
+
+`InputProps`는 `InputHTMLAttributes<HTMLInputElement>`를 확장하므로 기본 input 속성을 함께 사용할 수 있습니다.
+
+---
+
 ## Playground
+
+Controls를 이용하여 Variant, Size, Layout, State 등을 자유롭게 변경할 수 있습니다.
 
 <Canvas of={InputStories.Playground} />
 
 ---
 
-## Variants
+## Examples
 
-### Outline
+HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할 수 있습니다.
 
-<Canvas of={InputStories.Outline} />
+다음 예제를 포함합니다.
 
-### Underline
+- Column Layout
+- Row Layout
+- Default
+- Success
+- Error
+- Disabled
+- Readonly
+- Prefix / Suffix
+- Counter
+- Clear Button
 
-<Canvas of={InputStories.Underline} />
-
-### Ghost
-
-<Canvas of={InputStories.Ghost} />
-
----
-
-## Sizes
-
-### Large
-
-<Canvas of={InputStories.Large} />
-
-### Medium
-
-<Canvas of={InputStories.Medium} />
+<Canvas of={InputStories.Examples} />
 
 ---
 
-## States
+## React Component Usage
 
-### Success
+### Basic
 
-<Canvas of={InputStories.Success} />
+```tsx
+<Input
+  label="이름"
+  placeholder="이름을 입력하세요"
+/>
+```
 
 ### Error
 
-<Canvas of={InputStories.Error} />
+```tsx
+<Input
+  label="이메일"
+  state="error"
+  helperText="이메일 형식을 확인해주세요."
+/>
+```
 
-### Disabled
+### Success
 
-<Canvas of={InputStories.Disabled} />
-
-### ReadOnly
-
-<Canvas of={InputStories.ReadOnly} />
-
----
-
-## Features
-
-### Clearable
-
-<Canvas of={InputStories.Clearable} />
+```tsx
+<Input
+  label="닉네임"
+  state="success"
+  helperText="사용 가능한 닉네임입니다."
+/>
+```
 
 ### Prefix / Suffix
 
-<Canvas of={InputStories.PrefixSuffix} />
+```tsx
+<Input
+  prefixContent="₩"
+  suffixContent="원"
+/>
+```
+
+### Counter
+
+```tsx
+<Input
+  counter="3 / 10"
+  clearable
+/>
+```
+
+---
+
+## HTML Class Usage
+
+```html
+<div class="ui-field ui-field--column">
+  <label class="ui-field__label">Label</label>
+
+  <div class="ui-field__content">
+    <div class="ui-input ui-input--outline ui-input--md">
+      <input
+        class="ui-input__control"
+        type="text"
+      />
+    </div>
+
+    <div class="ui-field__meta">
+      <p class="ui-field__message">Helper Message</p>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+## Class Structure
+
+```text
+ui-field
+├── ui-field--column
+├── ui-field--row
+├── ui-field__label
+├── ui-field__content
+├── ui-field__meta
+├── ui-field__message
+└── ui-field__counter
+
+ui-input
+├── ui-input--outline
+├── ui-input--underline
+├── ui-input--ghost
+├── ui-input--md
+├── ui-input--lg
+├── ui-input__control
+├── ui-input__prefix
+├── ui-input__suffix
+└── ui-input__clear
+```
+
+---
+
+## Accessibility
+
+- Label은 `htmlFor`와 `id`로 연결합니다.
+- Error 상태에서는 `aria-invalid`를 제공합니다.
+- Clear Button에는 `aria-label`을 제공합니다.
+- Disabled와 Readonly는 HTML 기본 속성을 사용합니다.
+
+예시
+
+```tsx
+<Input
+  id="email"
+  label="이메일"
+  state="error"
+/>
+```
+
+---
+
+## Notes
+
+- `ui-field`는 Label과 Message를 포함하는 Wrapper입니다.
+- `ui-input`은 실제 입력 영역을 담당합니다.
+- 시각 예제는 `InputPage.tsx`에서 관리하며 Storybook에서는 `Examples`를 통해 재사용합니다.

@@ -8,14 +8,42 @@ import * as CheckboxStories from './Checkbox.stories';
 
 사용자가 하나 이상의 항목을 선택할 수 있는 체크박스 컴포넌트입니다.
 
+HTML 클래스 방식과 React 컴포넌트 방식을 모두 지원하며, Wrap 구조와 Detached 구조를 제공합니다.
+
+---
+
 ## Overview
 
-지원 기능
+Checkbox는 여러 개의 항목 중 하나 이상을 선택해야 하는 경우 사용합니다.
 
-- Wrap 구조
-- Detached 구조
-- Checked 상태
-- Disabled 상태
+기본 구조는 `wrap`이며, 필요에 따라 `detached` 구조를 사용할 수 있습니다.
+
+```tsx
+<Checkbox>
+  Checkbox
+</Checkbox>
+```
+
+렌더링되는 기본 클래스 구조는 다음과 같습니다.
+
+```html
+<label class="ui-checkbox ui-checkbox--wrap">
+  <input type="checkbox" class="ui-checkbox__input" />
+  <span class="ui-checkbox__control"></span>
+  <span class="ui-checkbox__label">Checkbox</span>
+</label>
+```
+
+---
+
+## Features
+
+- Wrap 구조 지원
+- Detached 구조 지원
+- Checked 상태 지원
+- Disabled 상태 지원
+- Label 생략 가능
+- HTML 클래스 방식과 React 컴포넌트 방식 지원
 
 ---
 
@@ -27,34 +55,153 @@ import { Checkbox } from '@/components/Checkbox';
 
 ---
 
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `ReactNode` | - | 체크박스 라벨 |
+| `children` | `ReactNode` | - | label 대신 사용할 콘텐츠 |
+| `structure` | `'wrap' \| 'detached'` | `'wrap'` | 체크박스 구조 |
+| `checked` | `boolean` | `false` | 체크 여부 |
+| `disabled` | `boolean` | `false` | 비활성화 여부 |
+| `id` | `string` | - | Detached 구조에서 label 연결용 id |
+| `className` | `string` | `''` | 추가 클래스 |
+
+`CheckboxProps`는 `InputHTMLAttributes<HTMLInputElement>`를 확장하므로 기본 input 속성을 함께 사용할 수 있습니다.
+
+---
+
 ## Playground
+
+Controls를 이용하여 구조, 체크 여부, 비활성화 여부 등을 자유롭게 확인할 수 있습니다.
 
 <Canvas of={CheckboxStories.Playground} />
 
 ---
 
-## Structure
+## Examples
 
-### Wrap
+HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할 수 있습니다.
 
-<Canvas of={CheckboxStories.Wrap} />
+다음 예제를 포함합니다.
 
-### Detached
+- Wrap
+- Detached
+- Checked
+- Disabled
+- Checked Disabled
+- Label 없음
 
-<Canvas of={CheckboxStories.Detached} />
+<Canvas of={CheckboxStories.Examples} />
 
 ---
 
-## States
+## React Component Usage
+
+### Wrap
+
+```tsx
+<Checkbox>
+  Checkbox
+</Checkbox>
+```
+
+### Detached
+
+```tsx
+<Checkbox
+  id="agree"
+  structure="detached"
+>
+  Checkbox
+</Checkbox>
+```
 
 ### Checked
 
-<Canvas of={CheckboxStories.Checked} />
+```tsx
+<Checkbox defaultChecked>
+  Checked
+</Checkbox>
+```
 
 ### Disabled
 
-<Canvas of={CheckboxStories.Disabled} />
+```tsx
+<Checkbox disabled>
+  Disabled
+</Checkbox>
+```
 
-### Checked + Disabled
+---
 
-<Canvas of={CheckboxStories.CheckedDisabled} />
+## HTML Class Usage
+
+### Wrap
+
+```html
+<label class="ui-checkbox ui-checkbox--wrap">
+  <input type="checkbox" class="ui-checkbox__input" />
+  <span class="ui-checkbox__control"></span>
+  <span class="ui-checkbox__label">Checkbox</span>
+</label>
+```
+
+### Detached
+
+```html
+<span class="ui-checkbox ui-checkbox--detached">
+  <input
+    id="checkbox"
+    type="checkbox"
+    class="ui-checkbox__input"
+  />
+
+  <label
+    class="ui-checkbox__wrapper"
+    for="checkbox"
+  >
+    <span class="ui-checkbox__control"></span>
+    <span class="ui-checkbox__label">Checkbox</span>
+  </label>
+</span>
+```
+
+---
+
+## Class Structure
+
+```text
+ui-checkbox
+├── ui-checkbox--wrap
+├── ui-checkbox--detached
+├── ui-checkbox__input
+├── ui-checkbox__control
+├── ui-checkbox__label
+└── ui-checkbox__wrapper
+```
+
+---
+
+## Accessibility
+
+- 체크박스와 라벨은 항상 연결합니다.
+- `detached` 구조에서는 `id`와 `htmlFor`를 함께 사용합니다.
+- 라벨이 없는 경우 `aria-label`을 제공합니다.
+- 비활성화 상태는 `disabled` 속성을 사용합니다.
+
+예시
+
+```tsx
+<Checkbox
+  aria-label="전체 선택"
+/>
+```
+
+---
+
+## Notes
+
+- `wrap`은 input을 label이 감싸는 구조입니다.
+- `detached`는 input과 label이 분리된 구조입니다.
+- 시각 예제는 `CheckboxPage.tsx`에서 관리하며 Storybook에서는 `Examples`를 통해 재사용합니다.

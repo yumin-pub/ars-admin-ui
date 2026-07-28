@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Input } from '../../../components/Input';
+import InputPage from '../../../pages/UISystem/InputPage';
 
-const meta: Meta<typeof Input> = {
+const meta = {
     title: 'Components/Input',
     component: Input,
 
@@ -14,49 +15,92 @@ const meta: Meta<typeof Input> = {
         variant: {
             control: 'select',
             options: ['outline', 'underline', 'ghost'],
+            description: 'Input 스타일',
         },
 
         InputSize: {
-            control: 'radio',
+            control: 'inline-radio',
             options: ['md', 'lg'],
+            description: 'Input 크기',
         },
 
         layout: {
             control: 'inline-radio',
             options: ['column', 'row'],
+            description: 'Label 배치',
         },
 
         state: {
             control: 'select',
             options: ['default', 'success', 'error'],
-        },
-
-        clearable: {
-            control: 'boolean',
-        },
-
-        disabled: {
-            control: 'boolean',
-        },
-
-        readOnly: {
-            control: 'boolean',
+            description: 'Input 상태',
         },
 
         label: {
             control: 'text',
+            description: 'Label',
         },
 
         helperText: {
             control: 'text',
+            description: 'Helper Message',
         },
 
         placeholder: {
+            control: 'text',
+            description: 'Placeholder',
+        },
+
+        defaultValue: {
+            control: 'text',
+            description: '기본값',
+        },
+
+        prefixContent: {
+            control: 'text',
+            description: 'Prefix',
+        },
+
+        suffixContent: {
+            control: 'text',
+            description: 'Suffix',
+        },
+
+        counter: {
+            control: 'text',
+            description: 'Counter',
+        },
+
+        clearable: {
+            control: 'boolean',
+            description: 'Clear Button',
+        },
+
+        disabled: {
+            control: 'boolean',
+            description: 'Disabled',
+        },
+
+        readOnly: {
+            control: 'boolean',
+            description: 'Readonly',
+        },
+
+        fieldClassName: {
+            control: 'text',
+        },
+
+        inputClassName: {
+            control: 'text',
+        },
+
+        className: {
             control: 'text',
         },
     },
 
     args: {
+        id: 'input-playground',
         label: 'Label',
         placeholder: 'Input...',
         helperText: 'Helper Message',
@@ -65,81 +109,28 @@ const meta: Meta<typeof Input> = {
         layout: 'column',
         state: 'default',
         clearable: false,
+        disabled: false,
+        readOnly: false,
+        className: '',
+        fieldClassName: '',
+        inputClassName: '',
     },
-};
+} satisfies Meta<typeof Input>;
 
 export default meta;
 
-type Story = StoryObj<typeof Input>;
+type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
-export const Outline: Story = {
-    args: {
-        variant: 'outline',
-    },
-};
+export const Examples: Story = {
+    render: () => <InputPage />,
 
-export const Underline: Story = {
-    args: {
-        variant: 'underline',
-    },
-};
+    parameters: {
+        layout: 'fullscreen',
 
-export const Ghost: Story = {
-    args: {
-        variant: 'ghost',
-    },
-};
-
-export const Large: Story = {
-    args: {
-        InputSize: 'lg',
-    },
-};
-
-export const Medium: Story = {
-    args: {
-        InputSize: 'md',
-    },
-};
-
-export const Success: Story = {
-    args: {
-        state: 'success',
-        helperText: 'Success Message',
-    },
-};
-
-export const Error: Story = {
-    args: {
-        state: 'error',
-        helperText: 'Error Message',
-    },
-};
-
-export const Disabled: Story = {
-    args: {
-        disabled: true,
-    },
-};
-
-export const ReadOnly: Story = {
-    args: {
-        readOnly: true,
-        defaultValue: 'Readonly Value',
-    },
-};
-
-export const Clearable: Story = {
-    args: {
-        clearable: true,
-    },
-};
-
-export const PrefixSuffix: Story = {
-    args: {
-        prefixContent: '@',
-        suffixContent: '.com',
+        controls: {
+            disable: true,
+        },
     },
 };

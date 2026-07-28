@@ -8,60 +8,280 @@ import * as ButtonStories from './Button.stories';
 
 사용자 액션을 실행하는 기본 버튼 컴포넌트입니다.
 
+HTML 클래스 방식과 React 컴포넌트 방식을 모두 지원하며, 버튼의 스타일·색상·크기·상태를 조합하여 사용할 수 있습니다.
+
+---
+
+## Overview
+
+Button은 클릭, 제출, 확인, 취소 등 사용자의 명시적인 액션을 처리할 때 사용합니다.
+
+기본 스타일은 `solid`, 기본 색상은 `primary`, 기본 크기는 `md`입니다.
+
+```tsx
+<Button>Button</Button>
+```
+
+렌더링되는 기본 클래스 구조는 다음과 같습니다.
+
+```html
+<button
+  class="ui-btn ui-btn--solid ui-btn--primary ui-btn--md"
+>
+  Button
+</button>
+```
+
+---
+
+## Features
+
+- `solid`, `outline`, `icon`, `box` 스타일 지원
+- `primary`, `secondary`, `neutral` 색상 지원
+- `lg`, `md` 크기 지원
+- `disabled` 상태 지원
+- `is-selected` 상태 클래스 지원
+- 기본 HTML `<button>` 속성 전달 가능
+- HTML 클래스 방식과 React 컴포넌트 방식 지원
+
+---
+
 ## Import
 
 ```tsx
 import { Button } from '@/components/Button';
 ```
 
+---
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | 버튼 내부에 표시할 콘텐츠 |
+| `variant` | `'solid' \| 'outline' \| 'icon' \| 'box'` | `'solid'` | 버튼 스타일 |
+| `color` | `'primary' \| 'secondary' \| 'neutral'` | `'primary'` | 버튼 색상 |
+| `size` | `'lg' \| 'md'` | `'md'` | 버튼 크기 |
+| `className` | `string` | `''` | 추가 클래스 |
+| `disabled` | `boolean` | `false` | 버튼 비활성화 여부 |
+| `type` | `'button' \| 'submit' \| 'reset'` | 브라우저 기본값 | 버튼 동작 유형 |
+| `onClick` | `MouseEventHandler<HTMLButtonElement>` | - | 클릭 이벤트 핸들러 |
+
+`ButtonProps`는 `ButtonHTMLAttributes<HTMLButtonElement>`를 확장하므로 기본 HTML 버튼 속성을 함께 사용할 수 있습니다.
+
+---
+
 ## Playground
+
+Controls에서 `variant`, `color`, `size`, `children`, `disabled` 값을 변경하며 버튼의 조합과 상태를 확인할 수 있습니다.
 
 <Canvas of={ButtonStories.Playground} />
 
-## Variants
+---
 
-### Solid
+## Examples
 
-<Canvas of={ButtonStories.Solid} />
+HTML 클래스 방식과 React 컴포넌트 방식의 버튼 예제를 한 화면에서 비교할 수 있습니다.
 
-### Outline
+각 스타일과 색상, 크기, 선택 상태, 비활성화 상태를 함께 확인합니다.
 
-<Canvas of={ButtonStories.Outline} />
+<Canvas of={ButtonStories.Examples} />
 
-### Box
+---
 
-<Canvas of={ButtonStories.Box} />
+## React Component Usage
 
-### Icon
+### Basic
 
-<Canvas of={ButtonStories.Icon} />
+```tsx
+<Button type="button">
+  Button
+</Button>
+```
 
-## Colors
+### Variant
 
-### Primary
+```tsx
+<Button variant="solid">
+  Solid Button
+</Button>
 
-<Canvas of={ButtonStories.Primary} />
+<Button variant="outline">
+  Outline Button
+</Button>
+```
 
-### Secondary
+### Color
 
-<Canvas of={ButtonStories.Secondary} />
+```tsx
+<Button color="primary">
+  Primary
+</Button>
 
-### Neutral
+<Button color="secondary">
+  Secondary
+</Button>
 
-<Canvas of={ButtonStories.Neutral} />
+<Button color="neutral">
+  Neutral
+</Button>
+```
 
-## Sizes
+### Size
 
-### Large
+```tsx
+<Button size="lg">
+  Large Button
+</Button>
 
-<Canvas of={ButtonStories.Large} />
+<Button size="md">
+  Medium Button
+</Button>
+```
 
-### Medium
+### Selected
 
-<Canvas of={ButtonStories.Medium} />
-
-## States
+```tsx
+<Button className="is-selected">
+  Selected
+</Button>
+```
 
 ### Disabled
 
-<Canvas of={ButtonStories.Disabled} />
+```tsx
+<Button disabled>
+  Disabled
+</Button>
+```
+
+### Click Event
+
+```tsx
+<Button
+  type="button"
+  onClick={() => {
+    console.log('button clicked');
+  }}
+>
+  Click
+</Button>
+```
+
+---
+
+## HTML Class Usage
+
+React를 사용하지 않는 화면에서는 동일한 SCSS 클래스 구조를 HTML 요소에 직접 적용할 수 있습니다.
+
+### Basic
+
+```html
+<button
+  type="button"
+  class="ui-btn ui-btn--solid ui-btn--primary ui-btn--md"
+>
+  Button
+</button>
+```
+
+### Outline
+
+```html
+<button
+  type="button"
+  class="ui-btn ui-btn--outline ui-btn--primary ui-btn--md"
+>
+  Outline Button
+</button>
+```
+
+### Selected
+
+```html
+<button
+  type="button"
+  class="ui-btn ui-btn--solid ui-btn--primary ui-btn--md is-selected"
+>
+  Selected
+</button>
+```
+
+### Disabled
+
+```html
+<button
+  type="button"
+  class="ui-btn ui-btn--solid ui-btn--primary ui-btn--md"
+  disabled
+>
+  Disabled
+</button>
+```
+
+---
+
+## Class Structure
+
+```text
+ui-btn
+├── ui-btn--solid
+├── ui-btn--outline
+├── ui-btn--icon
+├── ui-btn--box
+├── ui-btn--primary
+├── ui-btn--secondary
+├── ui-btn--neutral
+├── ui-btn--lg
+├── ui-btn--md
+└── is-selected
+```
+
+클래스는 다음 순서로 조합합니다.
+
+```text
+ui-btn
++ variant
++ color
++ size
++ state
+```
+
+예시:
+
+```html
+class="ui-btn ui-btn--outline ui-btn--secondary ui-btn--lg is-selected"
+```
+
+---
+
+## Accessibility
+
+- 버튼에는 동작을 이해할 수 있는 텍스트를 제공합니다.
+- 아이콘만 사용하는 버튼에는 `aria-label`을 제공합니다.
+- 실행할 수 없는 버튼은 `disabled` 속성을 사용합니다.
+- 폼 제출 목적이 아니라면 `type="button"`을 명시합니다.
+- 폼 제출 버튼은 `type="submit"`을 명시합니다.
+- 클릭 이벤트가 필요한 요소는 `<div>`나 `<span>` 대신 `<button>`을 사용합니다.
+
+아이콘 버튼 예시:
+
+```tsx
+<Button
+  type="button"
+  variant="icon"
+  aria-label="즐겨찾기"
+>
+  ★
+</Button>
+```
+
+---
+
+## Notes
+
+- `variant`, `color`, `size` 값은 각각 대응하는 modifier 클래스로 변환됩니다.
+- 전달한 `className`은 기본 버튼 클래스 뒤에 추가됩니다.
+- `disabled`는 React 기본 버튼 속성을 통해 실제 `<button>` 요소에 전달됩니다.
+- `is-selected`는 선택 상태를 표현하기 위한 상태 클래스입니다.
+- 시각 예제는 `ButtonPage.tsx`에서 관리하고 Storybook의 `Examples` Story에서 재사용합니다.

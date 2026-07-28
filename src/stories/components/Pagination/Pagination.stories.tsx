@@ -100,7 +100,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
     render: (args) => (
-        <PaginationPlayground {...args} />
+        <PaginationPlayground {...args} /> 
     ),
 };
 

@@ -8,21 +8,58 @@ import * as SelectStories from './Select.stories';
 
 사용자가 목록에서 하나의 항목을 선택할 수 있는 Select 컴포넌트입니다.
 
+HTML 클래스 방식과 React 컴포넌트 방식을 모두 지원하며, 다양한 스타일과 상태를 제공합니다.
+
+---
+
 ## Overview
 
-지원 기능
+Select는 여러 개의 옵션 중 하나를 선택해야 하는 경우 사용하는 컴포넌트입니다.
 
-- 3가지 Variant
-  - Outline
-  - Underline
-  - Ghost
-- 2가지 Size
-  - Medium
-  - Large
-- Label 지원
-- Helper Message 지원
-- Success / Error 상태 지원
-- Disabled 상태 지원
+Outline, Underline, Ghost 스타일과 Success, Error, Disabled 상태를 지원합니다.
+
+```tsx
+<Select
+  label="상태"
+  options={[
+    { label: '사용', value: 'active' },
+    { label: '미사용', value: 'inactive' },
+  ]}
+/>
+```
+
+기본 구조는 다음과 같습니다.
+
+```html
+<div class="ui-select-field">
+  <label class="ui-select-field__label">
+    Label
+  </label>
+
+  <div class="ui-select ui-select--outline ui-select--md">
+    <select class="ui-select__control">
+      <option>Option 1</option>
+      <option>Option 2</option>
+    </select>
+  </div>
+
+  <p class="ui-select-field__message">
+    Helper Message
+  </p>
+</div>
+```
+
+---
+
+## Features
+
+- Outline / Underline / Ghost Variant
+- Medium / Large Size
+- Success / Error State
+- Disabled
+- Helper Message
+- Option 배열 지원
+- HTML 클래스 방식과 React 컴포넌트 방식 지원
 
 ---
 
@@ -34,50 +71,159 @@ import { Select } from '@/components/Select';
 
 ---
 
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `ReactNode` | - | Label |
+| `helperText` | `ReactNode` | - | Helper Message |
+| `options` | `SelectOption[]` | `[]` | Select 옵션 목록 |
+| `variant` | `'outline' \| 'underline' \| 'ghost'` | `'outline'` | Select 스타일 |
+| `SelectSize` | `'md' \| 'lg'` | `'md'` | Select 크기 |
+| `state` | `'default' \| 'success' \| 'error'` | `'default'` | Select 상태 |
+| `disabled` | `boolean` | `false` | 비활성화 |
+| `fieldClassName` | `string` | `''` | ui-select-field 추가 클래스 |
+| `selectClassName` | `string` | `''` | ui-select 추가 클래스 |
+| `className` | `string` | `''` | select 추가 클래스 |
+
+`SelectProps`는 `SelectHTMLAttributes<HTMLSelectElement>`를 확장하므로 기본 select 속성을 함께 사용할 수 있습니다.
+
+---
+
 ## Playground
+
+Controls를 이용하여 Variant, Size, State 등을 자유롭게 변경할 수 있습니다.
 
 <Canvas of={SelectStories.Playground} />
 
 ---
 
-## Variants
+## Examples
 
-### Outline
+HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할 수 있습니다.
 
-<Canvas of={SelectStories.Outline} />
+다음 예제를 포함합니다.
 
-### Underline
+- Default
+- Error
+- Disabled
+- Outline
+- Underline
+- Ghost
 
-<Canvas of={SelectStories.Underline} />
-
-### Ghost
-
-<Canvas of={SelectStories.Ghost} />
-
----
-
-## Sizes
-
-### Large
-
-<Canvas of={SelectStories.Large} />
-
-### Medium
-
-<Canvas of={SelectStories.Medium} />
+<Canvas of={SelectStories.Examples} />
 
 ---
 
-## States
+## React Component Usage
 
-### Success
+### Basic
 
-<Canvas of={SelectStories.Success} />
+```tsx
+<Select
+  label="상태"
+  options={[
+    { label: '사용', value: 'active' },
+    { label: '미사용', value: 'inactive' },
+  ]}
+/>
+```
 
 ### Error
 
-<Canvas of={SelectStories.Error} />
+```tsx
+<Select
+  label="구분"
+  state="error"
+  helperText="필수 선택 항목입니다."
+  options={[
+    { label: '선택하세요', value: '' },
+    { label: '공지', value: 'notice' },
+  ]}
+/>
+```
 
 ### Disabled
 
-<Canvas of={SelectStories.Disabled} />
+```tsx
+<Select
+  label="권한"
+  disabled
+  options={[
+    { label: '관리자', value: 'admin' },
+    { label: '사용자', value: 'user' },
+  ]}
+/>
+```
+
+---
+
+## HTML Class Usage
+
+```html
+<div class="ui-select-field">
+  <label class="ui-select-field__label">
+    Label
+  </label>
+
+  <div class="ui-select ui-select--outline ui-select--md">
+    <select class="ui-select__control">
+      <option>Option 1</option>
+      <option>Option 2</option>
+    </select>
+  </div>
+
+  <p class="ui-select-field__message">
+    Helper Message
+  </p>
+</div>
+```
+
+---
+
+## Class Structure
+
+```text
+ui-select-field
+├── ui-select-field__label
+└── ui-select-field__message
+
+ui-select
+├── ui-select--outline
+├── ui-select--underline
+├── ui-select--ghost
+├── ui-select--md
+├── ui-select--lg
+└── ui-select__control
+```
+
+---
+
+## Accessibility
+
+- Label은 `htmlFor`와 `id`를 통해 연결합니다.
+- Error 상태에서는 `aria-invalid`를 제공합니다.
+- Disabled 상태는 HTML 기본 `disabled` 속성을 사용합니다.
+- 첫 번째 옵션은 안내 문구(예: "선택하세요")를 제공하는 것을 권장합니다.
+
+예시
+
+```tsx
+<Select
+  id="status"
+  label="상태"
+  options={[
+    { label: '선택하세요', value: '' },
+    { label: '사용', value: 'active' },
+  ]}
+/>
+```
+
+---
+
+## Notes
+
+- `ui-select-field`는 Label과 Helper Message를 포함하는 Wrapper입니다.
+- `ui-select`는 실제 Select UI를 담당합니다.
+- 옵션은 `options` 배열을 통해 관리합니다.
+- 시각 예제는 `SelectPage.tsx`에서 관리하며 Storybook에서는 `Examples`를 통해 재사용합니다.

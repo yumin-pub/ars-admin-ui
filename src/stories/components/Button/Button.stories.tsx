@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from '../../../components/Button';
+import ButtonPage from '../../../pages/UISystem/ButtonPage';
 
 const meta: Meta<typeof Button> = {
     title: 'Components/Button',
@@ -45,63 +46,9 @@ type Story = StoryObj<typeof Button>;
 
 export const Playground: Story = {};
 
-export const Solid: Story = {
-    args: {
-        variant: 'solid',
-    },
-};
-
-export const Outline: Story = {
-    args: {
-        variant: 'outline',
-    },
-};
-
-export const Box: Story = {
-    args: {
-        variant: 'box',
-    },
-};
-
-export const Icon: Story = {
-    args: {
-        variant: 'icon',
-        children: '★',
-    },
-};
-
-export const Primary: Story = {
-    args: {
-        color: 'primary',
-    },
-};
-
-export const Secondary: Story = {
-    args: {
-        color: 'secondary',
-    },
-};
-
-export const Neutral: Story = {
-    args: {
-        color: 'neutral',
-    },
-};
-
-export const Large: Story = {
-    args: {
-        size: 'lg',
-    },
-};
-
-export const Medium: Story = {
-    args: {
-        size: 'md',
-    },
-};
-
-export const Disabled: Story = {
-    args: {
-        disabled: true,
+export const Examples: Story = {
+    render: () => <ButtonPage />,
+    parameters: {
+        layout: 'fullscreen',
     },
 };
