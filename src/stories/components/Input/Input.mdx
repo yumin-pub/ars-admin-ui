@@ -27,9 +27,9 @@ Input은 일반적인 텍스트 입력뿐 아니라 상태 표시, Helper Messag
 
 ```html
 <div class="ui-field ui-field--column">
-  <label class="ui-field__label">Label</label>
-
   <div class="ui-field__content">
+    <label class="ui-field__label">Label</label>
+
     <div class="ui-input ui-input--outline ui-input--md">
       <input
         class="ui-input__control"
@@ -177,9 +177,9 @@ HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할
 
 ```html
 <div class="ui-field ui-field--column">
-  <label class="ui-field__label">Label</label>
-
   <div class="ui-field__content">
+    <label class="ui-field__label">Label</label>
+
     <div class="ui-input ui-input--outline ui-input--md">
       <input
         class="ui-input__control"
@@ -202,29 +202,28 @@ HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할
 ui-field
 ├── ui-field--column
 ├── ui-field--row
-├── ui-field__label
-├── ui-field__content
-├── ui-field__meta
-├── ui-field__message
-└── ui-field__counter
-
-ui-input
-├── ui-input--outline
-├── ui-input--underline
-├── ui-input--ghost
-├── ui-input--md
-├── ui-input--lg
-├── ui-input__control
-├── ui-input__prefix
-├── ui-input__suffix
-└── ui-input__clear
+└── ui-field__content
+    ├── ui-field__label
+    ├── ui-input
+    │   ├── ui-input--outline
+    │   ├── ui-input--underline
+    │   ├── ui-input--ghost
+    │   ├── ui-input--md
+    │   ├── ui-input--lg
+    │   ├── ui-input__prefix
+    │   ├── ui-input__control
+    │   ├── ui-input__clear
+    │   └── ui-input__suffix
+    └── ui-field__meta
+        ├── ui-field__message
+        └── ui-field__counter
 ```
 
 ---
 
 ## Accessibility
 
-- Label은 `htmlFor`와 `id`로 연결합니다.
+- `id`를 전달하면 Label의 `htmlFor`와 input의 `id`가 연결됩니다.
 - Error 상태에서는 `aria-invalid`를 제공합니다.
 - Clear Button에는 `aria-label`을 제공합니다.
 - Disabled와 Readonly는 HTML 기본 속성을 사용합니다.
