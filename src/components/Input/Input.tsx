@@ -6,7 +6,7 @@ function Input({
     helperText,
     counter,
     variant = 'outline',
-    InputSize = 'md',
+    size = 'md',
     layout = 'column',
     state = 'default',
     prefixContent,
@@ -33,7 +33,7 @@ function Input({
     const inputClassNameList = [
         'ui-input',
         `ui-input--${variant}`,
-        `ui-input--${InputSize}`,
+        `ui-input--${size}`,
         inputClassName,
     ]
         .filter(Boolean)
@@ -47,7 +47,6 @@ function Input({
                 {label}
             </label>
             )}
-
             <div className={inputClassNameList}>
             {prefixContent && <span className="ui-input__prefix">{prefixContent}</span>}
 
@@ -61,7 +60,6 @@ function Input({
                 aria-invalid={state === 'error'}
                 {...props}
             />
-
             {clearable && (
                 <button
                 type="button"
@@ -74,7 +72,6 @@ function Input({
 
             {suffixContent && <span className="ui-input__suffix">{suffixContent}</span>}
             </div>
-
             {(helperText || counter) && (
             <div className="ui-field__meta">
                 {helperText && (
