@@ -51,7 +51,7 @@ export interface InputProps
     variant?: InputVariant;
 
     // Size
-    InputSize?: InputSize;
+    size?: InputSize;
 
     // LayoutX
     layout?: InputLayout;
