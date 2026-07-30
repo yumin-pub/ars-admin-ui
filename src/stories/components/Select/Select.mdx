@@ -38,8 +38,8 @@ Outline, Underline, Ghost 스타일과 Success, Error, Disabled 상태를 지원
 
   <div class="ui-select ui-select--outline ui-select--md">
     <select class="ui-select__control">
-      <option>Option 1</option>
-      <option>Option 2</option>
+      <option value="active">사용</option>
+      <option value="inactive">미사용</option>
     </select>
   </div>
 
@@ -82,9 +82,9 @@ import { Select } from '@/components/Select';
 | `SelectSize` | `'md' \| 'lg'` | `'md'` | Select 크기 |
 | `state` | `'default' \| 'success' \| 'error'` | `'default'` | Select 상태 |
 | `disabled` | `boolean` | `false` | 비활성화 |
-| `fieldClassName` | `string` | `''` | ui-select-field 추가 클래스 |
-| `selectClassName` | `string` | `''` | ui-select 추가 클래스 |
-| `className` | `string` | `''` | select 추가 클래스 |
+| `fieldClassName` | `string` | `''` | `ui-select-field` 추가 클래스 |
+| `selectClassName` | `string` | `''` | `ui-select` 추가 클래스 |
+| `className` | `string` | `''` | `select` 추가 클래스 |
 
 `SelectProps`는 `SelectHTMLAttributes<HTMLSelectElement>`를 확장하므로 기본 select 속성을 함께 사용할 수 있습니다.
 
@@ -162,14 +162,21 @@ HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할
 
 ```html
 <div class="ui-select-field">
-  <label class="ui-select-field__label">
-    Label
+  <label
+    class="ui-select-field__label"
+    for="status"
+  >
+    상태
   </label>
 
   <div class="ui-select ui-select--outline ui-select--md">
-    <select class="ui-select__control">
-      <option>Option 1</option>
-      <option>Option 2</option>
+    <select
+      id="status"
+      class="ui-select__control"
+    >
+      <option value="">선택하세요</option>
+      <option value="active">사용</option>
+      <option value="inactive">미사용</option>
     </select>
   </div>
 
@@ -186,25 +193,24 @@ HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할
 ```text
 ui-select-field
 ├── ui-select-field__label
+├── ui-select
+│   ├── ui-select--outline
+│   ├── ui-select--underline
+│   ├── ui-select--ghost
+│   ├── ui-select--md
+│   ├── ui-select--lg
+│   └── ui-select__control
 └── ui-select-field__message
-
-ui-select
-├── ui-select--outline
-├── ui-select--underline
-├── ui-select--ghost
-├── ui-select--md
-├── ui-select--lg
-└── ui-select__control
 ```
 
 ---
 
 ## Accessibility
 
-- Label은 `htmlFor`와 `id`를 통해 연결합니다.
+- `id`를 전달하면 Label의 `htmlFor`와 select의 `id`가 연결됩니다.
 - Error 상태에서는 `aria-invalid`를 제공합니다.
 - Disabled 상태는 HTML 기본 `disabled` 속성을 사용합니다.
-- 첫 번째 옵션은 안내 문구(예: "선택하세요")를 제공하는 것을 권장합니다.
+- 첫 번째 옵션에는 안내 문구를 제공하는 것을 권장합니다.
 
 예시
 
@@ -224,6 +230,6 @@ ui-select
 ## Notes
 
 - `ui-select-field`는 Label과 Helper Message를 포함하는 Wrapper입니다.
-- `ui-select`는 실제 Select UI를 담당합니다.
+- `ui-select`는 실제 Select UI 영역을 담당합니다.
 - 옵션은 `options` 배열을 통해 관리합니다.
 - 시각 예제는 `SelectPage.tsx`에서 관리하며 Storybook에서는 `Examples`를 통해 재사용합니다.
