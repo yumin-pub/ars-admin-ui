@@ -62,7 +62,7 @@ import { Checkbox } from '@/components/Checkbox';
 | `label` | `ReactNode` | - | 체크박스 라벨 |
 | `children` | `ReactNode` | - | label 대신 사용할 콘텐츠 |
 | `structure` | `'wrap' \| 'detached'` | `'wrap'` | 체크박스 구조 |
-| `checked` | `boolean` | `false` | 체크 여부 |
+| `checked` | `boolean` | - | 체크 여부 |
 | `disabled` | `boolean` | `false` | 비활성화 여부 |
 | `id` | `string` | - | Detached 구조에서 label 연결용 id |
 | `className` | `string` | `''` | 추가 클래스 |
@@ -174,21 +174,24 @@ HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할
 ```text
 ui-checkbox
 ├── ui-checkbox--wrap
-├── ui-checkbox--detached
-├── ui-checkbox__input
-├── ui-checkbox__control
-├── ui-checkbox__label
-└── ui-checkbox__wrapper
+│   ├── ui-checkbox__input
+│   ├── ui-checkbox__control
+│   └── ui-checkbox__label
+└── ui-checkbox--detached
+    ├── ui-checkbox__input
+    └── ui-checkbox__wrapper
+        ├── ui-checkbox__control
+        └── ui-checkbox__label
 ```
 
 ---
 
 ## Accessibility
 
-- 체크박스와 라벨은 항상 연결합니다.
-- `detached` 구조에서는 `id`와 `htmlFor`를 함께 사용합니다.
-- 라벨이 없는 경우 `aria-label`을 제공합니다.
-- 비활성화 상태는 `disabled` 속성을 사용합니다.
+- `wrap` 구조에서는 `label`이 input을 감싸므로 체크박스와 라벨이 연결됩니다.
+- `detached` 구조에서는 반드시 `id`를 전달하여 input의 `id`와 label의 `htmlFor`를 연결합니다.
+- 라벨 콘텐츠가 없는 경우 `aria-label` 또는 `aria-labelledby`를 제공합니다.
+- 비활성화 상태는 HTML 기본 `disabled` 속성을 사용합니다.
 
 예시
 
