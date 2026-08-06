@@ -7,7 +7,6 @@ function CheckboxPage() {
 
         <section className="ui-doc__section">
             <h2 className="ui-doc__section-title">1. HTML Checkbox Class</h2>
-
             <div className="ui-doc__group">
             <h3 className="ui-doc__group-title">Label Wrap</h3>
             <label className="ui-checkbox ui-checkbox--wrap">
@@ -15,34 +14,33 @@ function CheckboxPage() {
                 <span className="ui-checkbox__control"></span>
                 <span className="ui-checkbox__label">Default</span>
             </label>
-
             <label className="ui-checkbox ui-checkbox--wrap">
                 <input type="checkbox" className="ui-checkbox__input" defaultChecked />
                 <span className="ui-checkbox__control"></span>
                 <span className="ui-checkbox__label">Checked</span>
             </label>
-
             <label className="ui-checkbox ui-checkbox--wrap">
                 <input type="checkbox" className="ui-checkbox__input" disabled />
                 <span className="ui-checkbox__control"></span>
                 <span className="ui-checkbox__label">Disabled</span>
             </label>
-
             <label className="ui-checkbox ui-checkbox--wrap">
                 <input type="checkbox" className="ui-checkbox__input" defaultChecked disabled />
                 <span className="ui-checkbox__control"></span>
                 <span className="ui-checkbox__label">Checked Disabled</span>
             </label>
-
             <label className="ui-checkbox ui-checkbox--wrap">
-                <input type="checkbox" className="ui-checkbox__input" />
+                <input
+                type="checkbox"
+                className="ui-checkbox__input"
+                aria-label="라벨 없는 체크박스"
+                />
                 <span className="ui-checkbox__control"></span>
             </label>
             </div>
 
             <div className="ui-doc__group">
             <h3 className="ui-doc__group-title">Detached Label</h3>
-
             <span className="ui-checkbox ui-checkbox--detached">
                 <input
                 id="checkbox-default"
@@ -55,7 +53,6 @@ function CheckboxPage() {
                 <span className="ui-checkbox__label">Default</span>
                 </label>
             </span>
-
             <span className="ui-checkbox ui-checkbox--detached">
                 <input
                 id="checkbox-checked"
@@ -63,7 +60,6 @@ function CheckboxPage() {
                 className="ui-checkbox__input"
                 defaultChecked
                 />
-
                 <label className="ui-checkbox__wrapper" htmlFor="checkbox-checked">
                 <span className="ui-checkbox__control"></span>
                 <span className="ui-checkbox__label">Checked</span>
@@ -77,13 +73,11 @@ function CheckboxPage() {
                 className="ui-checkbox__input"
                 disabled
                 />
-
                 <label className="ui-checkbox__wrapper" htmlFor="checkbox-disabled">
                 <span className="ui-checkbox__control"></span>
                 <span className="ui-checkbox__label">Disabled</span>
                 </label>
             </span>
-
             <span className="ui-checkbox ui-checkbox--detached">
                 <input
                 id="checkbox-checked-disabled"
@@ -92,7 +86,6 @@ function CheckboxPage() {
                 defaultChecked
                 disabled
                 />
-
                 <label className="ui-checkbox__wrapper" htmlFor="checkbox-checked-disabled">
                 <span className="ui-checkbox__control"></span>
                 <span className="ui-checkbox__label">Checked Disabled</span>
@@ -104,8 +97,8 @@ function CheckboxPage() {
                 id="checkbox-no-label"
                 type="checkbox"
                 className="ui-checkbox__input"
+                aria-label="라벨 없는 체크박스"
                 />
-
                 <label className="ui-checkbox__wrapper" htmlFor="checkbox-no-label">
                 <span className="ui-checkbox__control"></span>
                 </label>
@@ -117,7 +110,6 @@ function CheckboxPage() {
 
         <div className="ui-doc__group">
             <h3 className="ui-doc__group-title">Label Wrap</h3>
-
             <Checkbox name="react-wrap" value="default">
             Default
             </Checkbox>
@@ -129,7 +121,6 @@ function CheckboxPage() {
             <Checkbox name="react-wrap-disabled" value="disabled" disabled>
             Disabled
             </Checkbox>
-
             <Checkbox
             name="react-wrap-disabled-checked"
             value="checked-disabled"
@@ -139,12 +130,15 @@ function CheckboxPage() {
             Checked Disabled
             </Checkbox>
 
-            <Checkbox name="react-wrap-no-label" value="no-label" />
+            <Checkbox
+            name="react-wrap-no-label"
+            value="no-label"
+            aria-label="라벨 없는 체크박스"
+            />
         </div>
 
         <div className="ui-doc__group">
             <h3 className="ui-doc__group-title">Detached Label</h3>
-
             <Checkbox
             id="react-checkbox-detached-default"
             structure="detached"
@@ -163,7 +157,6 @@ function CheckboxPage() {
             >
             Checked
             </Checkbox>
-
             <Checkbox
             id="react-checkbox-detached-disabled"
             structure="detached"
@@ -173,7 +166,6 @@ function CheckboxPage() {
             >
             Disabled
             </Checkbox>
-
             <Checkbox
             id="react-checkbox-detached-disabled-checked"
             structure="detached"
@@ -184,15 +176,15 @@ function CheckboxPage() {
             >
             Checked Disabled
             </Checkbox>
-
             <Checkbox
             id="react-checkbox-detached-no-label"
             structure="detached"
             name="react-detached-no-label"
             value="no-label"
+            aria-label="라벨 없는 체크박스"
             />
         </div>
-        </section>        
+        </section>
         </main>
     );
 }
