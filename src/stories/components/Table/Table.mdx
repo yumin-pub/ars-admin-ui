@@ -8,10 +8,151 @@ import * as TableStories from './Table.stories';
 
 Table 컴포넌트는 공통 테이블 UI를 제공합니다.
 
-- 컬럼(Column)과 데이터(Data)를 분리하여 관리합니다.
-- 제네릭(Generic)을 사용하여 행(Row) 타입을 안전하게 지정할 수 있습니다.
-- `render`를 통해 특정 셀을 원하는 형태로 렌더링할 수 있습니다.
-- Loading, Empty 상태를 기본으로 제공합니다.
+컬럼(Column)과 데이터(Data)를 분리하여 관리하며, 제네릭(Generic)을 사용해 행(Row) 타입을 안전하게 지정할 수 있습니다.
+
+---
+
+## Overview
+
+Table은 동일한 테이블 구조를 여러 화면에서 재사용하기 위한 컴포넌트입니다.
+
+컬럼 정의와 실제 데이터를 분리하고, 각 컬럼의 `render`를 통해 Badge, Button, Checkbox 등 원하는 UI를 셀에 렌더링할 수 있습니다.
+
+```tsx
+<Table<BasicRow>
+  columns={columns}
+  data={data}
+/>
+```
+
+기본 구조는 다음과 같습니다.
+
+```html
+<div class="ui-table-wrap">
+  <table class="ui-table">
+    <thead class="ui-table__head">
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col">제목</th>
+        <th scope="col">상태</th>
+        <th scope="col">등록일</th>
+      </tr>
+    </thead>
+
+    <tbody class="ui-table__body">
+      <tr>
+        <td>1</td>
+        <td>긴급공지 안내</td>
+        <td>노출중</td>
+        <td>2026-06-10</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+---
+
+## Features
+
+- 컬럼(Column)과 데이터(Data) 분리
+- 제네릭을 이용한 Row 타입 지정
+- `dataIndex`를 통한 데이터 매핑
+- `render`를 통한 Custom Cell 렌더링
+- 컬럼 너비 지정
+- 컬럼 정렬 지정
+- Loading 상태 지원
+- Empty 상태 지원
+- Empty Message 커스텀 지원
+- 추가 Table 클래스 적용 가능
+- HTML 클래스 방식과 React 컴포넌트 방식 지원
+
+---
+
+## Import
+
+```tsx
+import { Table } from '@/components/Table';
+
+import type {
+  TableColumn,
+  TableRow,
+} from '@/components/Table';
+```
+
+---
+
+## TableRow
+
+모든 Table 행 데이터는 최소한 `id` 값을 가져야 합니다.
+
+```tsx
+interface TableRow {
+  id: number | string;
+}
+```
+
+실제 화면에서는 `TableRow`를 확장하여 필요한 데이터 구조를 정의합니다.
+
+```tsx
+interface BasicRow extends TableRow {
+  id: number;
+  title: string;
+  status: 'exposed' | 'hidden';
+  date: string;
+}
+```
+
+`id`는 각 행의 React `key`로 사용됩니다.
+
+---
+
+## TableColumn
+
+컬럼은 `TableColumn<T>` 타입으로 정의합니다.
+
+```tsx
+const columns: TableColumn<BasicRow>[] = [
+  {
+    dataIndex: 'id',
+    title: '번호',
+  },
+  {
+    dataIndex: 'title',
+    title: '제목',
+  },
+  {
+    dataIndex: 'status',
+    title: '상태',
+  },
+  {
+    dataIndex: 'date',
+    title: '등록일',
+  },
+];
+```
+
+### Column Properties
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `dataIndex` | `keyof T` | - | Row 데이터에서 사용할 필드 |
+| `title` | `ReactNode` | - | 컬럼 헤더에 표시할 콘텐츠 |
+| `width` | `string` | - | 컬럼 너비 |
+| `align` | `'left' \| 'center' \| 'right'` | - | 컬럼 정렬 |
+| `render` | `(value, row, index) => ReactNode` | - | 셀 커스텀 렌더링 |
+
+---
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `columns` | `TableColumn<T>[]` | - | 테이블 컬럼 정의 |
+| `data` | `T[]` | - | 테이블 행 데이터 |
+| `emptyMessage` | `ReactNode` | `'검색 결과가 없습니다.'` | 데이터가 없을 때 표시할 콘텐츠 |
+| `loading` | `boolean` | `false` | 데이터 로딩 상태 |
+| `className` | `string` | `''` | `table` 요소에 추가할 클래스 |
 
 ---
 
@@ -19,13 +160,15 @@ Table 컴포넌트는 공통 테이블 UI를 제공합니다.
 
 기본 Table 컴포넌트입니다.
 
+Controls에서 `loading`, `emptyMessage` 등의 상태를 확인할 수 있습니다.
+
 <Canvas of={TableStories.Playground} />
 
 ---
 
 ## Examples
 
-실제 사용 예시입니다.
+HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할 수 있습니다.
 
 다음 예제를 포함합니다.
 
@@ -35,3 +178,427 @@ Table 컴포넌트는 공통 테이블 UI를 제공합니다.
 - Loading Table
 
 <Canvas of={TableStories.Examples} />
+
+---
+
+## React Component Usage
+
+### Basic Table
+
+```tsx
+interface BasicRow extends TableRow {
+  id: number;
+  title: string;
+  status: 'exposed' | 'hidden';
+  date: string;
+}
+
+const columns: TableColumn<BasicRow>[] = [
+  {
+    dataIndex: 'id',
+    title: '번호',
+  },
+  {
+    dataIndex: 'title',
+    title: '제목',
+  },
+  {
+    dataIndex: 'status',
+    title: '상태',
+  },
+  {
+    dataIndex: 'date',
+    title: '등록일',
+  },
+];
+
+const data: BasicRow[] = [
+  {
+    id: 1,
+    title: '긴급공지 안내',
+    status: 'exposed',
+    date: '2026-06-10',
+  },
+  {
+    id: 2,
+    title: '시스템 점검 안내',
+    status: 'hidden',
+    date: '2026-06-12',
+  },
+];
+
+<Table<BasicRow>
+  columns={columns}
+  data={data}
+/>
+```
+
+---
+
+## Custom Cell
+
+`render`를 사용하면 원본 데이터를 원하는 UI로 변경하여 렌더링할 수 있습니다.
+
+```tsx
+const columns: TableColumn<BasicRow>[] = [
+  {
+    dataIndex: 'status',
+    title: '상태',
+    render: (value) => (
+      <span
+        className={
+          value === 'exposed'
+            ? 'ui-badge ui-badge--success'
+            : 'ui-badge ui-badge--neutral'
+        }
+      >
+        {value === 'exposed' ? '노출중' : '미노출'}
+      </span>
+    ),
+  },
+];
+```
+
+`render`는 다음 값을 전달받습니다.
+
+```text
+value
+= 현재 셀의 원본 값
+
+row
+= 현재 행 전체 데이터
+
+index
+= 현재 행의 순서
+```
+
+---
+
+## Action Cell
+
+별도의 Raw 데이터가 필요하지 않은 액션 컬럼에서는 기존 `dataIndex`를 재사용하고 `render`로 UI를 구성할 수 있습니다.
+
+```tsx
+{
+  dataIndex: 'id',
+  title: '관리',
+  render: () => (
+    <div className="ui-table__actions">
+      <Button
+        variant="outline"
+        color="neutral"
+        size="md"
+      >
+        수정
+      </Button>
+
+      <Button
+        variant="outline"
+        color="neutral"
+        size="md"
+      >
+        삭제
+      </Button>
+    </div>
+  ),
+}
+```
+
+---
+
+## Selectable Table
+
+Checkbox를 `render`에서 사용하여 선택 가능한 Table을 구성할 수 있습니다.
+
+```tsx
+interface SelectableRow extends TableRow {
+  id: number;
+  checked: boolean;
+  title: string;
+  status: 'exposed' | 'hidden' | 'scheduled';
+  date: string;
+}
+```
+
+```tsx
+const columns: TableColumn<SelectableRow>[] = [
+  {
+    dataIndex: 'id',
+    title: '선택',
+    render: (_, row) => (
+      <Checkbox
+        id={`table-row-${row.id}`}
+        aria-label={`${row.id}번 항목 선택`}
+        defaultChecked={row.checked}
+      />
+    ),
+  },
+];
+```
+
+```tsx
+<Table<SelectableRow>
+  className="ui-table--selectable"
+  columns={columns}
+  data={data}
+/>
+```
+
+---
+
+## Empty State
+
+`data`가 비어 있으면 Empty 상태를 자동으로 렌더링합니다.
+
+```tsx
+<Table<BasicRow>
+  columns={columns}
+  data={[]}
+/>
+```
+
+기본 메시지는 다음과 같습니다.
+
+```text
+검색 결과가 없습니다.
+```
+
+`emptyMessage`를 전달하여 변경할 수 있습니다.
+
+```tsx
+<Table<BasicRow>
+  columns={columns}
+  data={[]}
+  emptyMessage="등록된 데이터가 없습니다."
+/>
+```
+
+---
+
+## Loading State
+
+`loading`이 `true`이면 데이터 대신 로딩 상태를 표시합니다.
+
+```tsx
+<Table<BasicRow>
+  columns={columns}
+  data={[]}
+  loading
+/>
+```
+
+표시되는 기본 문구:
+
+```text
+데이터를 불러오는 중입니다.
+```
+
+`loading` 상태에서는 실제 데이터 렌더링보다 Loading 상태가 우선합니다.
+
+---
+
+## Column Width
+
+`width`를 이용하여 헤더 컬럼 너비를 지정할 수 있습니다.
+
+```tsx
+const columns: TableColumn<BasicRow>[] = [
+  {
+    dataIndex: 'id',
+    title: '번호',
+    width: '80px',
+  },
+  {
+    dataIndex: 'title',
+    title: '제목',
+  },
+];
+```
+
+---
+
+## Column Alignment
+
+`align`을 이용하여 컬럼의 정렬 방향을 지정할 수 있습니다.
+
+```tsx
+const columns: TableColumn<BasicRow>[] = [
+  {
+    dataIndex: 'id',
+    title: '번호',
+    align: 'center',
+  },
+  {
+    dataIndex: 'title',
+    title: '제목',
+    align: 'left',
+  },
+];
+```
+
+지원하는 값:
+
+```text
+left
+center
+right
+```
+
+---
+
+## HTML Class Usage
+
+### Basic Table
+
+```html
+<div class="ui-table-wrap">
+  <table class="ui-table">
+    <thead class="ui-table__head">
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col">제목</th>
+        <th scope="col">상태</th>
+        <th scope="col">등록일</th>
+        <th scope="col">관리</th>
+      </tr>
+    </thead>
+
+    <tbody class="ui-table__body">
+      <tr>
+        <td>1</td>
+        <td class="ui-table__cell-title">
+          긴급공지 안내
+        </td>
+        <td>
+          <span class="ui-badge ui-badge--success">
+            노출중
+          </span>
+        </td>
+        <td>2026-06-10</td>
+        <td>
+          <div class="ui-table__actions">
+            ...
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+### Selectable Table
+
+```html
+<div class="ui-table-wrap">
+  <table class="ui-table ui-table--selectable">
+    <thead class="ui-table__head">
+      <tr>
+        <th
+          scope="col"
+          class="ui-table__cell-checkbox"
+        >
+          선택
+        </th>
+        <th scope="col">번호</th>
+        <th scope="col">제목</th>
+        <th scope="col">상태</th>
+        <th scope="col">등록일</th>
+        <th scope="col">관리</th>
+      </tr>
+    </thead>
+
+    <tbody class="ui-table__body">
+      <tr class="is-selected">
+        <td class="ui-table__cell-checkbox">
+          ...
+        </td>
+        <td>1</td>
+        <td class="ui-table__cell-title">
+          긴급공지 안내
+        </td>
+        <td>
+          <span class="ui-badge ui-badge--success">
+            노출중
+          </span>
+        </td>
+        <td>2026-06-10</td>
+        <td>
+          <div class="ui-table__actions">
+            ...
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+### Empty Table
+
+```html
+<tbody class="ui-table__body">
+  <tr>
+    <td
+      colspan="4"
+      class="ui-table__empty"
+    >
+      검색 결과가 없습니다.
+    </td>
+  </tr>
+</tbody>
+```
+
+---
+
+## Class Structure
+
+```text
+ui-table-wrap
+└── ui-table
+    ├── ui-table--selectable
+    ├── ui-table__head
+    │   └── th
+    └── ui-table__body
+        └── tr
+            ├── td
+            ├── ui-table__cell-title
+            ├── ui-table__cell-checkbox
+            ├── ui-table__actions
+            └── ui-table__empty
+```
+
+상태 클래스:
+
+```text
+is-selected
+```
+
+---
+
+## Accessibility
+
+- Table Header에는 `<th scope="col">`을 사용합니다.
+- 각 Row는 고유한 `id` 값을 가져야 합니다.
+- 선택 가능한 Table의 Checkbox에는 해당 행을 식별할 수 있는 `aria-label`을 제공합니다.
+- Empty / Loading 상태에서도 동일한 `<table>` 구조를 유지합니다.
+- `render`를 통해 Button이나 Checkbox를 렌더링할 경우 해당 컴포넌트의 접근성 속성을 함께 제공합니다.
+
+Checkbox 예시:
+
+```tsx
+<Checkbox
+  id={`table-row-${row.id}`}
+  aria-label={`${row.id}번 항목 선택`}
+/>
+```
+
+---
+
+## Notes
+
+- 모든 Row 타입은 `TableRow`를 확장하고 `id`를 가져야 합니다.
+- `dataIndex`는 실제 Row 타입에 존재하는 key만 지정할 수 있습니다.
+- `title`과 `emptyMessage`는 `ReactNode`를 지원합니다.
+- `render`를 사용하면 Badge, Button, Checkbox 등 다양한 UI를 셀에 출력할 수 있습니다.
+- `className`은 기본 `ui-table` 클래스 뒤에 추가됩니다.
+- 시각 예제는 `TablePage.tsx`에서 관리하며 Storybook에서는 `Examples`를 통해 재사용합니다.
