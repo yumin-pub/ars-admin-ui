@@ -52,7 +52,12 @@ function Table<T extends TableRow = TableRow>({
                                     const value = row[column.dataIndex];
 
                                     return (
-                                        <td key={String(column.dataIndex)}>
+                                        <td
+                                            key={String(column.dataIndex)}
+                                            style={{
+                                                textAlign: column.align,
+                                            }}
+                                        >
                                             {column.render
                                                 ? column.render(value, row, index)
                                                 : (value as ReactNode)}
