@@ -19,6 +19,7 @@ HTML과 SCSS 기반의 UI 구조를 유지하면서 React와 TypeScript를 결�
 - Storybook 기반 컴포넌트 문서화
 - React 사용 예제와 HTML 클래스 사용 예제 병행
 - 관리자 화면에서 활용할 수 있는 실제 UI 예제 구성
+- 접근성을 고려한 상태 및 인터랙션 설계
 
 각 컴포넌트는 Storybook에서 독립적으로 확인할 수 있으며, Playground와 실제 페이지 예제를 통해 동작과 사용 방법을 함께 제공합니다.
 
@@ -130,11 +131,15 @@ npm run dev
 npm run build
 ```
 
+TypeScript 타입 검사와 Vite production build를 실행합니다.
+
 ### Run ESLint
 
 ```bash
 npm run lint
 ```
+
+프로젝트 소스의 ESLint 검사를 실행합니다.
 
 ---
 
@@ -158,6 +163,8 @@ http://localhost:6006
 npm run build-storybook
 ```
 
+배포 가능한 Storybook 정적 빌드를 생성합니다.
+
 Storybook에서는 다음 내용을 확인할 수 있습니다.
 
 - 컴포넌트별 Playground
@@ -167,6 +174,25 @@ Storybook에서는 다음 내용을 확인할 수 있습니다.
 - HTML 클래스 사용 방법
 - 접근성 고려사항
 - 디자인 토큰 및 Foundation 문서
+
+---
+
+## Validation
+
+현재 구현된 프로젝트는 다음 검증 과정을 기준으로 관리합니다.
+
+```bash
+npm run build
+npm run build-storybook
+npm run lint
+```
+
+- TypeScript 타입 검사
+- Vite production build
+- Storybook static build
+- ESLint 검사
+
+컴포넌트 수정 및 문서 업데이트 시 실제 구현과 Storybook 문서 간의 일치 여부를 함께 확인합니다.
 
 ---
 
@@ -248,14 +274,14 @@ src/styles
 | Checkbox | Implemented | Implemented | Implemented |
 | Select | Implemented | Implemented | Implemented |
 | Pagination | Implemented | Implemented | Implemented |
-| Table | Implemented | Review in progress | Review in progress |
-| Modal | Implemented | Review in progress | Review in progress |
+| Table | Implemented | Implemented | Implemented |
+| Modal | Implemented | Implemented | Implemented |
 | Loading | Planned | - | - |
 | Empty State | Planned | - | - |
 | Error State | Planned | - | - |
 | CRUD Example | Planned | - | - |
 
-`Review in progress` 항목은 컴포넌트 구현 여부와 별개로 Storybook 구성 및 문서 내용의 일치 여부를 점검하고 있다는 의미입니다.
+`Implemented`는 React 컴포넌트 구현뿐 아니라 Storybook Stories, MDX 문서 및 실제 예제 페이지와의 일치 여부를 검토한 상태를 의미합니다.
 
 ---
 
@@ -290,6 +316,7 @@ Storybook 문서는 실제 구현 범위와 일치하도록 관리합니다.
 - SCSS 아키텍처 설계
 - 디자인 토큰 설계
 - 접근성 고려
+- Storybook 기반 컴포넌트 문서화
 - 문서와 실제 구현 간의 일관성 관리
 
 ---
