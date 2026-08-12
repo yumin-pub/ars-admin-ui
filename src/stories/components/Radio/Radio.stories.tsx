@@ -1,28 +1,27 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
+import { useArgs } from 'storybook/preview-api';
 
 import type { ComponentProps } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Radio } from '../../../components/Radio';
 import RadioPage from '../../../pages/UISystem/RadioPage';
 
 function RadioPlayground({
-    checked,
     onChange,
     ...props
 }: ComponentProps<typeof Radio>) {
-    const [isChecked, setIsChecked] = useState(Boolean(checked));
-
-    useEffect(() => {
-        setIsChecked(Boolean(checked));
-    }, [checked]);
+    const [{ checked }, updateArgs] = useArgs();
 
     return (
         <Radio
             {...props}
-            checked={isChecked}
+            checked={Boolean(checked)}
             onChange={(event) => {
-                setIsChecked(event.target.checked);
+                updateArgs({
+                    checked: event.target.checked,
+                });
+
                 onChange?.(event);
             }}
         />

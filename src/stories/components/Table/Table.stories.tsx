@@ -1,10 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Table } from '../../../components/Table';
 import TablePage from '../../../pages/UISystem/TablePage';
 
 import type {
     TableColumn,
+    TableProps,
     TableRow,
 } from '../../../components/Table';
 
@@ -48,10 +49,12 @@ const data: StoryRow[] = [
         date: '2026-06-12',
     },
 ];
-
+function StoryTable(props: TableProps<StoryRow>) {
+    return <Table<StoryRow> {...props} />;
+}
 const meta = {
     title: 'Components/Table',
-    component: Table,
+    component: StoryTable,
     parameters: {
         layout: 'padded',
     },
@@ -61,7 +64,7 @@ const meta = {
         loading: false,
         emptyMessage: '검색 결과가 없습니다.',
     },
-} satisfies Meta<typeof Table>;
+} satisfies Meta<typeof StoryTable>;
 
 export default meta;
 

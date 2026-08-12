@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
+import { useArgs } from 'storybook/preview-api';
 
 import type {
     Meta,
     StoryObj,
-} from '@storybook/react';
+} from '@storybook/react-vite';
 
 import { Pagination } from '../../../components/Pagination';
 import PaginationPage from '../../../pages/UISystem/PaginationPage';
@@ -13,26 +14,25 @@ import type {
 } from '../../../components/Pagination';
 
 function PaginationPlayground({
-    page,
     totalPages,
     visiblePageCount,
     align,
     className,
 }: PaginationProps) {
-    const [currentPage, setCurrentPage] = useState(page);
-
-    useEffect(() => {
-        setCurrentPage(page);
-    }, [page]);
+    const [{ page }, updateArgs] = useArgs();
 
     return (
         <Pagination
-            page={currentPage}
+            page={page}
             totalPages={totalPages}
             visiblePageCount={visiblePageCount}
             align={align}
             className={className}
-            onPageChange={setCurrentPage}
+            onPageChange={(nextPage) => {
+                updateArgs({
+                    page: nextPage,
+                });
+            }}
         />
     );
 }

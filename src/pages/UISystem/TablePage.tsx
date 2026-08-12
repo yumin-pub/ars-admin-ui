@@ -106,14 +106,14 @@ function TablePage() {
         {
             dataIndex: 'status',
             title: '상태',
-            render: (value) => {
+            render: (_, row) => {
                 const statusMap = {
                     exposed: { className: 'ui-badge--success', label: '노출중' },
                     hidden: { className: 'ui-badge--neutral', label: '미노출' },
                     scheduled: { className: 'ui-badge--warning', label: '예약' },
                 } as const;
 
-                const { className, label } = statusMap[value];
+                const { className, label } = statusMap[row.status];
 
                 return <span className={`ui-badge ${className}`}>{label}</span>;
             },

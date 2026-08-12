@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useArgs } from 'storybook/preview-api';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Button } from '../../../components/Button';
 import { Checkbox } from '../../../components/Checkbox';
@@ -18,22 +20,21 @@ type ModalExampleType =
     | null;
 
 function ModalPlayground({
-    open: controlledOpen,
     title,
     size,
 }: ModalProps) {
-    const [open, setOpen] = useState(controlledOpen);
-
-    useEffect(() => {
-        setOpen(controlledOpen);
-    }, [controlledOpen]);
+    const [{ open }, updateArgs] = useArgs();
 
     const closeModal = () => {
-        setOpen(false);
+        updateArgs({
+            open: false,
+        });
     };
 
     const openModal = () => {
-        setOpen(true);
+        updateArgs({
+            open: true,
+        });
     };
 
     return (
@@ -48,7 +49,7 @@ function ModalPlayground({
             </Button>
 
             <Modal
-                open={open}
+                open={Boolean(open)}
                 title={title}
                 size={size}
                 onClose={closeModal}
@@ -68,9 +69,7 @@ function ModalPlayground({
                     </>
                 }
             >
-                <p>
-                    Modal Body Content
-                </p>
+                <p>Modal Body Content</p>
             </Modal>
         </div>
     );

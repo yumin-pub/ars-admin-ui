@@ -36,7 +36,7 @@ export type InputState =
  * ?: 의미 : 있어도 되고 없어도 된다
  */
 export interface InputProps
-    extends InputHTMLAttributes<HTMLInputElement> {
+    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
 
     // Label
     label?: ReactNode;

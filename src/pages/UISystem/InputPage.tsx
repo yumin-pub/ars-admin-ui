@@ -8,6 +8,7 @@ const inputStates = [
         id: 'html-default',
         placeholder: '기본 상태',
         },
+        message: undefined,
     },
     {
         title: 'Error',
@@ -36,6 +37,7 @@ const inputStates = [
         placeholder: '입력 불가',
         disabled: true,
         },
+        message: undefined,
     },
     {
         title: 'Readonly',
@@ -45,6 +47,7 @@ const inputStates = [
         defaultValue: '수정할 수 없는 값',
         readOnly: true,
         },
+        message: undefined,
     },
 ] as const;
 
@@ -211,8 +214,8 @@ function InputPage() {
                 id="react-price"
                 label="금액"
                 placeholder="금액 입력"
-                prefix="₩"
-                suffix="원"
+                prefixContent="₩"
+                suffixContent="원"
             />
 
             <Input

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Input } from '../../../components/Input';
 import InputPage from '../../../pages/UISystem/InputPage';
@@ -18,7 +18,7 @@ const meta = {
             description: 'Input 스타일',
         },
 
-        InputSize: {
+        size: {
             control: 'inline-radio',
             options: ['md', 'lg'],
             description: 'Input 크기',
@@ -105,7 +105,7 @@ const meta = {
         placeholder: 'Input...',
         helperText: 'Helper Message',
         variant: 'outline',
-        InputSize: 'md',
+        size: 'md',
         layout: 'column',
         state: 'default',
         clearable: false,

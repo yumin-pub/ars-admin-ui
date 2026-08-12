@@ -1,35 +1,32 @@
-import { useEffect, useState } from 'react';
-
+// import { useEffect, useState } from 'react';
+import { useArgs } from 'storybook/preview-api';
 import type { ComponentProps } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Checkbox } from '../../../components/Checkbox';
 import CheckboxPage from '../../../pages/UISystem/CheckboxPage';
 
 function CheckboxPlayground({
-    checked,
     onChange,
     ...props
 }: ComponentProps<typeof Checkbox>) {
-    const [isChecked, setIsChecked] = useState(Boolean(checked));
-
-    useEffect(() => {
-        setIsChecked(Boolean(checked));
-    }, [checked]);
+    const [{ checked }, updateArgs] = useArgs();
 
     return (
         <Checkbox
             {...props}
-            checked={isChecked}
+            checked={Boolean(checked)}
             onChange={(event) => {
-                setIsChecked(event.target.checked);
+                updateArgs({
+                    checked: event.target.checked,
+                });
+
                 onChange?.(event);
             }}
         />
     );
 }
-
-const meta = {
+const meta = {      
     title: 'Components/Checkbox',
     component: Checkbox,
 
