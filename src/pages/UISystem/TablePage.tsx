@@ -1,3 +1,6 @@
+import { useState } from 'react';
+
+import { Badge } from '../../components/Badge';
 import { Button } from '../../components/Button';
 import { Checkbox } from '../../components/Checkbox';
 import { Table } from '../../components/Table';
@@ -41,15 +44,9 @@ function TablePage() {
             title: '상태',
             width: '120px',
             render: (value) => (
-                <span
-                    className={
-                        value === 'exposed'
-                            ? 'ui-badge ui-badge--success'
-                            : 'ui-badge ui-badge--neutral'
-                    }
-                >
+                <Badge variant={value === 'exposed' ? 'success' : 'neutral'}>
                     {value === 'exposed' ? '노출중' : '미노출'}
-                </span>
+                </Badge>
             ),
         },
         { dataIndex: 'date', title: '등록일', width: '120px' },
@@ -91,6 +88,36 @@ function TablePage() {
      * Selectable Table
      * ========================== */
 
+    const selectableData: SelectableRow[] = [
+        {
+            id: 1,
+            checked: true,
+            title: '긴급공지 안내',
+            status: 'exposed',
+            date: '2026-06-10',
+        },
+        {
+            id: 2,
+            checked: false,
+            title: '시스템 점검 안내',
+            status: 'scheduled',
+            date: '2026-06-12',
+        },
+    ];
+
+    // 선택 상태는 부모가 관리하고, Table에는 selectedIds로 넘긴다.
+    const [selectedIds, setSelectedIds] = useState<Array<SelectableRow['id']>>(
+        () => selectableData.filter((row) => row.checked).map((row) => row.id),
+    );
+
+    const toggleRow = (id: SelectableRow['id']) => {
+        setSelectedIds((prev) =>
+            prev.includes(id)
+                ? prev.filter((selectedId) => selectedId !== id)
+                : [...prev, id],
+        );
+    };
+
     const selectableColumns: TableColumn<SelectableRow>[] = [
         {
             dataIndex: 'id', // checked 값을 쓰지만 컬럼 키 자체는 id로 재사용
@@ -101,7 +128,8 @@ function TablePage() {
                 <Checkbox
                     id={`table-row-${row.id}`}
                     aria-label={`${row.id}번 항목 선택`}
-                    defaultChecked={row.checked}
+                    checked={selectedIds.includes(row.id)}
+                    onChange={() => toggleRow(row.id)}
                 />
             ),
         },
@@ -113,14 +141,14 @@ function TablePage() {
             width: '120px',
             render: (_, row) => {
                 const statusMap = {
-                    exposed: { className: 'ui-badge--success', label: '노출중' },
-                    hidden: { className: 'ui-badge--neutral', label: '미노출' },
-                    scheduled: { className: 'ui-badge--warning', label: '예약' },
+                    exposed: { variant: 'success', label: '노출중' },
+                    hidden: { variant: 'neutral', label: '미노출' },
+                    scheduled: { variant: 'warning', label: '예약' },
                 } as const;
 
-                const { className, label } = statusMap[row.status];
+                const { variant, label } = statusMap[row.status];
 
-                return <span className={`ui-badge ${className}`}>{label}</span>;
+                return <Badge variant={variant}>{label}</Badge>;
             },
         },
         { dataIndex: 'date', title: '등록일', width: '120px' },
@@ -139,23 +167,6 @@ function TablePage() {
                     </Button>
                 </div>
             ),
-        },
-    ];
-
-    const selectableData: SelectableRow[] = [
-        {
-            id: 1,
-            checked: true,
-            title: '긴급공지 안내',
-            status: 'exposed',
-            date: '2026-06-10',
-        },
-        {
-            id: 2,
-            checked: false,
-            title: '시스템 점검 안내',
-            status: 'scheduled',
-            date: '2026-06-12',
         },
     ];
 
@@ -353,6 +364,7 @@ function TablePage() {
                         className="ui-table--selectable"
                         columns={selectableColumns}
                         data={selectableData}
+                        selectedIds={selectedIds}
                     />
                 </div>
 
