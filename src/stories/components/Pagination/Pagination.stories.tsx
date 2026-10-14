@@ -9,34 +9,6 @@ import type {
 import { Pagination } from '../../../components/Pagination';
 import PaginationPage from '../../../pages/UISystem/PaginationPage';
 
-import type {
-    PaginationProps,
-} from '../../../components/Pagination';
-
-function PaginationPlayground({
-    totalPages,
-    visiblePageCount,
-    align,
-    className,
-}: PaginationProps) {
-    const [{ page }, updateArgs] = useArgs();
-
-    return (
-        <Pagination
-            page={page}
-            totalPages={totalPages}
-            visiblePageCount={visiblePageCount}
-            align={align}
-            className={className}
-            onPageChange={(nextPage) => {
-                updateArgs({
-                    page: nextPage,
-                });
-            }}
-        />
-    );
-}
-
 const meta = {
     title: 'Components/Pagination',
     component: Pagination,
@@ -99,11 +71,32 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
-    render: (args) => (
-        <PaginationPlayground {...args} /> 
-    ),
+    // useArgs는 스토리 함수(render) 안에서 직접 호출해야 한다.
+    render: function PaginationPlaygroundRender({
+        totalPages,
+        visiblePageCount,
+        align,
+        className,
+    }) {
+        const [{ page }, updateArgs] = useArgs();
+
+        return (
+            <Pagination
+                page={page}
+                totalPages={totalPages}
+                visiblePageCount={visiblePageCount}
+                align={align}
+                className={className}
+                onPageChange={(nextPage) => {
+                    updateArgs({
+                        page: nextPage,
+                    });
+                }}
+            />
+        );
+    },
 };
 
 export const Examples: Story = {
     render: () => <PaginationPage />,
-};
+};

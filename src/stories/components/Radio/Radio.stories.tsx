@@ -1,32 +1,10 @@
 // import { useEffect, useState } from 'react';
 import { useArgs } from 'storybook/preview-api';
 
-import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Radio } from '../../../components/Radio';
 import RadioPage from '../../../pages/UISystem/RadioPage';
-
-function RadioPlayground({
-    onChange,
-    ...props
-}: ComponentProps<typeof Radio>) {
-    const [{ checked }, updateArgs] = useArgs();
-
-    return (
-        <Radio
-            {...props}
-            checked={Boolean(checked)}
-            onChange={(event) => {
-                updateArgs({
-                    checked: event.target.checked,
-                });
-
-                onChange?.(event);
-            }}
-        />
-    );
-}
 
 const meta = {
     title: 'Components/Radio',
@@ -98,7 +76,24 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
-    render: (args) => <RadioPlayground {...args} />,
+    // useArgs는 스토리 함수(render) 안에서 직접 호출해야 한다.
+    render: function RadioPlaygroundRender({ onChange, ...args }) {
+        const [{ checked }, updateArgs] = useArgs();
+
+        return (
+            <Radio
+                {...args}
+                checked={Boolean(checked)}
+                onChange={(event) => {
+                    updateArgs({
+                        checked: event.target.checked,
+                    });
+
+                    onChange?.(event);
+                }}
+            />
+        );
+    },
 };
 
 export const Examples: Story = {
@@ -111,4 +106,4 @@ export const Examples: Story = {
             disable: true,
         },
     },
-};
+};

@@ -1,31 +1,10 @@
 // import { useEffect, useState } from 'react';
 import { useArgs } from 'storybook/preview-api';
-import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Checkbox } from '../../../components/Checkbox';
 import CheckboxPage from '../../../pages/UISystem/CheckboxPage';
 
-function CheckboxPlayground({
-    onChange,
-    ...props
-}: ComponentProps<typeof Checkbox>) {
-    const [{ checked }, updateArgs] = useArgs();
-
-    return (
-        <Checkbox
-            {...props}
-            checked={Boolean(checked)}
-            onChange={(event) => {
-                updateArgs({
-                    checked: event.target.checked,
-                });
-
-                onChange?.(event);
-            }}
-        />
-    );
-}
 const meta = {      
     title: 'Components/Checkbox',
     component: Checkbox,
@@ -90,7 +69,24 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
-    render: (args) => <CheckboxPlayground {...args} />,
+    // useArgs는 스토리 함수(render) 안에서 직접 호출해야 한다.
+    render: function CheckboxPlaygroundRender({ onChange, ...args }) {
+        const [{ checked }, updateArgs] = useArgs();
+
+        return (
+            <Checkbox
+                {...args}
+                checked={Boolean(checked)}
+                onChange={(event) => {
+                    updateArgs({
+                        checked: event.target.checked,
+                    });
+
+                    onChange?.(event);
+                }}
+            />
+        );
+    },
 };
 
 export const Examples: Story = {
@@ -102,4 +98,4 @@ export const Examples: Story = {
             disable: true,
         },
     },
-};
+};
