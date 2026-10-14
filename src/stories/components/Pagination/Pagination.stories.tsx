@@ -54,6 +54,10 @@ const meta = {
             ],
             description: '페이지네이션 정렬',
         },
+        ariaLabel: {
+            control: 'text',
+            description: 'nav 영역의 이름(aria-label)',
+        },
         className: {
             control: 'text',
             description: '추가 클래스',
@@ -76,6 +80,7 @@ export const Playground: Story = {
         totalPages,
         visiblePageCount,
         align,
+        ariaLabel,
         className,
     }) {
         const [{ page }, updateArgs] = useArgs();
@@ -86,6 +91,7 @@ export const Playground: Story = {
                 totalPages={totalPages}
                 visiblePageCount={visiblePageCount}
                 align={align}
+                ariaLabel={ariaLabel}
                 className={className}
                 onPageChange={(nextPage) => {
                     updateArgs({

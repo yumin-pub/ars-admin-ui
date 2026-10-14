@@ -409,6 +409,7 @@ function PaginationPage() {
                         page={currentPage}
                         totalPages={10}
                         visiblePageCount={5}
+                        ariaLabel="React 기본 페이지네이션"
                         onPageChange={setCurrentPage}
                     />
                 </div>
@@ -423,6 +424,7 @@ function PaginationPage() {
                         totalPages={10}
                         visiblePageCount={5}
                         align="left"
+                        ariaLabel="React 왼쪽 정렬 페이지네이션"
                         onPageChange={setCurrentPage}
                     />
                 </div>
@@ -437,6 +439,7 @@ function PaginationPage() {
                         totalPages={10}
                         visiblePageCount={5}
                         align="right"
+                        ariaLabel="React 오른쪽 정렬 페이지네이션"
                         onPageChange={setCurrentPage}
                     />
                 </div>
@@ -445,4 +448,4 @@ function PaginationPage() {
     );
 }
 
-export default PaginationPage;
+export default PaginationPage;

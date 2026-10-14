@@ -30,7 +30,15 @@ export interface PaginationProps {
     align?: PaginationAlign;
 
     /**
+     * nav 영역의 이름 (aria-label)
+     *
+     * 한 화면에 Pagination이 여러 개면 서로 다른 이름을 지정한다.
+     * (예: 표 위, 표 아래)
+     */
+    ariaLabel?: string;
+
+    /**
      * 추가 클래스
      */
     className?: string;
-}
+}

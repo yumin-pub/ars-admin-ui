@@ -124,6 +124,7 @@ import { Pagination } from '@/components/Pagination';
 | `onPageChange` | `(page: number) => void` | - | 페이지 변경 시 실행할 함수 |
 | `visiblePageCount` | `number` | `5` | 한 번에 표시할 페이지 버튼 개수 |
 | `align` | `'left' \| 'center' \| 'right'` | `'center'` | 페이지네이션 정렬 |
+| `ariaLabel` | `string` | `'페이지네이션'` | `nav` 영역의 이름(`aria-label`). 한 화면에 여러 개를 쓸 때는 서로 다른 이름을 지정합니다. |
 | `className` | `string` | `''` | 추가 클래스명 |
 
 ---
@@ -568,4 +569,4 @@ ui-pagination
 - 생략되는 페이지가 있으면 Ellipsis(`…`)를 표시합니다.
 - `className`은 기본 `ui-pagination` 클래스 뒤에 추가됩니다.
 - 페이지 상태는 외부에서 관리하고 `onPageChange`를 통해 변경합니다.
-- 시각 예제는 `PaginationPage.tsx`에서 관리하며 Storybook에서는 `Examples`를 통해 재사용합니다.
+- 시각 예제는 `PaginationPage.tsx`에서 관리하며 Storybook에서는 `Examples`를 통해 재사용합니다.

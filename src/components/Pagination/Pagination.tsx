@@ -6,6 +6,7 @@ function Pagination({
     onPageChange,
     visiblePageCount = 5,
     align = 'center',
+    ariaLabel = '페이지네이션',
     className = '',
 }: PaginationProps) {
     /**
@@ -118,7 +119,7 @@ function Pagination({
     return (
         <nav
             className={paginationClassNameList}
-            aria-label="페이지네이션"
+            aria-label={ariaLabel}
         >
             <ul className="ui-pagination__list">
                 <li className="ui-pagination__item">
@@ -257,4 +258,4 @@ function Pagination({
     );
 }
 
-export default Pagination;
+export default Pagination;
