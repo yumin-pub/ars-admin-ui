@@ -224,7 +224,7 @@
         border-color: $error;
     }
 
-    .ui-field__label,
+    // 라벨은 기본 색을 유지하고 메시지에만 상태 색을 적용한다.
     .ui-field__message {
         color: $error;
     }
@@ -235,9 +235,8 @@
         border-color: $success;
     }
 
-    .ui-field__label,
     .ui-field__message {
-        color: $success;
+        color: $success-text;
     }
 }
 
