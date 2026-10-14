@@ -1,0 +1,153 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+
+import * as BadgeStories from './Badge.stories';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+Badge는 노출중·예약·미노출처럼 항목의 상태를 짧게 표시하는 라벨입니다.
+
+앞에 점(dot)이 붙은 알약 모양이며, Table의 상태 셀처럼 목록 안에서 주로 사용합니다.
+
+---
+
+## Overview
+
+```tsx
+<Badge variant="success">노출중</Badge>
+```
+
+기본 구조는 다음과 같습니다.
+
+```html
+<span class="ui-badge ui-badge--success">노출중</span>
+```
+
+---
+
+## Features
+
+- `success` / `warning` / `neutral` 3가지 상태 색상
+- 앞쪽 점(dot)은 CSS `::before`로 그려 별도 마크업이 필요 없음
+- 글자색 대비 4.5:1 이상 (WCAG AA)
+- `span`의 HTML 기본 속성(`id`, `title`, `aria-*` 등) 전달 가능
+- HTML 클래스 방식과 React 컴포넌트 방식 지원
+
+---
+
+## Import
+
+```tsx
+import { Badge } from '@/components/Badge';
+
+import type { BadgeVariant } from '@/components/Badge';
+```
+
+---
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | 표시할 상태 텍스트 |
+| `variant` | `'success' \| 'warning' \| 'neutral'` | `'neutral'` | 상태 색상 |
+| `className` | `string` | `''` | `span` 요소에 추가할 클래스 |
+| `...props` | `HTMLAttributes<HTMLSpanElement>` | - | `span`에 그대로 전달 |
+
+---
+
+## Playground
+
+Controls에서 `variant`와 텍스트를 바꿔 볼 수 있습니다.
+
+<Canvas of={BadgeStories.Playground} />
+
+---
+
+## Examples
+
+HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할 수 있습니다.
+
+<Canvas of={BadgeStories.Examples} />
+
+---
+
+## States
+
+| Variant | 용도 예시 | 배경 | 글자색 |
+| --- | --- | --- | --- |
+| `success` | 노출중, 완료, 정상 | `rgba($success, .12)` | `$success-text` |
+| `warning` | 예약, 대기, 주의 | `rgba($warning, .16)` | `$warning-text` |
+| `neutral` | 미노출, 비활성, 기타 | `rgba($gray-500, .12)` | `$gray-600` |
+
+Badge는 클릭할 수 없는 표시용 요소이므로 hover / focus / disabled 상태가 없습니다.
+
+```tsx
+<Badge variant="success">노출중</Badge>
+<Badge variant="warning">예약</Badge>
+<Badge variant="neutral">미노출</Badge>
+```
+
+---
+
+## Usage in Table
+
+Table의 `render`에서 상태 값을 Badge로 변환합니다.
+
+```tsx
+const statusMap = {
+  exposed: { variant: 'success', label: '노출중' },
+  hidden: { variant: 'neutral', label: '미노출' },
+  scheduled: { variant: 'warning', label: '예약' },
+} as const;
+
+{
+  dataIndex: 'status',
+  title: '상태',
+  render: (_, row) => {
+    const { variant, label } = statusMap[row.status];
+
+    return <Badge variant={variant}>{label}</Badge>;
+  },
+}
+```
+
+---
+
+## HTML Class Usage
+
+```html
+<span class="ui-badge ui-badge--success">노출중</span>
+<span class="ui-badge ui-badge--warning">예약</span>
+<span class="ui-badge ui-badge--neutral">미노출</span>
+```
+
+---
+
+## Class Structure
+
+```text
+ui-badge
+├── ::before          // 점(dot), currentColor
+├── ui-badge--success
+├── ui-badge--warning
+└── ui-badge--neutral
+```
+
+---
+
+## Accessibility
+
+- 글자색은 흰 배경과 Badge 배경 위에서 대비 4.5:1 이상이 되도록 `$success-text`, `$warning-text`, `$gray-600` 토큰을 사용합니다.
+- 상태 의미는 **텍스트로 전달**합니다. 색과 점만으로 상태를 구분하지 않습니다.
+- 점(dot)은 내용이 빈 `::before`라서 스크린리더가 읽지 않습니다.
+- 포커스를 받지 않는 정적 요소입니다. 클릭 동작이 필요하면 Badge를 `button`이나 `a` 안에 넣고, 포커스 표시는 바깥 요소가 담당합니다.
+- 상태가 실시간으로 바뀌는 경우에는 Badge 자체가 아니라 바깥 영역에 `aria-live`를 둡니다.
+
+---
+
+## Notes
+
+- 상태가 3가지보다 많아지면 variant를 늘리기 전에 디자인 토큰(`*-text`)부터 추가합니다.
+- 시각 예제는 `BadgePage.tsx`에서 관리하며 Storybook에서는 `Examples`를 통해 재사용합니다.
