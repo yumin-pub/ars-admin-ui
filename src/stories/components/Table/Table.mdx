@@ -152,6 +152,7 @@ const columns: TableColumn<BasicRow>[] = [
 | `data` | `T[]` | - | 테이블 행 데이터 |
 | `emptyMessage` | `ReactNode` | `'검색 결과가 없습니다.'` | 데이터가 없을 때 표시할 콘텐츠 |
 | `loading` | `boolean` | `false` | 데이터 로딩 상태 |
+| `selectedIds` | `Array<TableRow['id']>` | `[]` | 선택된 행의 id 목록. 해당 행에 `is-selected` 클래스를 붙임 |
 | `className` | `string` | `''` | `table` 요소에 추가할 클래스 |
 
 ---
@@ -240,20 +241,16 @@ const data: BasicRow[] = [
 `render`를 사용하면 원본 데이터를 원하는 UI로 변경하여 렌더링할 수 있습니다.
 
 ```tsx
+import { Badge } from '@/components/Badge';
+
 const columns: TableColumn<BasicRow>[] = [
   {
     dataIndex: 'status',
     title: '상태',
     render: (value) => (
-      <span
-        className={
-          value === 'exposed'
-            ? 'ui-badge ui-badge--success'
-            : 'ui-badge ui-badge--neutral'
-        }
-      >
+      <Badge variant={value === 'exposed' ? 'success' : 'neutral'}>
         {value === 'exposed' ? '노출중' : '미노출'}
-      </span>
+      </Badge>
     ),
   },
 ];
@@ -308,12 +305,12 @@ index
 
 ## Selectable Table
 
-Checkbox를 `render`에서 사용하여 선택 가능한 Table을 구성할 수 있습니다.
+Checkbox를 `render`에서 사용하고, 선택된 행의 id를 `selectedIds`로 전달하면 선택된 행이 강조됩니다.
+선택 상태는 Table이 아니라 **사용하는 쪽(부모)이 관리**합니다.
 
 ```tsx
 interface SelectableRow extends TableRow {
   id: number;
-  checked: boolean;
   title: string;
   status: 'exposed' | 'hidden' | 'scheduled';
   date: string;
@@ -321,15 +318,28 @@ interface SelectableRow extends TableRow {
 ```
 
 ```tsx
+const [selectedIds, setSelectedIds] = useState<number[]>([1]);
+
+const toggleRow = (id: number) => {
+  setSelectedIds((prev) =>
+    prev.includes(id)
+      ? prev.filter((selectedId) => selectedId !== id)
+      : [...prev, id],
+  );
+};
+
 const columns: TableColumn<SelectableRow>[] = [
   {
     dataIndex: 'id',
     title: '선택',
+    width: '56px',
+    align: 'center',
     render: (_, row) => (
       <Checkbox
         id={`table-row-${row.id}`}
         aria-label={`${row.id}번 항목 선택`}
-        defaultChecked={row.checked}
+        checked={selectedIds.includes(row.id)}
+        onChange={() => toggleRow(row.id)}
       />
     ),
   },
@@ -341,8 +351,11 @@ const columns: TableColumn<SelectableRow>[] = [
   className="ui-table--selectable"
   columns={columns}
   data={data}
+  selectedIds={selectedIds}
 />
 ```
+
+선택된 행에는 `is-selected` 클래스가 붙어 배경색과 왼쪽 강조 막대가 표시됩니다.
 
 ---
 
@@ -609,16 +622,7 @@ ui-table-wrap
 is-selected   // 선택된 행: 배경색 + 왼쪽 강조 막대
 ```
 
-Badge:
-
-```text
-ui-badge
-├── ui-badge--success
-├── ui-badge--warning
-└── ui-badge--neutral
-```
-
-Badge 글자색은 흰 배경·연한 배경 위에서 대비 4.5:1 이상이 되도록 `$success-text`, `$warning-text` 토큰을 사용합니다.
+상태 셀의 `ui-badge`는 별도 컴포넌트입니다. 클래스 구조와 색상 기준은 [Badge](?path=/docs/components-badge--docs) 문서를 참고하세요.
 
 ---
 
@@ -649,5 +653,5 @@ Checkbox 예시:
 - `render`를 사용하면 Badge, Button, Checkbox 등 다양한 UI를 셀에 출력할 수 있습니다.
 - `className`은 기본 `ui-table` 클래스 뒤에 추가됩니다.
 - 컬럼 폭을 지정하지 않으면 해당 컬럼들이 남는 폭을 나눠 가집니다. 제목처럼 늘어나야 하는 컬럼 하나만 비워두는 것을 권장합니다.
-- 행 선택 상태(`is-selected`)는 HTML 클래스 방식에서만 제공합니다. React `Table`에는 아직 선택 기능이 없습니다.
+- 행 선택 상태는 `selectedIds`로 전달합니다. 체크박스 상태를 관리하는 것은 사용하는 쪽의 몫입니다.
 - 시각 예제는 `TablePage.tsx`에서 관리하며 Storybook에서는 `Examples`를 통해 재사용합니다.
