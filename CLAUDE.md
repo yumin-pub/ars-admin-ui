@@ -5,6 +5,8 @@ React 19 + TypeScript + SCSS로 만드는 관리자 UI 시스템. Storybook으�
 
 ## 명령어
 
+슬래시 명령: `/new-component <Name>` (새 컴포넌트 추가 + 등록 누락 검증, `.claude/commands/`)
+
 ```bash
 npm run dev              # Vite 개발 서버 (/ui/* 경로에 컴포넌트별 데모 페이지)
 npm run storybook        # Storybook (:6006)
@@ -52,7 +54,10 @@ src/components/Button/
 3. `src/stories/components/<Name>/<Name>.stories.tsx` : Playground, Examples
 4. `src/stories/components/<Name>/<Name>.mdx` : Overview, Props, States, Accessibility
 5. `src/pages/UISystem/<Name>Page.tsx` + `src/routes/router.tsx` 경로 추가 (HTML 클래스 예제와 React 예제 병행)
-6. `README.md` 컴포넌트 목록
+6. `README.md` 컴포넌트 목록과 상태 표
+7. `src/stories/introduction/Welcome.mdx`, `Project Structure.mdx`의 컴포넌트 목록
+
+`/new-component <Name>` 명령이 위 목록을 순서대로 처리하고, 마지막에 누락 여부를 체크리스트로 보고한다.
 
 SCSS 파일을 새로 만들 때는 **다른 파일을 복사한 뒤 내용을 바꾸지 않은 채 두지 않는다.**
 클래스 접두사(`.ui-<name>`)가 파일 이름과 일치하는지 확인한다.
