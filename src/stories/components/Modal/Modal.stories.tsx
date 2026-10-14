@@ -19,24 +19,21 @@ type ModalExampleType =
     | 'no-footer'
     | null;
 
+// useArgs는 스토리 함수(render) 안에서만 호출할 수 있다.
+// 그래서 ModalPlayground는 값과 함수를 props로 받기만 한다.
+interface ModalPlaygroundProps extends ModalProps {
+    onOpen: () => void;
+}
+
 function ModalPlayground({
+    open,
     title,
     size,
-}: ModalProps) {
-    const [{ open }, updateArgs] = useArgs();
-
-    const closeModal = () => {
-        updateArgs({
-            open: false,
-        });
-    };
-
-    const openModal = () => {
-        updateArgs({
-            open: true,
-        });
-    };
-
+    closeOnEsc,
+    closeOnDimmed,
+    onOpen: openModal,
+    onClose: closeModal,
+}: ModalPlaygroundProps) {
     return (
         <div
             style={{
@@ -49,9 +46,11 @@ function ModalPlayground({
             </Button>
 
             <Modal
-                open={Boolean(open)}
+                open={open}
                 title={title}
                 size={size}
+                closeOnEsc={closeOnEsc}
+                closeOnDimmed={closeOnDimmed}
                 onClose={closeModal}
                 footer={
                     <>
@@ -380,6 +379,14 @@ const meta: Meta<typeof Modal> = {
             control: false,
         },
 
+        closeOnEsc: {
+            control: 'boolean',
+        },
+
+        closeOnDimmed: {
+            control: 'boolean',
+        },
+
         className: {
             control: false,
         },
@@ -390,7 +397,7 @@ const meta: Meta<typeof Modal> = {
     },
 
     args: {
-        open: true,
+        open: false,
         title: 'Modal Title',
         size: 'md',
     },
@@ -401,9 +408,17 @@ export default meta;
 type Story = StoryObj<typeof Modal>;
 
 export const Playground: Story = {
-    render: (args) => (
-        <ModalPlayground {...args} />
-    ),
+    render: function PlaygroundRender(args) {
+        const [, updateArgs] = useArgs();
+
+        return (
+            <ModalPlayground
+                {...args}
+                onOpen={() => updateArgs({ open: true })}
+                onClose={() => updateArgs({ open: false })}
+            />
+        );
+    },
 };
 
 export const Examples: Story = {
