@@ -83,6 +83,12 @@ export interface TableProps<T extends TableRow = TableRow> {
      */
     loading?: boolean;
     /**
+     * 선택된 행의 id 목록
+     * 여기에 포함된 id의 행에 `is-selected` 클래스가 붙는다.
+     * 선택 상태는 사용하는 쪽(부모)이 관리한다.
+     */
+    selectedIds?: Array<TableRow['id']>;
+    /**
      * 테이블 요소에 추가할 클래스
      */
     className?: string;

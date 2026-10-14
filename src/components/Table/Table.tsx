@@ -6,6 +6,7 @@ function Table<T extends TableRow = TableRow>({
     data,
     emptyMessage = '검색 결과가 없습니다.',
     loading = false,
+    selectedIds = [],
     className = '',
 }: TableProps<T>) {
     const tableClassNameList = [
@@ -20,9 +21,9 @@ function Table<T extends TableRow = TableRow>({
             <table className={tableClassNameList}>
                 <thead className="ui-table__head">
                     <tr>
-                        {columns.map((columnData) => (
+                        {columns.map((columnData, columnIndex) => (
                             <th
-                                key={String(columnData.dataIndex)}
+                                key={`${String(columnData.dataIndex)}-${columnIndex}`}
                                 scope="col"
                                 style={{
                                     width: columnData.width,
@@ -47,13 +48,20 @@ function Table<T extends TableRow = TableRow>({
                         </tr>
                     ) : data.length > 0 ? (
                         data.map((row, index) => (
-                            <tr key={row.id}>
-                                {columns.map((column) => {
+                            <tr
+                                key={row.id}
+                                className={
+                                    selectedIds.includes(row.id)
+                                        ? 'is-selected'
+                                        : undefined
+                                }
+                            >
+                                {columns.map((column, columnIndex) => {
                                     const value = row[column.dataIndex];
 
                                     return (
                                         <td
-                                            key={String(column.dataIndex)}
+                                            key={`${String(column.dataIndex)}-${columnIndex}`}
                                             style={{
                                                 textAlign: column.align,
                                             }}
