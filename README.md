@@ -31,6 +31,7 @@ HTML과 SCSS 기반의 UI 구조를 유지하면서 React와 TypeScript를 결�
 
 현재 구현된 컴포넌트입니다.
 
+- Badge
 - Button
 - Input
 - Radio
@@ -210,6 +211,7 @@ npm run lint
 │  ├ assets
 │  │
 │  ├ components
+│  │  ├ Badge
 │  │  ├ Button
 │  │  ├ Checkbox
 │  │  ├ Input
@@ -268,6 +270,7 @@ src/styles
 
 | Component | React Component | Storybook | Documentation |
 | --- | --- | --- | --- |
+| Badge | Implemented | Implemented | Implemented |
 | Button | Implemented | Implemented | Implemented |
 | Input | Implemented | Implemented | Implemented |
 | Radio | Implemented | Implemented | Implemented |
