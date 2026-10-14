@@ -1,0 +1,54 @@
+// ========================================
+// Badge
+// - 상태를 표시하는 비인터랙티브 라벨이라 포커스 스타일(:focus-visible)이 없다.
+//   링크·버튼 안에 넣으면 포커스 표시는 바깥 요소가 담당한다.
+// - 글자색은 흰 배경 위 대비 4.5:1 이상인 *-text 토큰을 쓴다.
+// ========================================
+
+@use '../tokens' as *;
+@use '../abstracts' as *;
+
+.ui-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-1;
+
+    padding: $space-1 $space-2;
+
+    border-radius: $radius-full;
+
+    font-size: $fs-xs;
+
+    white-space: nowrap;
+
+    // 앞쪽 점: 장식용(content가 비어 있어 스크린리더가 읽지 않는다)
+    &::before {
+        content: '';
+
+        flex-shrink: 0;
+
+        @include size($space-2);
+
+        border-radius: $radius-full;
+        background-color: currentColor;
+    }
+}
+
+// ========================================
+// Variant
+// ========================================
+
+.ui-badge--success {
+    background-color: rgba($success, .12);
+    color: $success-text;
+}
+
+.ui-badge--warning {
+    background-color: rgba($warning, .16);
+    color: $warning-text;
+}
+
+.ui-badge--neutral {
+    background-color: rgba($gray-500, .12);
+    color: $gray-600;
+}

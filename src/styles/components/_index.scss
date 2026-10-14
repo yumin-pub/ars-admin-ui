@@ -1,4 +1,5 @@
 // components/_index.scss
+@use './badge';
 @use './button';
 @use './checkbox';
 @use './input';
@@ -7,4 +8,4 @@
 @use './pagination';
 @use './radio';
 @use './select';
-@use './table';
+@use './table';
