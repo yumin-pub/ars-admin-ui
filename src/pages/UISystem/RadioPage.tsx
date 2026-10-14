@@ -59,6 +59,7 @@ function RadioPage() {
                     type="radio"
                     className="ui-radio__input"
                     name="wrap-no-label"
+                    aria-label="라벨 없는 라디오"
                     />
                     <span className="ui-radio__control"></span>
                 </label>
@@ -141,6 +142,7 @@ function RadioPage() {
                     className="ui-radio__input"
                     name="detached-no-label"
                     id="detached-radio-no-label"
+                    aria-label="라벨 없는 라디오"
                     />
                     <label
                     className="ui-radio__wrapper"
@@ -178,7 +180,11 @@ function RadioPage() {
                     Checked Disabled
                     </Radio>
 
-                    <Radio name="react-wrap-no-label" value="no-label" />
+                    <Radio
+                    name="react-wrap-no-label"
+                    value="no-label"
+                    aria-label="라벨 없는 라디오"
+                    />
                 </div>
 
                 <div className="ui-doc__group">
@@ -229,6 +235,7 @@ function RadioPage() {
                     structure="detached"
                     name="react-detached-no-label"
                     value="no-label"
+                    aria-label="라벨 없는 라디오"
                     />
                 </div>
             </section>
@@ -236,4 +243,4 @@ function RadioPage() {
     );
 }
 
-export default RadioPage;
+export default RadioPage;
