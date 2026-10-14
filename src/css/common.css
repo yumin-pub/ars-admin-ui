@@ -579,7 +579,6 @@ body {
 .ui-field.is-error .ui-input {
 	border-color: #dc2626;
 }
-.ui-field.is-error .ui-field__label,
 .ui-field.is-error .ui-field__message {
 	color: #dc2626;
 }
@@ -587,9 +586,8 @@ body {
 .ui-field.is-success .ui-input {
 	border-color: #16a34a;
 }
-.ui-field.is-success .ui-field__label,
 .ui-field.is-success .ui-field__message {
-	color: #16a34a;
+	color: #15803d;
 }
 
 .ui-field.is-disabled .ui-field__label,
@@ -1215,7 +1213,6 @@ body {
 .ui-select-field.is-error .ui-select {
 	border-color: #dc2626;
 }
-.ui-select-field.is-error .ui-select-field__label,
 .ui-select-field.is-error .ui-select-field__message {
 	color: #dc2626;
 }
@@ -1223,9 +1220,8 @@ body {
 .ui-select-field.is-success .ui-select {
 	border-color: #16a34a;
 }
-.ui-select-field.is-success .ui-select-field__label,
 .ui-select-field.is-success .ui-select-field__message {
-	color: #16a34a;
+	color: #15803d;
 }
 
 .ui-select-field.is-disabled .ui-select-field__label,
