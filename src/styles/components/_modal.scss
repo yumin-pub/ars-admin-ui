@@ -1,115 +1,182 @@
 @use '../tokens' as *;
 @use '../abstracts' as *;
 
-.ui-loading {
-    display: flex;
+// ========================================
+// Modal
+// .is-open 이 붙었을 때만 노출된다.
+// ========================================
+
+.ui-modal {
+    position: fixed;
+    inset: 0;
+    z-index: $z-modal;
+
+    display: none;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    min-height: 160px;
+    padding: $space-4;
 
-    &--overlay {
+    &.is-open {
+        display: flex;
+    }
+
+    // 딤 영역
+    &__dimmed {
         position: absolute;
         inset: 0;
-        z-index: $z-loading;
-        min-height: 100%;
-        background: rgba($gray-900, 0.42);
+        background: rgba($gray-900, 0.5);
     }
 
+    // 패널
     &__panel {
+        position: relative;
+
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: $space-5;
-        min-width: 260px;
-        padding: $space-8 $space-10;
+        width: 100%;
+        max-height: calc(100vh - #{$space-8});
+
         background: $white;
-        border: 1px solid $gray-200;
         border-radius: $radius-xl;
         box-shadow: $shadow-lg;
+
+        font-family: $font-family-base;
+
+        &:focus {
+            outline: none;
+        }
+
+        &--sm {
+            max-width: 400px;
+        }
+
+        &--md {
+            max-width: 560px;
+        }
+
+        &--lg {
+            max-width: 800px;
+        }
     }
 
-    &__spinner {
-        display: block;
-        width: $space-6;
-        height: $space-6;
-        border: $space-1 solid $primary-disabled;
-        border-right-color: $primary;
-        border-bottom-color: $primary;
-        border-radius: $radius-full;
-        animation: ui-loading-spin 0.8s linear infinite;
-    }
-
-    &__content {
+    // 헤더
+    &__header {
         display: flex;
-        flex-direction: column;
         align-items: center;
-        gap: $space-1;
-        text-align: center;
+        justify-content: space-between;
+        gap: $space-4;
+        flex-shrink: 0;
+
+        padding: $space-4 $space-6;
+        border-bottom: 1px solid $gray-200;
     }
 
-    &__message,
-    &__description {
+    &__title {
         margin: $space-0;
+
+        color: $gray-900;
+        font-size: $fs-xl;
+        font-weight: $fw-semibold;
+        line-height: $lh-tight;
     }
 
-    &__message {
+    &__close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        width: $space-8;
+        height: $space-8;
+        padding: $space-0;
+
+        color: $gray-500;
+        font-size: $fs-3xl;
+        line-height: 1;
+
+        background: transparent;
+        border: 0;
+        border-radius: $radius-md;
+
+        cursor: pointer;
+        transition:
+            background-color $transition-duration $transition-timing,
+            color $transition-duration $transition-timing;
+
+        &:hover {
+            color: $gray-900;
+            background: $gray-100;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $primary;
+            outline-offset: 2px;
+        }
+    }
+
+    // 본문 (내용이 길면 이 영역만 스크롤)
+    &__body {
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: $space-6;
+        overflow-y: auto;
+
         color: $gray-900;
         font-size: $fs-md;
-        font-weight: $fw-semibold;
         line-height: $lh-base;
-    }
 
-    &__description {
-        color: $gray-500;
-        font-size: $fs-sm;
-        font-weight: $fw-regular;
-        line-height: $lh-base;
-    }
-
-    &--sm {
-        .ui-loading__panel {
-            min-width: 220px;
-            padding: $space-6 $space-8;
+        > :first-child {
+            margin-top: $space-0;
         }
 
-        .ui-loading__spinner {
-            width: $space-4;
-            height: $space-4;
-            border-width: 3px;
+        > :last-child {
+            margin-bottom: $space-0;
         }
     }
 
-    &--md {
-        .ui-loading__spinner {
-            width: $space-6;
-            height: $space-6;
-        }
+    // 푸터
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: $space-2;
+        flex-shrink: 0;
+
+        padding: $space-4 $space-6;
+        border-top: 1px solid $gray-200;
     }
 
-    &--lg {
-        .ui-loading__panel {
-            min-width: 300px;
-            padding: $space-10 $space-12;
+    // Footer 없이 Body 안에 버튼을 배치할 때
+    &__actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: $space-2;
+        margin-top: $space-6;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .ui-modal.is-open {
+        .ui-modal__dimmed {
+            animation: ui-modal-fade 0.2s ease;
         }
 
-        .ui-loading__spinner {
-            width: $space-8;
-            height: $space-8;
-            border-width: 5px;
+        .ui-modal__panel {
+            animation: ui-modal-rise 0.2s ease;
         }
     }
 }
 
-@keyframes ui-loading-spin {
-    to {
-        transform: rotate(360deg);
+@keyframes ui-modal-fade {
+    from {
+        opacity: 0;
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .ui-loading__spinner {
-        animation-duration: 1.6s;
+@keyframes ui-modal-rise {
+    from {
+        opacity: 0;
+        transform: translateY($space-2);
     }
 }
