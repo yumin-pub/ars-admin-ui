@@ -13,7 +13,9 @@ export interface ModalProps {
     children?: ReactNode; // body 내용
     footer?: ReactNode; // footer 영역
     size?: ModalSize; // sm / md / lg
-    onClose?: () => void; // 닫기 버튼 클릭시 실행할 함수
+    onClose?: () => void; // 닫기 버튼, ESC, 딤 클릭 시 실행할 함수
+    closeOnEsc?: boolean; // ESC 키로 닫기 (기본 true)
+    closeOnDimmed?: boolean; // 딤 영역 클릭으로 닫기 (기본 true)
     className?: string; // ui-modal 추가 클래스
     panelClassName?: string; // ui-modal__panel 추가 클래스
 }
