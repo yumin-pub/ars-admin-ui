@@ -7,6 +7,9 @@ React 19 + TypeScript + SCSS로 만드는 관리자 UI 시스템. Storybook으�
 
 슬래시 명령: `/new-component <Name>` (새 컴포넌트 추가 + 등록 누락 검증, `.claude/commands/`)
 
+자동 검사(hook): Claude가 파일을 수정할 때마다 `.claude/hooks/check.mjs`가 돈다.
+`.ts/.tsx`는 타입체크 + 린트, `.scss`는 Sass 컴파일을 검사하고, 실패하면 오류를 Claude에게 돌려줘 스스로 고치게 한다. (설정: `.claude/settings.json`)
+
 ```bash
 npm run dev              # Vite 개발 서버 (/ui/* 경로에 컴포넌트별 데모 페이지)
 npm run storybook        # Storybook (:6006)
