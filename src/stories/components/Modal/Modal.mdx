@@ -65,3 +65,31 @@ Footer를 사용하지 않고 Body 내부에 액션 버튼을 배치한 예시�
 ### No Footer
 
 Footer 없이 Header와 Body 영역만 사용하는 모달입니다.
+---
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | - | 모달 열림 여부 |
+| `title` | `ReactNode` | - | Header 제목. 있으면 `aria-labelledby`로 연결됩니다. |
+| `children` | `ReactNode` | - | Body 내용 |
+| `footer` | `ReactNode` | - | Footer 영역 |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | 패널 너비 |
+| `onClose` | `() => void` | - | X 버튼, ESC, 딤 클릭 시 호출 |
+| `closeOnEsc` | `boolean` | `true` | ESC 키로 닫기 |
+| `closeOnDimmed` | `boolean` | `true` | 딤 영역 클릭으로 닫기 |
+| `className` | `string` | `''` | `ui-modal` 추가 클래스 |
+| `panelClassName` | `string` | `''` | `ui-modal__panel` 추가 클래스 |
+
+---
+
+## Accessibility
+
+- 패널에 `role="dialog"`와 `aria-modal="true"`를 적용하고, `title`이 있으면 `aria-labelledby`로 제목과 연결합니다.
+- 열리면 Body → Footer → 패널 순서로 첫 번째 포커스 가능 요소에 포커스가 이동하고, 닫히면 열기 전 포커스 위치로 돌아갑니다.
+- Tab / Shift+Tab 포커스는 모달 안에서만 순환합니다.
+- ESC 키와 딤 영역 클릭으로 닫을 수 있으며, `closeOnEsc` / `closeOnDimmed`로 끌 수 있습니다.
+- 열려 있는 동안 `body` 스크롤을 잠그고, 닫히면 원래 값으로 복원합니다.
+- `document.body`로 포털 렌더링하므로 부모의 `overflow`, `transform`에 영향을 받지 않습니다.
+- 모달 위에 모달을 중첩하는 경우는 아직 지원하지 않습니다.
