@@ -32,10 +32,10 @@ Table은 동일한 테이블 구조를 여러 화면에서 재사용하기 위�
   <table class="ui-table">
     <thead class="ui-table__head">
       <tr>
-        <th scope="col">번호</th>
+        <th scope="col" class="ui-table__cell-sm">번호</th>
         <th scope="col">제목</th>
-        <th scope="col">상태</th>
-        <th scope="col">등록일</th>
+        <th scope="col" class="ui-table__cell-md">상태</th>
+        <th scope="col" class="ui-table__cell-md">등록일</th>
       </tr>
     </thead>
 
@@ -399,7 +399,12 @@ const columns: TableColumn<SelectableRow>[] = [
 
 ## Column Width
 
-`width`를 이용하여 헤더 컬럼 너비를 지정할 수 있습니다.
+Table은 **제목 칸만 남는 폭을 채우고, 나머지 칸은 고정 px 폭**을 가집니다.
+화면 해상도가 바뀌어도 번호·상태·등록일·관리 칸의 폭은 변하지 않습니다.
+
+### React
+
+`width`로 컬럼 폭을 지정합니다. `width`를 지정하지 않은 컬럼(보통 제목)이 남는 폭을 차지합니다.
 
 ```tsx
 const columns: TableColumn<BasicRow>[] = [
@@ -410,10 +415,38 @@ const columns: TableColumn<BasicRow>[] = [
   },
   {
     dataIndex: 'title',
-    title: '제목',
+    title: '제목', // width 없음 → 남는 폭
+  },
+  {
+    dataIndex: 'status',
+    title: '상태',
+    width: '120px',
   },
 ];
 ```
+
+### HTML
+
+`<th>`에 폭 클래스를 붙입니다. 폭은 첫 줄(헤더)의 `<th>` 기준으로 정해집니다.
+
+| Class | Width | 용도 |
+| --- | --- | --- |
+| `ui-table__cell-sm` | 80px | 번호 |
+| `ui-table__cell-md` | 120px | 상태, 등록일 |
+| `ui-table__cell-lg` | 160px | 관리(버튼 2개) |
+| `ui-table__cell-checkbox` | 56px | 선택(체크박스) |
+
+```html
+<th scope="col" class="ui-table__cell-sm">번호</th>
+<th scope="col">제목</th>
+<th scope="col" class="ui-table__cell-md">상태</th>
+<th scope="col" class="ui-table__cell-md">등록일</th>
+<th scope="col" class="ui-table__cell-lg">관리</th>
+```
+
+### 반응형
+
+표의 최소 폭은 `800px`입니다. 화면이 이보다 좁아지면 표가 줄어들지 않고 `ui-table-wrap` 안에서 **가로 스크롤**됩니다.
 
 ---
 
@@ -436,6 +469,8 @@ const columns: TableColumn<BasicRow>[] = [
 ];
 ```
 
+기본 정렬은 `left`입니다.
+
 지원하는 값:
 
 ```text
@@ -455,11 +490,11 @@ right
   <table class="ui-table">
     <thead class="ui-table__head">
       <tr>
-        <th scope="col">번호</th>
+        <th scope="col" class="ui-table__cell-sm">번호</th>
         <th scope="col">제목</th>
-        <th scope="col">상태</th>
-        <th scope="col">등록일</th>
-        <th scope="col">관리</th>
+        <th scope="col" class="ui-table__cell-md">상태</th>
+        <th scope="col" class="ui-table__cell-md">등록일</th>
+        <th scope="col" class="ui-table__cell-lg">관리</th>
       </tr>
     </thead>
 
@@ -499,11 +534,11 @@ right
         >
           선택
         </th>
-        <th scope="col">번호</th>
+        <th scope="col" class="ui-table__cell-sm">번호</th>
         <th scope="col">제목</th>
-        <th scope="col">상태</th>
-        <th scope="col">등록일</th>
-        <th scope="col">관리</th>
+        <th scope="col" class="ui-table__cell-md">상태</th>
+        <th scope="col" class="ui-table__cell-md">등록일</th>
+        <th scope="col" class="ui-table__cell-lg">관리</th>
       </tr>
     </thead>
 
@@ -562,6 +597,7 @@ ui-table-wrap
         └── tr
             ├── td
             ├── ui-table__cell-title
+            ├── ui-table__cell-sm / md / lg
             ├── ui-table__cell-checkbox
             ├── ui-table__actions
             └── ui-table__empty
@@ -570,8 +606,19 @@ ui-table-wrap
 상태 클래스:
 
 ```text
-is-selected
+is-selected   // 선택된 행: 배경색 + 왼쪽 강조 막대
 ```
+
+Badge:
+
+```text
+ui-badge
+├── ui-badge--success
+├── ui-badge--warning
+└── ui-badge--neutral
+```
+
+Badge 글자색은 흰 배경·연한 배경 위에서 대비 4.5:1 이상이 되도록 `$success-text`, `$warning-text` 토큰을 사용합니다.
 
 ---
 
@@ -601,4 +648,6 @@ Checkbox 예시:
 - `title`과 `emptyMessage`는 `ReactNode`를 지원합니다.
 - `render`를 사용하면 Badge, Button, Checkbox 등 다양한 UI를 셀에 출력할 수 있습니다.
 - `className`은 기본 `ui-table` 클래스 뒤에 추가됩니다.
+- 컬럼 폭을 지정하지 않으면 해당 컬럼들이 남는 폭을 나눠 가집니다. 제목처럼 늘어나야 하는 컬럼 하나만 비워두는 것을 권장합니다.
+- 행 선택 상태(`is-selected`)는 HTML 클래스 방식에서만 제공합니다. React `Table`에는 아직 선택 기능이 없습니다.
 - 시각 예제는 `TablePage.tsx`에서 관리하며 Storybook에서는 `Examples`를 통해 재사용합니다.
