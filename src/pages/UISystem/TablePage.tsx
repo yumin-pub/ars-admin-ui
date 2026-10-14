@@ -34,11 +34,12 @@ function TablePage() {
      * ========================== */
 
     const basicColumns: TableColumn<BasicRow>[] = [
-        { dataIndex: 'id', title: '번호' },
+        { dataIndex: 'id', title: '번호', width: '80px' },
         { dataIndex: 'title', title: '제목' },
         {
             dataIndex: 'status',
             title: '상태',
+            width: '120px',
             render: (value) => (
                 <span
                     className={
@@ -51,10 +52,11 @@ function TablePage() {
                 </span>
             ),
         },
-        { dataIndex: 'date', title: '등록일' },
+        { dataIndex: 'date', title: '등록일', width: '120px' },
         {
             dataIndex: 'id', // 별도 raw 데이터가 필요 없는 컬럼이라 id를 재사용
             title: '관리',
+            width: '160px',
             render: () => (
                 <div className="ui-table__actions">
                     <Button variant="outline" color="neutral" size="md">
@@ -93,6 +95,8 @@ function TablePage() {
         {
             dataIndex: 'id', // checked 값을 쓰지만 컬럼 키 자체는 id로 재사용
             title: '선택',
+            width: '56px',
+            align: 'center',
             render: (_, row) => (
                 <Checkbox
                     id={`table-row-${row.id}`}
@@ -101,11 +105,12 @@ function TablePage() {
                 />
             ),
         },
-        { dataIndex: 'id', title: '번호' },
+        { dataIndex: 'id', title: '번호', width: '80px' },
         { dataIndex: 'title', title: '제목' },
         {
             dataIndex: 'status',
             title: '상태',
+            width: '120px',
             render: (_, row) => {
                 const statusMap = {
                     exposed: { className: 'ui-badge--success', label: '노출중' },
@@ -118,10 +123,11 @@ function TablePage() {
                 return <span className={`ui-badge ${className}`}>{label}</span>;
             },
         },
-        { dataIndex: 'date', title: '등록일' },
+        { dataIndex: 'date', title: '등록일', width: '120px' },
         {
             dataIndex: 'id',
             title: '관리',
+            width: '160px',
             render: () => (
                 <div className="ui-table__actions">
                     <Button variant="outline" color="neutral" size="md">
@@ -159,10 +165,10 @@ function TablePage() {
      * ========================== */
 
     const emptyColumns: TableColumn<BasicRow>[] = [
-        { dataIndex: 'id', title: '번호' },
+        { dataIndex: 'id', title: '번호', width: '80px' },
         { dataIndex: 'title', title: '제목' },
-        { dataIndex: 'status', title: '상태' },
-        { dataIndex: 'date', title: '등록일' },
+        { dataIndex: 'status', title: '상태', width: '120px' },
+        { dataIndex: 'date', title: '등록일', width: '120px' },
     ];
 
     return (
@@ -179,11 +185,11 @@ function TablePage() {
                         <table className="ui-table">
                         <thead className="ui-table__head">
                             <tr>
-                                <th scope="col">번호</th>
+                                <th scope="col" className="ui-table__cell-sm">번호</th>
                                 <th scope="col">제목</th>
-                                <th scope="col">상태</th>
-                                <th scope="col">등록일</th>
-                                <th scope="col">관리</th>
+                                <th scope="col" className="ui-table__cell-md">상태</th>
+                                <th scope="col" className="ui-table__cell-md">등록일</th>
+                                <th scope="col" className="ui-table__cell-lg">관리</th>
                             </tr>
                         </thead>
 
@@ -240,11 +246,11 @@ function TablePage() {
                                 <th scope="col" className="ui-table__cell-checkbox">
                                     선택
                                 </th>
-                                <th scope="col">번호</th>
+                                <th scope="col" className="ui-table__cell-sm">번호</th>
                                 <th scope="col">제목</th>
-                                <th scope="col">상태</th>
-                                <th scope="col">등록일</th>
-                                <th scope="col">관리</th>
+                                <th scope="col" className="ui-table__cell-md">상태</th>
+                                <th scope="col" className="ui-table__cell-md">등록일</th>
+                                <th scope="col" className="ui-table__cell-lg">관리</th>
                             </tr>
                         </thead>
 
@@ -304,10 +310,10 @@ function TablePage() {
                         <table className="ui-table">
                             <thead className="ui-table__head">
                                 <tr>
-                                <th scope="col">번호</th>
+                                <th scope="col" className="ui-table__cell-sm">번호</th>
                                 <th scope="col">제목</th>
-                                <th scope="col">상태</th>
-                                <th scope="col">등록일</th>
+                                <th scope="col" className="ui-table__cell-md">상태</th>
+                                <th scope="col" className="ui-table__cell-md">등록일</th>
                                 </tr>
                             </thead>
 

@@ -20,6 +20,7 @@ const columns: TableColumn<StoryRow>[] = [
     {
         dataIndex: 'id',
         title: '번호',
+        width: '80px',
     },
     {
         dataIndex: 'title',
@@ -28,10 +29,12 @@ const columns: TableColumn<StoryRow>[] = [
     {
         dataIndex: 'status',
         title: '상태',
+        width: '120px',
     },
     {
         dataIndex: 'date',
         title: '등록일',
+        width: '120px',
     },
 ];
 
