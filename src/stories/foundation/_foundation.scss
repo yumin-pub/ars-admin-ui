@@ -329,7 +329,7 @@
 
     font-size: $fs-lg;
     font-weight: $fw-bold;
-    color: $primary;
+    color: $gray-900;
 }
 
 @media (max-width: 768px) {
@@ -367,7 +367,7 @@
 
     font-size: $fs-sm;
     line-height: $lh-base;
-    color: $primary;
+    color: $primary-pressed;
 }
 
 .sb-token-meta__value {

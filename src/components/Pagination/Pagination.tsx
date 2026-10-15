@@ -152,7 +152,7 @@ function Pagination({
                         <button
                             type="button"
                             className="ui-pagination__button"
-                            aria-label="1페이지로 이동"
+                            aria-label="페이지 1"
                             onClick={() => onPageChange(1)}
                         >
                             1
@@ -222,7 +222,7 @@ function Pagination({
                         <button
                             type="button"
                             className="ui-pagination__button"
-                            aria-label={`${totalPages}페이지로 이동`}
+                            aria-label={`페이지 ${totalPages}`}
                             onClick={() => onPageChange(totalPages)}
                         >
                             {totalPages}
