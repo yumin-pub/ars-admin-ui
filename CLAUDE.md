@@ -30,6 +30,7 @@ AI가 만든 코드도 위 조건을 통과하기 전에는 신뢰하지 않는�
 
 ## 핵심 원칙
 
+- 사용자에게 하는 모든 답변·계획·보고는 한국어로 쓴다. 코드와 식별자는 영어를 유지한다.
 - **Core UI First**: Design Token → SCSS → HTML → React 순서. React 컴포넌트는 HTML 클래스를 재사용하는 얇은 Wrapper다.
   스타일 로직을 React 안에 따로 만들지 않는다.
 - **토큰만 사용**: 색상, 간격, radius, 타이포, z-index, shadow를 하드코딩하지 않는다.
