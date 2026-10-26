@@ -1,0 +1,98 @@
+// ========================================
+// Posts (게시글 관리 데모 화면)
+// - 이 화면에서만 쓰는 배치 스타일. 공통 컴포넌트 SCSS에는 넣지 않는다.
+// ========================================
+
+@use '../tokens' as *;
+@use '../abstracts' as *;
+
+// ========================================
+// Notice
+// - 데모 API 안내
+// ========================================
+
+.ui-posts__notice {
+    padding: $space-3 $space-4;
+    margin-bottom: $space-6;
+
+    border-left: $space-1 solid $info;
+    border-radius: $radius-md;
+
+    background-color: rgba($info, .08);
+    color: $gray-700;
+
+    font-size: $fs-md;
+}
+
+// ========================================
+// Summary
+// - "총 N건 · M페이지 중 K페이지"
+// - 데이터가 없을 때도 높이를 유지해 표가 들썩이지 않게 한다.
+// ========================================
+
+.ui-posts__summary {
+    min-height: $fs-md * $lh-base;
+    margin-bottom: $space-3;
+
+    color: $gray-600;
+
+    font-size: $fs-md;
+    line-height: $lh-base;
+}
+
+// ========================================
+// Table Area
+// - 페이지 이동 중 Loading(overlay)을 표 위에 덮기 위한 기준 영역
+// ========================================
+
+.ui-posts__table-area {
+    position: relative;
+
+    border-radius: $radius-lg;
+
+    overflow: hidden;
+}
+
+// ========================================
+// Tags
+// ========================================
+
+.ui-posts__tags {
+    @include flex(flex-start, center, $space-1, wrap);
+
+    margin: $space-0;
+    padding: $space-0;
+
+    list-style: none;
+}
+
+// ========================================
+// Error
+// ========================================
+
+.ui-posts__error {
+    @include flex-column(center, center, $space-4);
+
+    padding: $space-10;
+
+    border: 1px solid rgba($error, .3);
+    border-radius: $radius-lg;
+
+    background-color: rgba($error, .04);
+
+    text-align: center;
+}
+
+.ui-posts__error-message {
+    color: $error;
+
+    font-size: $fs-md;
+}
+
+// ========================================
+// Pagination
+// ========================================
+
+.ui-posts__pagination {
+    margin-top: $space-6;
+}
