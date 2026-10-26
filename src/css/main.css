@@ -591,6 +591,10 @@ body {
 	background-color: #9ca3af;
 	cursor: pointer;
 }
+.ui-input__clear:focus-visible {
+	outline: 2px solid #e6007e;
+	outline-offset: 2px;
+}
 
 .ui-field__meta {
 	display: flex;
@@ -1419,6 +1423,17 @@ body {
 	color: #374151;
 	font-size: 14px;
 }
+.ui-posts__notice > p {
+	margin: 0;
+}
+.ui-posts__notice > p + p {
+	margin-top: 4px;
+}
+
+.ui-posts__search {
+	max-width: 480px;
+	margin-bottom: 16px;
+}
 
 .ui-posts__summary {
 	min-height: 21px;
@@ -1458,6 +1473,27 @@ body {
 .ui-posts__error-message {
 	color: #dc2626;
 	font-size: 14px;
+}
+
+.ui-posts__empty {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: 16px;
+	flex-direction: column;
+	padding: 40px;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background-color: #f9fafb;
+	text-align: center;
+}
+
+.ui-posts__empty-message {
+	color: #374151;
+	font-size: 14px;
+	overflow-wrap: anywhere;
 }
 
 .ui-posts__pagination {

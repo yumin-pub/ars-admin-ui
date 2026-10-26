@@ -591,6 +591,10 @@ body {
 	background-color: #9ca3af;
 	cursor: pointer;
 }
+.ui-input__clear:focus-visible {
+	outline: 2px solid #e6007e;
+	outline-offset: 2px;
+}
 
 .ui-field__meta {
 	display: flex;
