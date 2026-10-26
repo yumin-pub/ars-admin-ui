@@ -12,6 +12,7 @@ function Input({
     prefixContent,
     suffixContent,
     clearable = false,
+    onClear,
     disabled,
     readOnly,
     className = '',
@@ -65,6 +66,11 @@ function Input({
                 type="button"
                 className="ui-input__clear"
                 aria-label="입력값 삭제"
+                // onClear를 넘기지 않으면 onClick도 붙지 않는다. (기존 동작 유지)
+                // 비활성·읽기 전용 입력에서는 값을 지우지 않는다.
+                onClick={onClear && (() => {
+                    if (!disabled && !readOnly) onClear();
+                })}
                 >
                 ×
                 </button>

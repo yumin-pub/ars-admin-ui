@@ -83,6 +83,7 @@ import { Input } from '@/components/Input';
 | `prefixContent` | `ReactNode` | - | Prefix 영역 |
 | `suffixContent` | `ReactNode` | - | Suffix 영역 |
 | `clearable` | `boolean` | `false` | Clear Button 표시 |
+| `onClear` | `() => void` | - | Clear Button 클릭(Enter·Space 포함) 시 호출. 넘기지 않으면 버튼은 표시만 되고 아무 동작도 하지 않는다 |
 | `disabled` | `boolean` | `false` | 비활성화 |
 | `readOnly` | `boolean` | `false` | 읽기 전용 |
 | `fieldClassName` | `string` | `''` | ui-field 추가 클래스 |
@@ -171,6 +172,26 @@ HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할
 />
 ```
 
+### Clearable (onClear)
+
+`clearable`만 주면 버튼이 보이기만 합니다. 실제로 값을 지우려면 `onClear`를 함께 넘기고, 그 안에서 값을 비웁니다.
+비활성(`disabled`)·읽기 전용(`readOnly`)일 때는 `onClear`가 호출되지 않습니다.
+
+```tsx
+const [value, setValue] = useState('');
+
+<Input
+  id="keyword"
+  label="검색어"
+  value={value}
+  onChange={(event) => setValue(event.target.value)}
+  clearable={value !== ''}
+  onClear={() => setValue('')}
+/>
+```
+
+<Canvas of={InputStories.Clearable} />
+
 ---
 
 ## HTML Class Usage
@@ -226,6 +247,8 @@ ui-field
 - `id`를 전달하면 Label의 `htmlFor`와 input의 `id`가 연결됩니다.
 - Error 상태에서는 `aria-invalid`를 제공합니다.
 - Clear Button에는 `aria-label`을 제공합니다.
+- Clear Button은 native `button`이라 Tab으로 이동해 Enter·Space로 `onClear`를 실행할 수 있고, `:focus-visible` 표시가 있습니다.
+- 값을 지운 뒤 포커스를 입력창으로 돌려주는 일은 사용하는 쪽에서 합니다. (Input은 아직 `ref`를 받지 않습니다)
 - Disabled와 Readonly는 HTML 기본 속성을 사용합니다.
 
 예시

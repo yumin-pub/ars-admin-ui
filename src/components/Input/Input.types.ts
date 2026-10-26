@@ -68,6 +68,10 @@ export interface InputProps
     // Clear Button 표시 여부
     clearable?: boolean;
 
+    // Clear Button 클릭 시 호출 (clearable일 때만 의미가 있다)
+    // 값을 비우는 일은 호출하는 쪽이 한다. (controlled input 기준)
+    onClear?: () => void;
+
     // ui-field 추가 클래스, fieldClassName이라 하고 컴포넌트에 클래스 추가하면 됨  
     fieldClassName?: string;
 

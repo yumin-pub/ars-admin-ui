@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Input } from '../../../components/Input';
+import type { InputProps } from '../../../components/Input';
 import InputPage from '../../../pages/UISystem/InputPage';
 
 const meta = {
@@ -76,6 +78,11 @@ const meta = {
             description: 'Clear Button',
         },
 
+        onClear: {
+            control: false,
+            description: 'Clear Button 클릭 시 호출 (Enter·Space 포함)',
+        },
+
         disabled: {
             control: 'boolean',
             description: 'Disabled',
@@ -122,6 +129,34 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
+
+/**
+ * clearable + onClear
+ * 값을 비우는 일은 onClear에서 직접 한다. (controlled input)
+ */
+function ClearableInput(args: InputProps) {
+    const [value, setValue] = useState('지울 수 있는 값');
+
+    return (
+        <Input
+            {...args}
+            value={value}
+            onChange={(event) => setValue(event.target.value)}
+            clearable={value !== ''}
+            onClear={() => setValue('')}
+        />
+    );
+}
+
+export const Clearable: Story = {
+    args: {
+        id: 'input-clearable',
+        label: '검색어',
+        helperText: '× 버튼(또는 Tab으로 이동 후 Enter·Space)으로 값을 지웁니다.',
+    },
+
+    render: (args) => <ClearableInput {...args} />,
+};
 
 export const Examples: Story = {
     render: () => <InputPage />,
