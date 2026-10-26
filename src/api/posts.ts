@@ -45,6 +45,12 @@ export interface FetchPostsParams {
     skip: number;
 
     /**
+     * 검색어. 값이 있으면 /posts/search를 쓰고, 없으면 기존 목록 조회와 같다.
+     * 앞뒤 공백은 여기서도 한 번 더 제거한다. (공백만 있으면 검색하지 않는다)
+     */
+    q?: string;
+
+    /**
      * 요청 취소용 (react-query가 넘겨주는 signal)
      */
     signal?: AbortSignal;
@@ -57,14 +63,22 @@ export interface FetchPostsParams {
 export async function fetchPosts({
     limit,
     skip,
+    q,
     signal,
 }: FetchPostsParams): Promise<PostsResponse> {
+    const keyword = q?.trim() ?? '';
+
     const params = new URLSearchParams({
+        ...(keyword && { q: keyword }),
         limit: String(limit),
         skip: String(skip),
     });
 
-    const response = await fetch(`${POSTS_API_URL}?${params}`, { signal });
+    const url = keyword
+        ? `${POSTS_API_URL}/search?${params}`
+        : `${POSTS_API_URL}?${params}`;
+
+    const response = await fetch(url, { signal });
 
     if (!response.ok) {
         throw new Error(`게시글 목록을 불러오지 못했습니다. (HTTP ${response.status})`);

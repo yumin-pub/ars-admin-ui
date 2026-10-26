@@ -22,6 +22,25 @@
     color: $gray-700;
 
     font-size: $fs-md;
+
+    > p {
+        margin: $space-0;
+    }
+
+    > p + p {
+        margin-top: $space-1;
+    }
+}
+
+// ========================================
+// Search
+// - role="search" 영역. 입력은 공통 Input을 그대로 쓰고 폭만 정한다.
+// ========================================
+
+.ui-posts__search {
+    // 폭 토큰이 없어 간격 토큰으로 계산한다. (96px × 5 = 480px)
+    max-width: $space-24 * 5;
+    margin-bottom: $space-4;
 }
 
 // ========================================
@@ -74,6 +93,33 @@
     color: $error;
 
     font-size: $fs-md;
+}
+
+// ========================================
+// Empty
+// - 검색 결과가 없을 때
+// ========================================
+
+.ui-posts__empty {
+    @include flex-column(center, center, $space-4);
+
+    padding: $space-10;
+
+    border: 1px solid $gray-200;
+    border-radius: $radius-lg;
+
+    background-color: $gray-50;
+
+    text-align: center;
+}
+
+.ui-posts__empty-message {
+    color: $gray-700;
+
+    font-size: $fs-md;
+
+    // 긴 영문 검색어도 상자 밖으로 넘치지 않게
+    overflow-wrap: anywhere;
 }
 
 // ========================================
