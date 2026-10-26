@@ -170,6 +170,17 @@ body {
 	color: #4b5563;
 }
 
+.ui-badge--tag {
+	padding-block: 3px;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background-color: #ffffff;
+	color: #374151;
+}
+.ui-badge--tag::before {
+	display: none;
+}
+
 .ui-btn {
 	display: inline-flex;
 	align-items: center;
@@ -980,7 +991,7 @@ body {
 	cursor: pointer;
 	transition: border-color 0.2s, background-color 0.2s, color 0.2s;
 }
-.ui-pagination__button:hover:not(:disabled, .is-active) {
+.ui-pagination__button:hover:not(:disabled, .is-active, .is-disabled, [aria-disabled=true]) {
 	border-color: #e6007e;
 	color: #e6007e;
 }
@@ -994,7 +1005,7 @@ body {
 	color: #ffffff;
 	cursor: default;
 }
-.ui-pagination__button:disabled:not(.is-active) {
+.ui-pagination__button:disabled:not(.is-active), .ui-pagination__button[aria-disabled=true], .ui-pagination__button.is-disabled {
 	border-color: #e5e7eb;
 	background-color: #f3f4f6;
 	color: #9ca3af;
@@ -1289,6 +1300,9 @@ body {
 .ui-table-wrap::-webkit-scrollbar-track {
 	background: transparent;
 }
+.ui-table-wrap.is-refreshing {
+	position: relative;
+}
 
 .ui-table {
 	width: 100%;
@@ -1296,6 +1310,18 @@ body {
 	border-collapse: collapse;
 	table-layout: fixed;
 	background-color: #ffffff;
+}
+
+.ui-table__caption {
+	font-family: "Pretendard", "Noto Sans KR", sans-serif;
+	font-weight: 600;
+	padding: 12px 16px;
+	border-bottom: 1px solid #e5e7eb;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #111827;
+	text-align: left;
+	caption-side: top;
 }
 
 .ui-table__head th {
