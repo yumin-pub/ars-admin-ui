@@ -40,12 +40,12 @@ HTML과 SCSS 기반의 UI 구조를 유지하면서 React와 TypeScript를 결�
 - Table
 - Pagination
 - Modal
+- Loading
 
 ### Planned Components
 
 추후 추가할 예정인 공통 상태 컴포넌트입니다.
 
-- Loading
 - Empty State
 - Error State
 
@@ -215,6 +215,7 @@ npm run lint
 │  │  ├ Button
 │  │  ├ Checkbox
 │  │  ├ Input
+│  │  ├ Loading
 │  │  ├ Modal
 │  │  ├ Pagination
 │  │  ├ Radio
@@ -279,7 +280,7 @@ src/styles
 | Pagination | Implemented | Implemented | Implemented |
 | Table | Implemented | Implemented | Implemented |
 | Modal | Implemented | Implemented | Implemented |
-| Loading | Planned | - | - |
+| Loading | Implemented | Implemented | Implemented |
 | Empty State | Planned | - | - |
 | Error State | Planned | - | - |
 | CRUD Example | Planned | - | - |

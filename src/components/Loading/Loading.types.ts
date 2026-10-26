@@ -18,8 +18,11 @@ export interface LoadingProps {
 
     /**
      * Loading 보조 안내 문구입니다.
+     *
+     * 지정하지 않으면(undefined) 기본 문구를 표시하고,
+     * null을 넘기면 보조 문구를 표시하지 않습니다.
      */
-    description?: string;
+    description?: string | null;
 
     /**
      * 추가 클래스명입니다.

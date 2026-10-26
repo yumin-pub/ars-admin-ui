@@ -65,6 +65,7 @@ const meta = {
         columns,
         data,
         loading: false,
+        refreshing: false,
         emptyMessage: '검색 결과가 없습니다.',
     },
 } satisfies Meta<typeof StoryTable>;
@@ -74,6 +75,25 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
+
+export const Caption: Story = {
+    args: {
+        caption: '공지사항 목록',
+    },
+};
+
+export const AriaLabel: Story = {
+    args: {
+        ariaLabel: '공지사항 목록',
+    },
+};
+
+export const Refreshing: Story = {
+    args: {
+        refreshing: true,
+        refreshingMessage: '다음 페이지를 불러오는 중입니다.',
+    },
+};
 
 export const Examples: Story = {
     render: () => <TablePage />,

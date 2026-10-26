@@ -28,6 +28,7 @@ const meta = {
                 'success',
                 'warning',
                 'neutral',
+                'tag',
             ],
             description: '상태 색상',
         },
@@ -43,6 +44,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
+
+export const Tag: Story = {
+    args: {
+        children: 'history',
+        variant: 'tag',
+    },
+};
 
 export const Examples: Story = {
     render: () => <BadgePage />,

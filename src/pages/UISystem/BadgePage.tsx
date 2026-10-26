@@ -17,6 +17,15 @@ function BadgePage() {
                         <span className="ui-badge ui-badge--neutral">미노출</span>
                     </div>
                 </div>
+
+                <div className="ui-doc__group">
+                    <h3 className="ui-doc__group-title">Tag</h3>
+
+                    <div className="ui-doc__row">
+                        <span className="ui-badge ui-badge--tag">history</span>
+                        <span className="ui-badge ui-badge--tag">french</span>
+                    </div>
+                </div>
             </section>
 
             <section className="ui-doc__section">
@@ -29,6 +38,15 @@ function BadgePage() {
                         <Badge variant="success">노출중</Badge>
                         <Badge variant="warning">예약</Badge>
                         <Badge variant="neutral">미노출</Badge>
+                    </div>
+                </div>
+
+                <div className="ui-doc__group">
+                    <h3 className="ui-doc__group-title">Tag</h3>
+
+                    <div className="ui-doc__row">
+                        <Badge variant="tag">history</Badge>
+                        <Badge variant="tag">french</Badge>
                     </div>
                 </div>
 

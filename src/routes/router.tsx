@@ -15,6 +15,7 @@ import SelectPage from '../pages/UISystem/SelectPage';
 import ModalPage from '../pages/UISystem/ModalPage';
 import TablePage from '../pages/UISystem/TablePage';
 import PaginationPage from '../pages/UISystem/PaginationPage';
+import LoadingPage from '../pages/UISystem/LoadingPage';
 
 export const router = createBrowserRouter([
     {
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
     {
         path: '/ui/pagination',
         element: <PaginationPage />,
+    },
+    {
+        path: '/ui/loading',
+        element: <LoadingPage />,
     },
     {
         path: '/ui/badge',

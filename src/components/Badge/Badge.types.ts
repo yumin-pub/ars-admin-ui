@@ -6,7 +6,8 @@ import type {
 export type BadgeVariant =
     | 'success'
     | 'warning'
-    | 'neutral';
+    | 'neutral'
+    | 'tag';
 
 export interface BadgeProps
     extends HTMLAttributes<HTMLSpanElement> {
@@ -19,6 +20,8 @@ export interface BadgeProps
 
     /**
      * 상태 색상
+     *
+     * 'tag'는 상태가 아닌 분류(태그)용으로, 점 없이 테두리가 있는 사각형으로 표시한다.
      */
     variant?: BadgeVariant;
 

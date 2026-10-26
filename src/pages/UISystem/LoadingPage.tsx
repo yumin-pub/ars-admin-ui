@@ -7,6 +7,38 @@ function LoadingPage() {
 
             <section className="ui-doc__section">
                 <h2 className="ui-doc__section-title">
+                    0. HTML Loading Class
+                </h2>
+
+                <div className="ui-doc__group">
+                    <div
+                        className="ui-loading ui-loading--md"
+                        role="status"
+                        aria-live="polite"
+                        aria-busy="true"
+                    >
+                        <div className="ui-loading__panel">
+                            <span
+                                className="ui-loading__spinner"
+                                aria-hidden="true"
+                            />
+
+                            <div className="ui-loading__content">
+                                <p className="ui-loading__message">
+                                    데이터를 불러오는 중입니다.
+                                </p>
+
+                                <p className="ui-loading__description">
+                                    잠시만 기다려 주세요.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="ui-doc__section">
+                <h2 className="ui-doc__section-title">
                     1. Basic Loading
                 </h2>
 
@@ -54,7 +86,7 @@ function LoadingPage() {
                         overlay={false}
                         size="md"
                         message=""
-                        description=""
+                        description={null}
                     />
                 </div>
             </section>
@@ -79,6 +111,21 @@ function LoadingPage() {
                         size="md"
                         message="검색 결과를 불러오는 중입니다."
                         description="잠시만 기다려 주세요."
+                    />
+                </div>
+            </section>
+
+            <section className="ui-doc__section">
+                <h2 className="ui-doc__section-title">
+                    3-1. No Description
+                </h2>
+
+                <div className="ui-doc__group">
+                    <Loading
+                        overlay={false}
+                        size="sm"
+                        message="다음 페이지를 불러오는 중입니다."
+                        description={null}
                     />
                 </div>
             </section>

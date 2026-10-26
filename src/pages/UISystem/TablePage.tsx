@@ -338,6 +338,67 @@ function TablePage() {
                         </table>
                     </div>
                 </div>
+
+                <div className="ui-doc__group">
+                    <h3 className="ui-doc__group-title">Refreshing State</h3>
+
+                    {/* 행은 그대로 두고 Loading overlay를 덮는다. overlay는 시각 표시 전용(aria-hidden) */}
+                    <div className="ui-table-wrap is-refreshing">
+                        <table
+                            className="ui-table"
+                            aria-label="다시 불러오는 중인 표 예시 (HTML)"
+                            aria-busy="true"
+                        >
+                            <thead className="ui-table__head">
+                                <tr>
+                                <th scope="col" className="ui-table__cell-sm">번호</th>
+                                <th scope="col">제목</th>
+                                <th scope="col" className="ui-table__cell-md">상태</th>
+                                <th scope="col" className="ui-table__cell-md">등록일</th>
+                                </tr>
+                            </thead>
+
+                            <tbody className="ui-table__body">
+                                <tr>
+                                <td>1</td>
+                                <td className="ui-table__cell-title">긴급공지 안내</td>
+                                <td>
+                                    <span className="ui-badge ui-badge--success">노출중</span>
+                                </td>
+                                <td>2026-06-10</td>
+                                </tr>
+
+                                <tr>
+                                <td>2</td>
+                                <td className="ui-table__cell-title">시스템 점검 안내</td>
+                                <td>
+                                    <span className="ui-badge ui-badge--neutral">미노출</span>
+                                </td>
+                                <td>2026-06-12</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div className="ui-table__refreshing" aria-hidden="true">
+                            <div
+                                className="ui-loading ui-loading--sm ui-loading--overlay"
+                                role="status"
+                                aria-live="polite"
+                                aria-busy="true"
+                            >
+                                <div className="ui-loading__panel">
+                                    <span className="ui-loading__spinner" aria-hidden="true" />
+
+                                    <div className="ui-loading__content">
+                                        <p className="ui-loading__message">
+                                            데이터를 불러오는 중입니다.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
             <section className="ui-doc__section">
                 <h2 className="ui-doc__section-title">
@@ -388,6 +449,19 @@ function TablePage() {
                         columns={emptyColumns}
                         data={[]}
                         loading
+                    />
+                </div>
+
+                <div className="ui-doc__group">
+                    <h3 className="ui-doc__group-title">
+                        Refreshing Table
+                    </h3>
+
+                    <Table<BasicRow>
+                        columns={basicColumns}
+                        data={basicData}
+                        refreshing
+                        ariaLabel="다시 불러오는 중인 표 예시"
                     />
                 </div>
             </section>      

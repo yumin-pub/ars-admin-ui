@@ -9,6 +9,7 @@ import * as BadgeStories from './Badge.stories';
 Badge는 노출중·예약·미노출처럼 항목의 상태를 짧게 표시하는 라벨입니다.
 
 앞에 점(dot)이 붙은 알약 모양이며, Table의 상태 셀처럼 목록 안에서 주로 사용합니다.
+상태가 아닌 분류(태그)는 `variant="tag"`로 점 없는 사각형 라벨을 씁니다.
 
 ---
 
@@ -29,6 +30,7 @@ Badge는 노출중·예약·미노출처럼 항목의 상태를 짧게 표시하
 ## Features
 
 - `success` / `warning` / `neutral` 3가지 상태 색상
+- 분류 표시용 `tag` (점 없음, 테두리 있는 사각형)
 - 앞쪽 점(dot)은 CSS `::before`로 그려 별도 마크업이 필요 없음
 - 글자색 대비 4.5:1 이상 (WCAG AA)
 - `span`의 HTML 기본 속성(`id`, `title`, `aria-*` 등) 전달 가능
@@ -51,7 +53,7 @@ import type { BadgeVariant } from '@/components/Badge';
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `ReactNode` | - | 표시할 상태 텍스트 |
-| `variant` | `'success' \| 'warning' \| 'neutral'` | `'neutral'` | 상태 색상 |
+| `variant` | `'success' \| 'warning' \| 'neutral' \| 'tag'` | `'neutral'` | 상태 색상 (`tag`는 분류용) |
 | `className` | `string` | `''` | `span` 요소에 추가할 클래스 |
 | `...props` | `HTMLAttributes<HTMLSpanElement>` | - | `span`에 그대로 전달 |
 
@@ -62,6 +64,10 @@ import type { BadgeVariant } from '@/components/Badge';
 Controls에서 `variant`와 텍스트를 바꿔 볼 수 있습니다.
 
 <Canvas of={BadgeStories.Playground} />
+
+### Tag
+
+<Canvas of={BadgeStories.Tag} />
 
 ---
 
@@ -80,6 +86,7 @@ HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할
 | `success` | 노출중, 완료, 정상 | `rgba($success, .12)` | `$success-text` |
 | `warning` | 예약, 대기, 주의 | `rgba($warning, .16)` | `$warning-text` |
 | `neutral` | 미노출, 비활성, 기타 | `rgba($gray-500, .12)` | `$gray-600` |
+| `tag` | 분류·키워드 (상태 아님) | `$white` + `1px solid $gray-300` 테두리, `$radius-sm` | `$gray-700` |
 
 Badge는 클릭할 수 없는 표시용 요소이므로 hover / focus / disabled 상태가 없습니다.
 
@@ -87,6 +94,7 @@ Badge는 클릭할 수 없는 표시용 요소이므로 hover / focus / disabled
 <Badge variant="success">노출중</Badge>
 <Badge variant="warning">예약</Badge>
 <Badge variant="neutral">미노출</Badge>
+<Badge variant="tag">history</Badge>
 ```
 
 ---
@@ -121,6 +129,7 @@ const statusMap = {
 <span class="ui-badge ui-badge--success">노출중</span>
 <span class="ui-badge ui-badge--warning">예약</span>
 <span class="ui-badge ui-badge--neutral">미노출</span>
+<span class="ui-badge ui-badge--tag">history</span>
 ```
 
 ---
@@ -132,7 +141,8 @@ ui-badge
 ├── ::before          // 점(dot), currentColor
 ├── ui-badge--success
 ├── ui-badge--warning
-└── ui-badge--neutral
+├── ui-badge--neutral
+└── ui-badge--tag     // 점 숨김, 테두리 사각형
 ```
 
 ---
@@ -142,6 +152,7 @@ ui-badge
 - 글자색은 흰 배경과 Badge 배경 위에서 대비 4.5:1 이상이 되도록 `$success-text`, `$warning-text`, `$gray-600` 토큰을 사용합니다.
 - 상태 의미는 **텍스트로 전달**합니다. 색과 점만으로 상태를 구분하지 않습니다.
 - 점(dot)은 내용이 빈 `::before`라서 스크린리더가 읽지 않습니다.
+- `tag`의 `$gray-700` 글자는 `$white` 배경 위에서 대비 4.5:1 이상입니다.
 - 포커스를 받지 않는 정적 요소입니다. 클릭 동작이 필요하면 Badge를 `button`이나 `a` 안에 넣고, 포커스 표시는 바깥 요소가 담당합니다.
 - 상태가 실시간으로 바뀌는 경우에는 Badge 자체가 아니라 바깥 영역에 `aria-live`를 둡니다.
 

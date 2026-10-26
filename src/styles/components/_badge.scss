@@ -52,3 +52,19 @@
     background-color: rgba($gray-500, .12);
     color: $gray-600;
 }
+
+// 태그: 상태가 아닌 분류 표시. 점 없이 테두리 있는 사각형
+.ui-badge--tag {
+    // 테두리(1px)만큼 위아래 padding을 줄여 다른 variant와 높이를 맞춘다
+    padding-block: $space-1 - 1px;
+
+    border: 1px solid $gray-300;
+    border-radius: $radius-sm;
+
+    background-color: $white;
+    color: $gray-700;
+
+    &::before {
+        display: none;
+    }
+}

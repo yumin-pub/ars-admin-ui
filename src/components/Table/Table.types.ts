@@ -83,11 +83,36 @@ export interface TableProps<T extends TableRow = TableRow> {
      */
     loading?: boolean;
     /**
+     * 데이터를 다시 불러오는 상태 (예: 페이지 이동)
+     *
+     * true이면 현재 행을 그대로 둔 채 표 위에 Loading overlay를 덮고,
+     * table에 aria-busy="true"를 준다.
+     * loading이 true이면 무시한다.
+     */
+    refreshing?: boolean;
+    /**
+     * refreshing overlay에 표시할 문구
+     */
+    refreshingMessage?: string;
+    /**
      * 선택된 행의 id 목록
      * 여기에 포함된 id의 행에 `is-selected` 클래스가 붙는다.
      * 선택 상태는 사용하는 쪽(부모)이 관리한다.
      */
     selectedIds?: Array<TableRow['id']>;
+    /**
+     * table 요소의 이름 (aria-label)
+     *
+     * 화면에 보이는 제목이 없을 때 표를 식별할 이름을 지정한다.
+     * 보이는 제목이 필요하면 caption을 쓴다. 지정하지 않으면 속성을 만들지 않는다.
+     */
+    ariaLabel?: string;
+    /**
+     * 표 제목 (<caption>)
+     *
+     * 지정하지 않으면 caption 요소를 만들지 않는다.
+     */
+    caption?: ReactNode;
     /**
      * 테이블 요소에 추가할 클래스
      */

@@ -6,7 +6,6 @@ import type { PostRow } from '../../api/posts';
 
 import { Badge } from '../../components/Badge';
 import { Button } from '../../components/Button';
-import Loading from '../../components/Loading/Loading';
 import { Pagination } from '../../components/Pagination';
 import { Table } from '../../components/Table';
 import type { TableColumn } from '../../components/Table';
@@ -37,7 +36,7 @@ const columns: TableColumn<PostRow>[] = [
             <ul className="ui-posts__tags">
                 {row.tags.map((tag) => (
                     <li key={tag}>
-                        <Badge>{tag}</Badge>
+                        <Badge variant="tag">{tag}</Badge>
                     </li>
                 ))}
             </ul>
@@ -127,8 +126,8 @@ function PostsPage() {
                 데모 API: 변경은 화면에만 반영돼요
             </p>
 
-            <section className="ui-doc__section" aria-labelledby="posts-list-title">
-                <h2 id="posts-list-title" className="ui-doc__section-title">
+            <section className="ui-doc__section">
+                <h2 className="ui-doc__section-title">
                     게시글 목록
                 </h2>
 
@@ -153,26 +152,17 @@ function PostsPage() {
                         </Button>
                     </div>
                 ) : (
-                    <div
-                        className="ui-posts__table-area"
-                        aria-busy={isPlaceholderData}
-                    >
-                        <Table<PostRow>
-                            columns={columns}
-                            data={data?.rows ?? []}
-                            loading={isPending}
-                            emptyMessage="게시글이 없습니다."
-                        />
-
-                        {/* 페이지 이동 중: 이전 목록 위에 로딩을 덮는다 */}
-                        {isPlaceholderData && (
-                            <Loading
-                                size="sm"
-                                message="다음 페이지를 불러오는 중입니다."
-                                description=""
-                            />
-                        )}
-                    </div>
+                    // 페이지 이동 중(isPlaceholderData): 이전 목록 위에 로딩을 덮는다
+                    // 이동이 끝나면 위 요약 문구(aria-live)가 결과를 읽어준다
+                    <Table<PostRow>
+                        columns={columns}
+                        data={data?.rows ?? []}
+                        loading={isPending}
+                        refreshing={isPlaceholderData}
+                        refreshingMessage="다음 페이지를 불러오는 중입니다."
+                        emptyMessage="게시글이 없습니다."
+                        ariaLabel="게시글 목록"
+                    />
                 )}
 
                 {totalPages > 0 && (
