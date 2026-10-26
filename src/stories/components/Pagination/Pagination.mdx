@@ -60,7 +60,6 @@ Pagination은 전체 페이지 수와 현재 페이지를 기준으로 표시할
         type="button"
         class="ui-pagination__button is-active"
         aria-current="page"
-        disabled
       >
         3
       </button>
@@ -100,9 +99,9 @@ Pagination은 전체 페이지 수와 현재 페이지를 기준으로 표시할
 - Ellipsis(`…`) 자동 표시
 - `visiblePageCount`를 통한 표시 페이지 개수 설정
 - Left / Center / Right 정렬 지원
-- 첫 페이지에서 이전 이동 버튼 자동 비활성화
-- 마지막 페이지에서 다음 이동 버튼 자동 비활성화
-- 현재 페이지 버튼 자동 비활성화
+- 첫 페이지에서 처음 / 이전 버튼 자동 비활성화 (`aria-disabled`, 포커스 유지)
+- 마지막 페이지에서 다음 / 마지막 버튼 자동 비활성화 (`aria-disabled`, 포커스 유지)
+- 현재 페이지 버튼을 다시 눌러도 `onPageChange` 미호출
 - `aria-current`, `aria-label` 접근성 속성 지원
 
 ---
@@ -349,6 +348,8 @@ ui-pagination--right
 
 현재 페이지가 `1`이면 첫 페이지와 이전 페이지 버튼이 비활성화됩니다.
 
+`disabled` 대신 `aria-disabled="true"`와 `is-disabled` 클래스를 씁니다. 버튼은 포커스를 받을 수 있고(스크린리더는 "사용할 수 없음"으로 읽음), 클릭·Enter·Space를 눌러도 `onPageChange`는 호출되지 않습니다.
+
 ```tsx
 <Pagination
   page={1}
@@ -360,18 +361,18 @@ ui-pagination--right
 ```html
 <button
   type="button"
-  class="ui-pagination__button"
+  class="ui-pagination__button is-disabled"
   aria-label="첫 페이지"
-  disabled
+  aria-disabled="true"
 >
   «
 </button>
 
 <button
   type="button"
-  class="ui-pagination__button"
+  class="ui-pagination__button is-disabled"
   aria-label="이전 페이지"
-  disabled
+  aria-disabled="true"
 >
   ‹
 </button>
@@ -382,6 +383,8 @@ ui-pagination--right
 ## Last Page State
 
 현재 페이지가 `totalPages`와 같으면 다음 페이지와 마지막 페이지 버튼이 비활성화됩니다.
+
+9페이지에서 "다음"을 눌러 마지막 페이지로 오면 그 버튼이 바로 비활성화되지만, `aria-disabled`라서 포커스는 그 버튼에 그대로 남습니다.
 
 ```tsx
 <Pagination
@@ -394,18 +397,18 @@ ui-pagination--right
 ```html
 <button
   type="button"
-  class="ui-pagination__button"
+  class="ui-pagination__button is-disabled"
   aria-label="다음 페이지"
-  disabled
+  aria-disabled="true"
 >
   ›
 </button>
 
 <button
   type="button"
-  class="ui-pagination__button"
+  class="ui-pagination__button is-disabled"
   aria-label="마지막 페이지"
-  disabled
+  aria-disabled="true"
 >
   »
 </button>
@@ -417,14 +420,14 @@ ui-pagination--right
 
 현재 페이지에는 `is-active` 클래스와 `aria-current="page"`가 적용됩니다.
 
-현재 페이지를 다시 선택할 필요가 없으므로 버튼은 `disabled` 상태로 렌더링됩니다.
+현재 페이지 버튼은 `disabled`를 주지 않습니다. 누른 버튼이 현재 페이지가 되어도 포커스가 그 자리에 남아 키보드로 이어서 이동할 수 있습니다.
+현재 페이지를 다시 눌러도 `onPageChange`는 호출되지 않습니다.
 
 ```html
 <button
   type="button"
   class="ui-pagination__button is-active"
   aria-current="page"
-  disabled
 >
   3
 </button>
@@ -476,7 +479,6 @@ ui-pagination--right
         type="button"
         class="ui-pagination__button is-active"
         aria-current="page"
-        disabled
       >
         2
       </button>
@@ -526,7 +528,8 @@ ui-pagination
 └── ui-pagination__list
     └── ui-pagination__item
         ├── ui-pagination__button
-        │   └── is-active
+        │   ├── is-active
+        │   └── is-disabled   // aria-disabled="true"와 함께 사용
         └── ui-pagination__ellipsis
             └── ui-pagination__ellipsis-text
 ```
@@ -539,9 +542,11 @@ ui-pagination
 - `<nav>`에는 `aria-label="페이지네이션"`을 제공합니다.
 - 첫 페이지 / 이전 페이지 / 다음 페이지 / 마지막 페이지 버튼에는 각 동작을 설명하는 `aria-label`을 제공합니다.
 - 현재 페이지에는 `aria-current="page"`를 제공합니다.
-- 현재 페이지 버튼은 다시 선택할 필요가 없으므로 `disabled` 상태로 렌더링됩니다.
-- 첫 페이지에서는 첫 페이지 / 이전 페이지 버튼을 비활성화합니다.
-- 마지막 페이지에서는 다음 페이지 / 마지막 페이지 버튼을 비활성화합니다.
+- 현재 페이지 버튼에는 `disabled`를 주지 않습니다. `disabled`가 되면 방금 누른 버튼에서 포커스가 사라져(body로 이동) 키보드 사용자가 위치를 잃습니다. 현재 페이지에서 Enter / Space를 눌러도 `onPageChange`는 호출되지 않습니다.
+- 첫 페이지에서는 첫 페이지 / 이전 페이지 버튼을, 마지막 페이지에서는 다음 페이지 / 마지막 페이지 버튼을 비활성화합니다.
+  - `disabled` 대신 `aria-disabled="true"` + `is-disabled`를 씁니다. `disabled`는 버튼을 포커스 순서에서 빼므로, 방금 누른 버튼이 비활성화되면 포커스가 body로 사라집니다.
+  - 비활성 상태에서 클릭·Enter·Space를 눌러도 `onPageChange`는 호출되지 않습니다.
+  - HTML 클래스만 쓸 때 이동을 막는 처리는 사용하는 쪽 스크립트가 담당합니다.
 - Ellipsis는 실제 조작 요소가 아니므로 `aria-hidden="true"`를 사용합니다.
 
 현재 페이지 예시:
@@ -551,7 +556,6 @@ ui-pagination
   type="button"
   class="ui-pagination__button is-active"
   aria-current="page"
-  disabled
 >
   3
 </button>

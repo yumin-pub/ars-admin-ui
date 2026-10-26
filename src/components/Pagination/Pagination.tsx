@@ -106,6 +106,30 @@ function Pagination({
     const showTrailingEllipsis = endPage < totalPages - 1;
 
     /**
+     * 처음 / 이전 / 다음 / 마지막 버튼 클래스 생성
+     * 이동할 수 없으면 is-disabled를 붙인다. (aria-disabled와 함께 사용)
+     */
+    const getEdgeButtonClassName = (isDisabled: boolean) =>
+        [
+            'ui-pagination__button',
+            isDisabled && 'is-disabled',
+        ]
+            .filter(Boolean)
+            .join(' ');
+
+    /**
+     * 처음 / 이전 / 다음 / 마지막 버튼 클릭
+     *
+     * 이동할 수 없는 상태에서도 disabled 대신 aria-disabled를 써서
+     * 누른 버튼에서 포커스가 사라지지 않게 한다. 대신 여기서 호출을 막는다.
+     */
+    const handleEdgeClick = (isDisabled: boolean, nextPage: number) => {
+        if (!isDisabled) {
+            onPageChange(nextPage);
+        }
+    };
+
+    /**
      * Pagination 정렬 클래스 생성
      */
     const paginationClassNameList = [
@@ -125,10 +149,10 @@ function Pagination({
                 <li className="ui-pagination__item">
                     <button
                         type="button"
-                        className="ui-pagination__button"
+                        className={getEdgeButtonClassName(isFirstPage)}
                         aria-label="첫 페이지"
-                        disabled={isFirstPage}
-                        onClick={() => onPageChange(1)}
+                        aria-disabled={isFirstPage ? true : undefined}
+                        onClick={() => handleEdgeClick(isFirstPage, 1)}
                     >
                         «
                     </button>
@@ -137,10 +161,10 @@ function Pagination({
                 <li className="ui-pagination__item">
                     <button
                         type="button"
-                        className="ui-pagination__button"
+                        className={getEdgeButtonClassName(isFirstPage)}
                         aria-label="이전 페이지"
-                        disabled={isFirstPage}
-                        onClick={() => onPageChange(page - 1)}
+                        aria-disabled={isFirstPage ? true : undefined}
+                        onClick={() => handleEdgeClick(isFirstPage, page - 1)}
                     >
                         ‹
                     </button>
@@ -193,10 +217,14 @@ function Pagination({
                                         ? 'page'
                                         : undefined
                                 }
-                                disabled={isActive}
-                                onClick={() =>
-                                    onPageChange(pageNumber)
-                                }
+                                // 현재 페이지는 disabled로 만들지 않는다.
+                                // disabled가 되면 누른 버튼에서 포커스가 사라지기 때문.
+                                // 대신 다시 눌러도 onPageChange를 부르지 않는다.
+                                onClick={() => {
+                                    if (!isActive) {
+                                        onPageChange(pageNumber);
+                                    }
+                                }}
                             >
                                 {pageNumber}
                             </button>
@@ -233,10 +261,10 @@ function Pagination({
                 <li className="ui-pagination__item">
                     <button
                         type="button"
-                        className="ui-pagination__button"
+                        className={getEdgeButtonClassName(isLastPage)}
                         aria-label="다음 페이지"
-                        disabled={isLastPage}
-                        onClick={() => onPageChange(page + 1)}
+                        aria-disabled={isLastPage ? true : undefined}
+                        onClick={() => handleEdgeClick(isLastPage, page + 1)}
                     >
                         ›
                     </button>
@@ -245,10 +273,10 @@ function Pagination({
                 <li className="ui-pagination__item">
                     <button
                         type="button"
-                        className="ui-pagination__button"
+                        className={getEdgeButtonClassName(isLastPage)}
                         aria-label="마지막 페이지"
-                        disabled={isLastPage}
-                        onClick={() => onPageChange(totalPages)}
+                        aria-disabled={isLastPage ? true : undefined}
+                        onClick={() => handleEdgeClick(isLastPage, totalPages)}
                     >
                         »
                     </button>

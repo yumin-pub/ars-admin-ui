@@ -128,9 +128,9 @@ function PaginationPage() {
                             <li className="ui-pagination__item">
                                 <button
                                     type="button"
-                                    className="ui-pagination__button"
+                                    className="ui-pagination__button is-disabled"
                                     aria-label="첫 페이지"
-                                    disabled
+                                    aria-disabled="true"
                                 >
                                     «
                                 </button>
@@ -139,9 +139,9 @@ function PaginationPage() {
                             <li className="ui-pagination__item">
                                 <button
                                     type="button"
-                                    className="ui-pagination__button"
+                                    className="ui-pagination__button is-disabled"
                                     aria-label="이전 페이지"
-                                    disabled
+                                    aria-disabled="true"
                                 >
                                     ‹
                                 </button>
@@ -296,9 +296,9 @@ function PaginationPage() {
                             <li className="ui-pagination__item">
                                 <button
                                     type="button"
-                                    className="ui-pagination__button"
+                                    className="ui-pagination__button is-disabled"
                                     aria-label="다음 페이지"
-                                    disabled
+                                    aria-disabled="true"
                                 >
                                     ›
                                 </button>
@@ -307,9 +307,9 @@ function PaginationPage() {
                             <li className="ui-pagination__item">
                                 <button
                                     type="button"
-                                    className="ui-pagination__button"
+                                    className="ui-pagination__button is-disabled"
                                     aria-label="마지막 페이지"
-                                    disabled
+                                    aria-disabled="true"
                                 >
                                     »
                                 </button>

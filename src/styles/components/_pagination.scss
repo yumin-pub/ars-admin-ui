@@ -66,7 +66,7 @@
         background-color 0.2s,
         color 0.2s;
 
-    &:hover:not(:disabled, .is-active) {
+    &:hover:not(:disabled, .is-active, .is-disabled, [aria-disabled='true']) {
         border-color: $primary;
         color: $primary;
     }
@@ -84,10 +84,14 @@
         cursor: default;
     }
 
-    // 현재 페이지 버튼(is-active)에 disabled를 함께 줄 때도
-    // 회색 disabled 스타일이 아니라 활성 스타일이 유지되도록
-    // is-active를 제외하고 disabled 스타일을 적용한다
-    &:disabled:not(.is-active) {
+    // 이동할 수 없는 처음/이전/다음/마지막 버튼
+    // - 포커스가 사라지지 않도록 React 컴포넌트는 disabled 대신
+    //   aria-disabled="true" + is-disabled를 쓴다. (disabled도 같은 모양)
+    // - 현재 페이지 버튼(is-active)에 disabled를 함께 줄 때도
+    //   활성 스타일이 유지되도록 is-active는 제외한다
+    &:disabled:not(.is-active),
+    &[aria-disabled='true'],
+    &.is-disabled {
         border-color: $gray-200;
         background-color: $gray-100;
         color: $gray-400;
