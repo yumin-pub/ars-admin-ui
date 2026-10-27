@@ -168,20 +168,19 @@ function postTarget(title: string) {
 }
 
 /**
- * 삭제 실패 문구의 대상: 1건이면 제목, 여러 건이면 건수
+ * 삭제 실패 문구의 대상
+ * - 1건만 삭제한 요청: 그 제목 ('제목' 게시글)
+ * - 여러 건을 한꺼번에 삭제한 요청(일괄 삭제): 실패한 건수 (게시글 N건). 1건만 실패해도 건수로 알린다.
  * rows에 같은 id가 여러 번 들어 있어도 한 번만 센다.
  */
 function deleteTarget(rows: readonly PostRef[], failedIds: readonly number[]) {
-    const failedRows = [
-        ...new Map(
-            rows.filter((row) => failedIds.includes(row.id)).map((row) => [row.id, row]),
-        ).values(),
-    ];
+    const uniqueRows = [...new Map(rows.map((row) => [row.id, row])).values()];
+    const failedCount = uniqueRows.filter((row) => failedIds.includes(row.id)).length;
 
-    if (failedRows.length === 1) return postTarget(failedRows[0].title);
-    if (failedRows.length === 0) return '게시글';
+    if (uniqueRows.length === 1) return postTarget(uniqueRows[0].title);
+    if (failedCount === 0) return '게시글';
 
-    return `게시글 ${failedRows.length}건`;
+    return `게시글 ${failedCount}건`;
 }
 
 /* ==========================

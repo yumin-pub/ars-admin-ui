@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
@@ -8,11 +8,13 @@ import type { PostInput, PostRow, PostsResponse } from '../../api/posts';
 
 import { Badge } from '../../components/Badge';
 import { Button } from '../../components/Button';
+import { Checkbox } from '../../components/Checkbox';
 import { Input } from '../../components/Input';
 import { Pagination } from '../../components/Pagination';
 import { Table } from '../../components/Table';
 import type { TableColumn } from '../../components/Table';
 
+import DeleteConfirmModal from './DeleteConfirmModal';
 import PostFormModal from './PostFormModal';
 import PostsErrorAlert from './PostsErrorAlert';
 import { changedFields } from './postForm';
@@ -81,12 +83,91 @@ function ignoreRepeatedEnter(event: KeyboardEvent<HTMLButtonElement>) {
     if (event.key === 'Enter' && event.repeat) event.preventDefault();
 }
 
+interface SelectAllCheckboxProps {
+    checked: boolean;
+    /**
+     * 일부만 선택됨 (가로줄 표시, 스크린리더는 "부분 선택"으로 읽는다)
+     */
+    indeterminate: boolean;
+    disabled: boolean;
+    onChange: () => void;
+}
+
+/**
+ * "현재 페이지 전체 선택" 체크박스
+ * indeterminate는 HTML 속성이 아니라 DOM 속성이라 ref로 준다.
+ */
+function SelectAllCheckbox({ checked, indeterminate, disabled, onChange }: SelectAllCheckboxProps) {
+    const ref = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (ref.current) ref.current.indeterminate = indeterminate;
+    }, [indeterminate]);
+
+    return (
+        <Checkbox
+            ref={ref}
+            aria-label="현재 페이지 전체 선택"
+            checked={checked}
+            disabled={disabled}
+            onChange={onChange}
+        />
+    );
+}
+
+interface ColumnOptions {
+    onEdit: (row: PostRow) => void;
+    onDelete: (row: PostRow) => void;
+
+    /**
+     * 지금 선택된 행 id (화면에 보이는 행만)
+     */
+    selectedIds: readonly number[];
+
+    /**
+     * 지금 보이는 행 수 (전체 선택 상태 계산용)
+     */
+    rowCount: number;
+    onToggleRow: (id: number) => void;
+    onToggleAll: () => void;
+}
+
 /**
  * 표 컬럼
- * 수정 버튼이 행마다 다른 동작을 하므로 onEdit을 받아 만든다.
+ * 선택·수정·삭제가 행마다 다른 동작을 하므로 핸들러와 선택 상태를 받아 만든다.
  */
-function createColumns(onEdit: (row: PostRow) => void): TableColumn<PostRow>[] {
+function createColumns({
+    onEdit,
+    onDelete,
+    selectedIds,
+    rowCount,
+    onToggleRow,
+    onToggleAll,
+}: ColumnOptions): TableColumn<PostRow>[] {
+    const allChecked = rowCount > 0 && selectedIds.length === rowCount;
+
     return [
+        {
+            dataIndex: 'id',
+            title: (
+                <SelectAllCheckbox
+                    checked={allChecked}
+                    indeterminate={selectedIds.length > 0 && !allChecked}
+                    disabled={rowCount === 0}
+                    onChange={onToggleAll}
+                />
+            ),
+            width: '48px',
+            align: 'center',
+            render: (_, row) => (
+                <Checkbox
+                    // 체크박스만으로도 어느 행인지 알 수 있게 제목을 이름에 넣는다.
+                    aria-label={`'${row.title}' 선택`}
+                    checked={selectedIds.includes(row.id)}
+                    onChange={() => onToggleRow(row.id)}
+                />
+            ),
+        },
         {
             dataIndex: 'id',
             title: '번호',
@@ -101,19 +182,30 @@ function createColumns(onEdit: (row: PostRow) => void): TableColumn<PostRow>[] {
         {
             dataIndex: 'id',
             title: '관리',
-            width: '96px',
+            width: '168px',
             align: 'center',
             render: (_, row) => (
-                <Button
-                    variant="outline"
-                    color="neutral"
-                    // 버튼만으로도 어느 행인지 알 수 있게 제목을 이름에 넣는다.
-                    aria-label={`'${row.title}' 수정`}
-                    onClick={() => onEdit(row)}
-                    onKeyDown={ignoreRepeatedEnter}
-                >
-                    수정
-                </Button>
+                // 버튼만으로도 어느 행인지 알 수 있게 제목을 이름에 넣는다.
+                <div className="ui-table__actions">
+                    <Button
+                        variant="outline"
+                        color="neutral"
+                        aria-label={`'${row.title}' 수정`}
+                        onClick={() => onEdit(row)}
+                        onKeyDown={ignoreRepeatedEnter}
+                    >
+                        수정
+                    </Button>
+                    <Button
+                        variant="outline"
+                        color="neutral"
+                        aria-label={`'${row.title}' 삭제`}
+                        onClick={() => onDelete(row)}
+                        onKeyDown={ignoreRepeatedEnter}
+                    >
+                        삭제
+                    </Button>
+                </div>
             ),
         },
     ];
@@ -326,6 +418,7 @@ function PostsPage() {
         merge,
         addPost,
         editPost,
+        removePosts,
         error: mutationError,
         reportError,
         clearError,
@@ -356,7 +449,7 @@ function PostsPage() {
     const listTitleRef = useRef<HTMLHeadingElement>(null);
 
     // 마지막으로 제출해 모달이 닫힌 시각 (REOPEN_GUARD_MS 참고)
-    // 렌더에 쓰이지 않는 값이라 원래는 ref가 맞지만, 이 값을 읽는 openForm이 columns(useMemo)에 들어가
+    // 렌더에 쓰이지 않는 값이라 원래는 ref가 맞지만, 이 값을 읽는 openForm을 렌더 중에 만드는 columns에 넘기므로
     // React Compiler 린트(react-hooks/refs)가 "렌더 중 ref 접근"으로 막는다. 그래서 state로 둔다.
     // (제출할 때만 바뀌므로 다시 그리는 비용은 작다)
     const [submittedAt, setSubmittedAt] = useState(-Infinity);
@@ -364,7 +457,68 @@ function PostsPage() {
         if (performance.now() - submittedAt < REOPEN_GUARD_MS) return;
         setForm(next);
     }, [submittedAt, setForm]);
-    const columns = useMemo(() => createColumns((row) => openForm({ mode: 'edit', row })), [openForm]);
+    const rows = merged?.rows ?? [];
+
+    /**
+     * 행 선택 (일괄 삭제용)
+     * 페이지나 검색어가 바뀌면 선택을 비운다. 안 보이는 행이 선택된 채 남아 실수로 함께 지워지는 것을 막는다.
+     * (렌더 중에 이전 값과 비교해 맞추는 방식. effect에서 setState하지 않는다)
+     */
+    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const selectionKey = `${q}\u0000${page}`;
+    const [selectionFor, setSelectionFor] = useState(selectionKey);
+    if (selectionFor !== selectionKey) {
+        setSelectionFor(selectionKey);
+        setSelectedIds([]);
+    }
+
+    // 지금 화면에 보이는 행 중 선택된 것 (롤백·삭제로 사라진 행은 빠진다)
+    const selectedRows = rows.filter((row) => selectedIds.includes(row.id));
+    const visibleSelectedIds = selectedRows.map((row) => row.id);
+
+    const toggleRow = (id: number) => setSelectedIds((prev) => (
+        prev.includes(id) ? prev.filter((selected) => selected !== id) : [...prev, id]
+    ));
+    const toggleAll = () => setSelectedIds(
+        visibleSelectedIds.length === rows.length ? [] : rows.map((row) => row.id),
+    );
+
+    /**
+     * 삭제 확인 (1건 또는 선택한 여러 건)
+     * 닫히면 Modal이 열기 전 포커스(눌렀던 삭제·선택 삭제 버튼)로 돌려준다.
+     */
+    const [deleteTargets, setDeleteTargets] = useState<PostRow[] | null>(null);
+
+    const columns = createColumns({
+        onEdit: (row) => openForm({ mode: 'edit', row }),
+        onDelete: (row) => setDeleteTargets([row]),
+        selectedIds: visibleSelectedIds,
+        rowCount: rows.length,
+        onToggleRow: toggleRow,
+        onToggleAll: toggleAll,
+    });
+
+    /**
+     * 삭제 확정
+     * 낙관적으로 행을 지우고, 실패하면 그 행만 되살려 오류 알림으로 알린다. (usePostsOverlay.removePosts)
+     * 추가한 행(임시 id)은 서버 요청 없이 사라진다.
+     */
+    const handleDeleteConfirm = () => {
+        // 모달이 열린 동안 행이 바뀌었을 수 있다. (이전 수정의 롤백 등)
+        // 확정 시점의 행(지금 화면 → 변경분의 추가한 행 → 열 때의 행)을 넘겨야 삭제 스냅샷의 제목이 맞는다.
+        // (추가가 실패해 사라진 행은 removePosts가 아무것도 하지 않는다)
+        const targets = (deleteTargets ?? []).map((target) => (
+            rows.find((row) => row.id === target.id)
+            ?? overlay.added.find((row) => row.id === target.id)
+            ?? target
+        ));
+
+        removePosts(targets);
+        setSelectedIds([]);
+
+        // 지운 행의 삭제 버튼(또는 선택 삭제 버튼)이 사라지므로 포커스를 목록 제목으로 옮긴다.
+        window.setTimeout(() => listTitleRef.current?.focus());
+    };
 
     /**
      * 폼 제출
@@ -445,6 +599,27 @@ function PostsPage() {
     // 검색 결과가 없을 때의 빈 상태 (검색어 없이 0건이면 표의 emptyMessage를 쓴다)
     // 새 검색을 불러오는 중(isPlaceholderData)에는 빈 상태 대신 표의 로딩 표시를 보여준다.
     const isSearchEmpty = !!data && total === 0 && data.shownQ !== '' && !isPlaceholderData;
+
+    /**
+     * 이 페이지의 행이 삭제로 모두 사라졌지만 다른 페이지에는 게시글이 남은 경우
+     * 오류가 아니므로 빈 표 대신 안내와 "첫 페이지로"를 보여준다. (총 건수가 0이면 기존 빈 상태를 쓴다)
+     * 1페이지에서는 서버가 다음 행을 채워 주지 않으므로(DummyJSON은 삭제를 저장하지 않음) 안내만 보여준다.
+     * 서버가 준 행이 있었을 때만 해당한다. 범위를 벗어난 페이지(?page=999)처럼 서버가 처음부터 0행을 주면
+     * 지운 것이 없으므로 기존 표의 빈 상태와 요약의 "N페이지는 없습니다"를 쓴다.
+     */
+    const isPageCleared = hasOwnData && !isError
+        && data.rows.length > 0 && rows.length === 0 && total > 0;
+
+    const goToFirstPage = () => {
+        setSearchParams((prev) => {
+            const next = new URLSearchParams(prev);
+            next.delete('page');
+
+            return next;
+        });
+        // 버튼이 사라지므로 포커스를 목록 제목으로 옮긴다.
+        listTitleRef.current?.focus();
+    };
 
     /**
      * 페이지 이동
@@ -586,23 +761,56 @@ function PostsPage() {
                             </div>
                         )}
 
-                        <Table<PostRow>
-                            columns={columns}
-                            data={merged?.rows ?? []}
-                            loading={isPending}
-                            refreshing={isPlaceholderData}
-                            refreshingMessage={
-                                data && data.shownQ !== q
-                                    ? '검색 결과를 불러오는 중입니다.'
-                                    : '다음 페이지를 불러오는 중입니다.'
-                            }
-                            emptyMessage={
-                                isPlaceholderData
-                                    ? '검색 결과를 불러오는 중입니다.'
-                                    : '게시글이 없습니다.'
-                            }
-                            ariaLabel="게시글 목록"
-                        />
+                        {/* 선택한 행이 있을 때만 보이는 일괄 작업 바 */}
+                        {visibleSelectedIds.length > 0 && (
+                            <div className="ui-posts__selection">
+                                <p className="ui-posts__selection-count">
+                                    {visibleSelectedIds.length}개 선택됨
+                                </p>
+
+                                <Button
+                                    variant="outline"
+                                    color="neutral"
+                                    onClick={() => setDeleteTargets(selectedRows)}
+                                    onKeyDown={ignoreRepeatedEnter}
+                                >
+                                    선택 삭제
+                                </Button>
+                            </div>
+                        )}
+
+                        {isPageCleared ? (
+                            <div className="ui-posts__cleared">
+                                <p className="ui-posts__cleared-message">
+                                    이 페이지의 게시글이 모두 삭제되었습니다.
+                                </p>
+
+                                {page !== 1 && (
+                                    <Button variant="outline" color="neutral" onClick={goToFirstPage}>
+                                        첫 페이지로
+                                    </Button>
+                                )}
+                            </div>
+                        ) : (
+                            <Table<PostRow>
+                                columns={columns}
+                                data={rows}
+                                loading={isPending}
+                                refreshing={isPlaceholderData}
+                                refreshingMessage={
+                                    data && data.shownQ !== q
+                                        ? '검색 결과를 불러오는 중입니다.'
+                                        : '다음 페이지를 불러오는 중입니다.'
+                                }
+                                emptyMessage={
+                                    isPlaceholderData
+                                        ? '검색 결과를 불러오는 중입니다.'
+                                        : '게시글이 없습니다.'
+                                }
+                                selectedIds={visibleSelectedIds}
+                                ariaLabel="게시글 목록"
+                            />
+                        )}
                     </div>
                 )}
 
@@ -623,6 +831,14 @@ function PostsPage() {
                     row={form.mode === 'edit' ? form.row : undefined}
                     onSubmit={handleFormSubmit}
                     onClose={() => setForm(null)}
+                />
+            )}
+
+            {deleteTargets && (
+                <DeleteConfirmModal
+                    rows={deleteTargets}
+                    onConfirm={handleDeleteConfirm}
+                    onClose={() => setDeleteTargets(null)}
                 />
             )}
         </main>

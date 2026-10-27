@@ -191,7 +191,7 @@ describe('롤백', () => {
         expect(requests).toHaveLength(1);
     });
 
-    it('여러 행 삭제 중 일부만 실패하면 실패한 행만 되살리고, 실패한 행을 알린다', async () => {
+    it('여러 행 삭제 중 일부만 실패하면 실패한 행만 되살리고, 실패한 건수로 알린다 (1건이어도 건수)', async () => {
         const { remove, store, visible, visibleIds } = setup();
 
         const done = remove([serverRows[0], serverRows[1]]);
@@ -203,7 +203,7 @@ describe('롤백', () => {
         expect(visibleIds()).toEqual([2, 3]);
         expect(visible().total).toBe(2);
         expect(store.getState().overlay.deleted[1].confirmed).toBe(true);
-        expect(store.getState().error?.message).toBe("'second' 게시글 삭제에 실패했습니다. (오류 코드 500)");
+        expect(store.getState().error?.message).toBe('게시글 1건 삭제에 실패했습니다. (오류 코드 500)');
     });
 
     it('여러 행이 모두 실패하면 건수로 알린다', async () => {

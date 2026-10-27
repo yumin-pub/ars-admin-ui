@@ -217,6 +217,85 @@
 }
 
 // ========================================
+// Selection
+// - 행을 선택했을 때 표 위에 나타나는 일괄 작업 바 ("N개 선택됨" + "선택 삭제")
+// ========================================
+
+.ui-posts__selection {
+    @include flex(space-between, center, $space-3, wrap);
+
+    margin-bottom: $space-3;
+    padding: $space-2 $space-4;
+
+    border: 1px solid $gray-200;
+    border-radius: $radius-md;
+
+    background-color: $gray-50;
+}
+
+.ui-posts__selection-count {
+    margin: $space-0;
+
+    color: $gray-700;
+
+    font-size: $fs-md;
+    font-weight: $fw-medium;
+}
+
+// ========================================
+// Cleared
+// - 이 페이지의 행이 삭제로 모두 사라졌을 때 (오류가 아님)
+// ========================================
+
+.ui-posts__cleared {
+    @include flex-column(center, center, $space-4);
+
+    padding: $space-10;
+
+    border: 1px solid $gray-200;
+    border-radius: $radius-lg;
+
+    background-color: $gray-50;
+
+    text-align: center;
+}
+
+.ui-posts__cleared-message {
+    margin: $space-0;
+
+    color: $gray-700;
+
+    font-size: $fs-md;
+}
+
+// ========================================
+// Confirm
+// - 삭제 확인 모달 본문
+// ========================================
+
+.ui-posts__confirm-message {
+    margin: $space-0;
+
+    color: $gray-700;
+
+    // 긴 영문 제목도 줄바꿈되게
+    overflow-wrap: anywhere;
+}
+
+.ui-posts__confirm-list {
+    margin: $space-3 $space-0 $space-0;
+    padding-left: $space-5;
+
+    color: $gray-700;
+
+    overflow-wrap: anywhere;
+
+    > li + li {
+        margin-top: $space-1;
+    }
+}
+
+// ========================================
 // Empty
 // - 검색 결과가 없을 때
 // ========================================
