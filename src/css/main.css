@@ -1430,6 +1430,86 @@ body {
 	margin-top: 4px;
 }
 
+.ui-posts__header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-bottom: 16px;
+}
+
+.ui-posts__title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.ui-posts__alert.is-visible {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	flex-wrap: nowrap;
+	gap: 12px;
+	margin-bottom: 16px;
+	padding: 12px 16px;
+	border: 1px solid rgba(220, 38, 38, 0.3);
+	border-left: 4px solid #dc2626;
+	border-radius: 6px;
+	background-color: rgba(220, 38, 38, 0.04);
+}
+
+.ui-posts__alert-live {
+	flex: 1;
+	min-width: 0;
+}
+
+.ui-posts__alert-message {
+	margin: 0;
+	color: #dc2626;
+	font-size: 14px;
+	line-height: 1.5;
+	overflow-wrap: anywhere;
+}
+
+.ui-posts__alert-close {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: nowrap;
+	width: 32px;
+	height: 32px;
+	flex-shrink: 0;
+	border: 0;
+	border-radius: 6px;
+	background: transparent;
+	font-size: 18px;
+	line-height: 1;
+	color: #4b5563;
+	cursor: pointer;
+}
+.ui-posts__alert-close:hover {
+	background-color: rgba(220, 38, 38, 0.08);
+	color: #111827;
+}
+.ui-posts__alert-close:focus-visible {
+	outline: 2px solid #e6007e;
+	outline-offset: 2px;
+}
+
+.ui-posts__form {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: stretch;
+	flex-wrap: nowrap;
+	gap: 20px;
+	flex-direction: column;
+}
+
 .ui-posts__search {
 	max-width: 480px;
 	margin-bottom: 16px;
@@ -1473,6 +1553,27 @@ body {
 .ui-posts__error-message {
 	color: #dc2626;
 	font-size: 14px;
+}
+
+.ui-posts__stale {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-bottom: 12px;
+	padding: 12px 16px;
+	border: 1px solid rgba(220, 38, 38, 0.3);
+	border-radius: 6px;
+	background-color: rgba(220, 38, 38, 0.04);
+}
+
+.ui-posts__stale-message {
+	margin: 0;
+	color: #dc2626;
+	font-size: 14px;
+	line-height: 1.5;
 }
 
 .ui-posts__empty {
