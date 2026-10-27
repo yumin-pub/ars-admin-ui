@@ -14,6 +14,14 @@ export default defineConfig({
   plugins: [react()],
   test: {
     projects: [{
+      // 로직 단위 테스트 (브라우저 없이 node에서 돈다): npm test
+      extends: true,
+      test: {
+        name: 'unit',
+        environment: 'node',
+        include: ['src/**/*.test.{ts,tsx}']
+      }
+    }, {
       extends: true,
       plugins: [
       // The plugin will run tests for the stories defined in your Storybook config
