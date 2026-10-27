@@ -88,6 +88,157 @@ export async function fetchPosts({
 }
 
 /* ==========================
+ * 추가·수정·삭제
+ * 응답 코드가 2xx가 아니면 오류를 던진다. (fetchPosts와 같다)
+ * DummyJSON은 응답만 돌려주고 저장하지 않는다.
+ * ========================== */
+
+/**
+ * 추가·수정할 수 있는 필드 (likes, views는 서버 값이라 바꾸지 않는다)
+ */
+export interface PostInput {
+    title: string;
+    tags: string[];
+}
+
+/**
+ * 추가·수정·삭제 응답
+ * 요청에 따라 일부 필드만 오므로 id 외에는 있을 수도, 없을 수도 있다.
+ */
+export type PostMutationResponse = Pick<Post, 'id'> & Partial<Post>;
+
+/**
+ * 데모 API가 추가 요청에 요구하는 작성자 id
+ */
+const DEMO_USER_ID = 1;
+
+/**
+ * 2xx가 아닌 응답의 오류. 화면에서 상태 코드로 문구를 고를 수 있게 status를 담는다.
+ * (네트워크 오류는 fetch가 던지는 TypeError가 그대로 올라간다)
+ */
+export class PostsHttpError extends Error {
+    status: number;
+
+    constructor(message: string, status: number) {
+        super(message);
+        this.name = 'PostsHttpError';
+        this.status = status;
+    }
+}
+
+export interface CreatePostParams {
+    /**
+     * 추가할 내용 (title, tags)
+     */
+    post: PostInput;
+
+    /**
+     * 요청 취소용
+     */
+    signal?: AbortSignal;
+}
+
+/**
+ * 게시글 추가
+ */
+export async function createPost({
+    post,
+    signal,
+}: CreatePostParams): Promise<PostMutationResponse> {
+    const response = await fetch(`${POSTS_API_URL}/add`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...post, userId: DEMO_USER_ID }),
+        signal,
+    });
+
+    if (!response.ok) {
+        throw new PostsHttpError(
+            `게시글을 추가하지 못했습니다. (HTTP ${response.status})`,
+            response.status,
+        );
+    }
+
+    return response.json() as Promise<PostMutationResponse>;
+}
+
+export interface UpdatePostParams {
+    /**
+     * 수정할 게시글 id
+     */
+    id: number;
+
+    /**
+     * 바꿀 필드만 담는다. (title, tags)
+     */
+    patch: Partial<PostInput>;
+
+    /**
+     * 요청 취소용
+     */
+    signal?: AbortSignal;
+}
+
+/**
+ * 게시글 수정 (보낸 필드만 바뀐다)
+ */
+export async function updatePost({
+    id,
+    patch,
+    signal,
+}: UpdatePostParams): Promise<PostMutationResponse> {
+    const response = await fetch(`${POSTS_API_URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(patch),
+        signal,
+    });
+
+    if (!response.ok) {
+        throw new PostsHttpError(
+            `게시글을 수정하지 못했습니다. (HTTP ${response.status})`,
+            response.status,
+        );
+    }
+
+    return response.json() as Promise<PostMutationResponse>;
+}
+
+export interface DeletePostParams {
+    /**
+     * 삭제할 게시글 id
+     */
+    id: number;
+
+    /**
+     * 요청 취소용
+     */
+    signal?: AbortSignal;
+}
+
+/**
+ * 게시글 삭제
+ */
+export async function deletePost({
+    id,
+    signal,
+}: DeletePostParams): Promise<PostMutationResponse> {
+    const response = await fetch(`${POSTS_API_URL}/${id}`, {
+        method: 'DELETE',
+        signal,
+    });
+
+    if (!response.ok) {
+        throw new PostsHttpError(
+            `게시글을 삭제하지 못했습니다. (HTTP ${response.status})`,
+            response.status,
+        );
+    }
+
+    return response.json() as Promise<PostMutationResponse>;
+}
+
+/* ==========================
  * 화면용 데이터
  * 화면 코드는 서버 모양(Post) 대신 이 모양(PostRow)만 쓴다.
  * 서버 응답이 바뀌면 이 변환 함수만 고치면 된다.

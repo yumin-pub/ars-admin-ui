@@ -80,7 +80,8 @@ SCSS 파일을 새로 만들 때는 **다른 파일을 복사한 뒤 내용을 �
 - `src/components/Radio/`만 파일명이 소문자(`radio.tsx`, `radio.types.ts`)다. 다른 컴포넌트와 다르다.
 - 문서 예제에 `@/components/...` import가 있지만 tsconfig에 `@` alias는 없다. 실제 코드는 상대 경로를 쓴다.
 - `Project Structure.mdx`에 있는 `hooks`, `layouts`, `services` 디렉터리는 아직 없다.
-- 테스트 스크립트가 없다. `@storybook/addon-vitest`는 설치돼 있지만 Chromium(Playwright) 설치가 필요하다.
+- 단위 테스트는 `npm test`(= `vitest run --project unit`)로 돈다. `src/**/*.test.{ts,tsx}`를 node 환경에서 실행하며 브라우저가 필요 없다.
+  `vite.config.ts`의 다른 프로젝트(`storybook`, `@storybook/addon-vitest`)는 Chromium(Playwright) 설치가 필요하고 `npm test`에는 포함되지 않는다.
 
 ## 하지 말 것
 
