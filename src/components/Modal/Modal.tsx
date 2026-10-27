@@ -32,6 +32,8 @@ function Modal({
     closeOnDimmed = true,
     className = '',
     panelClassName = '',
+    role = 'dialog',
+    ariaDescribedBy,
 }: ModalProps) {
     const titleId = useId();
     const panelRef = useRef<HTMLElement>(null);
@@ -132,9 +134,10 @@ function Modal({
             <section
                 ref={panelRef}
                 className={panelClassNameList}
-                role="dialog"
+                role={role}
                 aria-modal="true"
                 aria-labelledby={title ? titleId : undefined}
+                aria-describedby={ariaDescribedBy}
                 tabIndex={-1}
                 onKeyDown={handlePanelKeyDown}
             >

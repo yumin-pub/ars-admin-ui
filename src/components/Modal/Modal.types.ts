@@ -18,4 +18,16 @@ export interface ModalProps {
     closeOnDimmed?: boolean; // 딤 영역 클릭으로 닫기 (기본 true)
     className?: string; // ui-modal 추가 클래스
     panelClassName?: string; // ui-modal__panel 추가 클래스
+
+    // 패널의 role (선택, 기본 'dialog')
+    // 삭제 확인처럼 사용자의 응답이 꼭 필요한 경고·확인 대화상자는 'alertdialog'를 쓴다.
+    role?: ModalRole;
+
+    // 설명문 요소의 id (선택). 지정하면 패널에 aria-describedby로 연결된다. 지정하지 않으면 기존 DOM과 같다.
+    // alertdialog는 무엇을 확인하는지 설명문을 연결하는 것이 권장된다.
+    ariaDescribedBy?: string;
 }
+
+export type ModalRole =
+    | 'dialog'
+    | 'alertdialog';

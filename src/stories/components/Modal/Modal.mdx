@@ -81,12 +81,47 @@ Footer 없이 Header와 Body 영역만 사용하는 모달입니다.
 | `closeOnDimmed` | `boolean` | `true` | 딤 영역 클릭으로 닫기 |
 | `className` | `string` | `''` | `ui-modal` 추가 클래스 |
 | `panelClassName` | `string` | `''` | `ui-modal__panel` 추가 클래스 |
+| `role` | `'dialog' \| 'alertdialog'` | `'dialog'` | 패널의 role. 삭제 확인처럼 사용자의 응답이 꼭 필요한 경고·확인에는 `'alertdialog'` |
+| `ariaDescribedBy` | `string` | - | 설명문 요소의 id. 지정하면 패널에 `aria-describedby`로 연결됩니다. 지정하지 않으면 기존 DOM과 같습니다 |
+
+---
+
+## Alert Dialog (삭제 확인)
+
+되돌리기 어려운 동작을 확인할 때는 `role="alertdialog"`를 쓰고, 무엇을 확인하는지 설명문을 `ariaDescribedBy`로 연결합니다.
+스크린리더는 대화상자가 열릴 때 제목과 설명을 함께 읽어 줍니다.
+
+- 기본 포커스는 안전한 쪽("취소")에 둡니다. Modal은 Body에 포커스 가능한 요소가 없으면 Footer의 첫 요소에 포커스를 주므로, Footer에 "취소"를 먼저 둡니다.
+- 실수로 바깥을 눌러 닫히지 않게 `closeOnDimmed={false}`를 권장합니다. ESC는 취소와 같습니다.
+
+```tsx
+<Modal
+  open={open}
+  title="게시글 삭제"
+  size="sm"
+  role="alertdialog"
+  ariaDescribedBy="delete-description"
+  closeOnDimmed={false}
+  onClose={close}
+  footer={(
+    <>
+      <Button variant="outline" color="neutral" onClick={close}>취소</Button>
+      <Button color="danger" onClick={confirm}>삭제</Button>
+    </>
+  )}
+>
+  <p id="delete-description">'공지사항' 게시글을 삭제할까요? 삭제하면 목록에서 바로 사라집니다.</p>
+</Modal>
+// → <section role="alertdialog" aria-modal="true" aria-labelledby="…" aria-describedby="delete-description">
+```
+
+<Canvas of={ModalStories.AlertDialog} />
 
 ---
 
 ## Accessibility
 
-- 패널에 `role="dialog"`와 `aria-modal="true"`를 적용하고, `title`이 있으면 `aria-labelledby`로 제목과 연결합니다.
+- 패널에 `role="dialog"`(또는 `role` prop으로 `"alertdialog"`)와 `aria-modal="true"`를 적용하고, `title`이 있으면 `aria-labelledby`로 제목과 연결합니다. `ariaDescribedBy`를 주면 설명문도 `aria-describedby`로 연결합니다.
 - 열리면 Body → Footer → 패널 순서로 첫 번째 포커스 가능 요소에 포커스가 이동하고, 닫히면 열기 전 포커스 위치로 돌아갑니다.
 - Tab / Shift+Tab 포커스는 모달 안에서만 순환합니다.
 - ESC 키와 딤 영역 클릭으로 닫을 수 있으며, `closeOnEsc` / `closeOnDimmed`로 끌 수 있습니다.

@@ -394,6 +394,17 @@ const meta: Meta<typeof Modal> = {
         panelClassName: {
             control: false,
         },
+
+        role: {
+            control: 'inline-radio',
+            options: ['dialog', 'alertdialog'],
+            description: "패널의 role. 삭제 확인처럼 응답이 꼭 필요한 경고·확인에는 'alertdialog'",
+        },
+
+        ariaDescribedBy: {
+            control: 'text',
+            description: '설명문 요소의 id. 지정하면 패널의 aria-describedby로 연결된다',
+        },
     },
 
     args: {
@@ -418,6 +429,57 @@ export const Playground: Story = {
                 onClose={() => updateArgs({ open: false })}
             />
         );
+    },
+};
+
+/**
+ * 삭제 확인 (role="alertdialog" + ariaDescribedBy)
+ * 기본 포커스가 "취소"에 가도록 footer에 취소를 먼저 둔다. 딤 클릭으로는 닫지 않는다.
+ */
+function AlertDialogExample() {
+    const [open, setOpen] = useState(false);
+    const descriptionId = 'modal-alertdialog-description';
+
+    return (
+        <div style={{ minHeight: '400px', padding: '32px' }}>
+            <Button variant="outline" color="neutral" onClick={() => setOpen(true)}>
+                삭제
+            </Button>
+
+            <Modal
+                open={open}
+                title="게시글 삭제"
+                size="sm"
+                role="alertdialog"
+                ariaDescribedBy={descriptionId}
+                closeOnDimmed={false}
+                onClose={() => setOpen(false)}
+                footer={(
+                    <>
+                        <Button variant="outline" color="neutral" onClick={() => setOpen(false)}>
+                            취소
+                        </Button>
+                        <Button color="danger" onClick={() => setOpen(false)}>
+                            삭제
+                        </Button>
+                    </>
+                )}
+            >
+                <p id={descriptionId}>
+                    &apos;공지사항&apos; 게시글을 삭제할까요? 삭제하면 목록에서 바로 사라집니다.
+                </p>
+            </Modal>
+        </div>
+    );
+}
+
+export const AlertDialog: Story = {
+    render: () => <AlertDialogExample />,
+
+    parameters: {
+        controls: {
+            disable: true,
+        },
     },
 };
 
