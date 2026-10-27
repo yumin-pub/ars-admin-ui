@@ -12,6 +12,12 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [react()],
+  server: {
+    watch: {
+      // build-storybook이 storybook-static을 다시 쓰는 동안 감시기가 잠긴 파일(EBUSY)을 만나 개발 서버가 죽지 않게 한다.
+      ignored: ['**/storybook-static/**']
+    }
+  },
   test: {
     projects: [{
       // 로직 단위 테스트 (브라우저 없이 node에서 돈다): npm test
