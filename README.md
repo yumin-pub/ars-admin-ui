@@ -353,7 +353,7 @@ Storybook 문서는 실제 구현 범위와 일치하도록 관리합니다.
 구현되지 않은 기능은 완료된 기능처럼 문서에 포함하지 않으며, 예정된 기능은 별도로 구분합니다.
 
 - 하위호환 정책: [Compatibility Policy](src/stories/introduction/Compatibility%20Policy.mdx) (Storybook `Introduction/Compatibility Policy`)
-- 변경 내역: [CHANGELOG.md](CHANGELOG.md)
+- 변경 내역: [CHANGELOG.md](CHANGELOG.md) (release-please가 `main`의 커밋 제목으로 자동 갱신. 커밋 제목 규칙은 하위호환 정책 문서의 "커밋 제목 규칙")
 
 ---
 
