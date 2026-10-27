@@ -1,4 +1,4 @@
-// import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useArgs } from 'storybook/preview-api';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -86,6 +86,83 @@ export const Playground: Story = {
                 }}
             />
         );
+    },
+};
+
+const ITEMS = ['사과', '배', '포도'];
+
+/**
+ * 전체 선택 + 일부 선택(indeterminate)
+ * indeterminate는 HTML 속성이 아니라 DOM 속성이라 ref로 준다.
+ */
+function IndeterminateExample() {
+    const [selected, setSelected] = useState<string[]>(['사과']);
+    const allRef = useRef<HTMLInputElement>(null);
+
+    const allChecked = selected.length === ITEMS.length;
+    const someChecked = selected.length > 0 && !allChecked;
+
+    useEffect(() => {
+        if (allRef.current) allRef.current.indeterminate = someChecked;
+    }, [someChecked]);
+
+    return (
+        <div style={{ display: 'grid', gap: '8px' }}>
+            <Checkbox
+                ref={allRef}
+                checked={allChecked}
+                onChange={() => setSelected(allChecked ? [] : ITEMS)}
+            >
+                전체 선택
+            </Checkbox>
+
+            {ITEMS.map((item) => (
+                <Checkbox
+                    key={item}
+                    checked={selected.includes(item)}
+                    onChange={() => setSelected((prev) => (
+                        prev.includes(item) ? prev.filter((value) => value !== item) : [...prev, item]
+                    ))}
+                >
+                    {item}
+                </Checkbox>
+            ))}
+        </div>
+    );
+}
+
+export const Indeterminate: Story = {
+    render: () => <IndeterminateExample />,
+
+    parameters: {
+        controls: {
+            disable: true,
+        },
+    },
+};
+
+/**
+ * 일부 선택(indeterminate)과 다른 상태의 조합
+ * 일부 선택은 checked와 함께여도 가로줄로 보이고, 비활성이면 회색 가로줄로 보인다.
+ */
+function setIndeterminate(input: HTMLInputElement | null) {
+    if (input) input.indeterminate = true;
+}
+
+export const IndeterminateStates: Story = {
+    render: () => (
+        <div style={{ display: 'grid', gap: '8px' }}>
+            <Checkbox ref={setIndeterminate}>일부 선택</Checkbox>
+            <Checkbox ref={setIndeterminate} disabled>일부 선택 + 비활성</Checkbox>
+            <Checkbox ref={setIndeterminate} defaultChecked>일부 선택 + checked</Checkbox>
+            <Checkbox ref={setIndeterminate} defaultChecked disabled>일부 선택 + checked + 비활성</Checkbox>
+        </div>
+    ),
+
+    parameters: {
+        controls: {
+            disable: true,
+        },
     },
 };
 

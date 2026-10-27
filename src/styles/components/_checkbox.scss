@@ -121,6 +121,42 @@
 }
 
 // ========================================
+// Indeterminate (일부 선택)
+// - HTML 속성이 아니라 DOM 속성이라 ref로 input.indeterminate = true를 줄 때만 적용된다.
+// - 체크 표시 대신 가로줄을 그린다. checked와 함께여도 가로줄만 보인다. (브라우저 기본 체크박스와 같다)
+// ========================================
+
+.ui-checkbox__input:indeterminate + .ui-checkbox__control,
+.ui-checkbox__input:indeterminate
++ .ui-checkbox__wrapper
+.ui-checkbox__control {
+    border-color: $primary;
+    background-color: $primary;
+}
+
+.ui-checkbox__input:indeterminate + .ui-checkbox__control::after,
+.ui-checkbox__input:indeterminate
++ .ui-checkbox__wrapper
+.ui-checkbox__control::after {
+    content: '';
+
+    position: absolute;
+    top: 50%;
+    left: $space-1;
+    right: $space-1;
+
+    // checked와 함께일 때 체크 표시(::after)의 크기·테두리가 남지 않게 지운다.
+    width: auto;
+    height: 0;
+
+    border-top: 2px solid $white;
+    border-right: 0;
+    border-bottom: 0;
+
+    transform: translateY(-50%);
+}
+
+// ========================================
 // Focus
 // ========================================
 
@@ -167,6 +203,19 @@
 .ui-checkbox__input:checked:disabled
 + .ui-checkbox__control::after,
 .ui-checkbox__input:checked:disabled
++ .ui-checkbox__wrapper
+.ui-checkbox__control::after {
+    border-color: $gray-400;
+}
+
+// ========================================
+// Indeterminate + Disabled
+// - 배경은 위 Disabled 규칙($gray-100)을 따르고, 가로줄만 회색으로 그린다. (Checked + Disabled와 같은 방식)
+// ========================================
+
+.ui-checkbox__input:indeterminate:disabled
++ .ui-checkbox__control::after,
+.ui-checkbox__input:indeterminate:disabled
 + .ui-checkbox__wrapper
 .ui-checkbox__control::after {
     border-color: $gray-400;

@@ -1,5 +1,13 @@
 import { Checkbox } from '../../components/Checkbox';
 
+/**
+ * 일부 선택(indeterminate)은 HTML 속성이 아니라 DOM 속성이라 마크업만으로는 줄 수 없다.
+ * 예제에서는 콜백 ref로 input.indeterminate = true를 준다. (HTML만 쓰는 화면에서는 JS로 같은 값을 준다)
+ */
+function setIndeterminate(input: HTMLInputElement | null) {
+    if (input) input.indeterminate = true;
+}
+
 function CheckboxPage() {
     return (
         <main className="ui-doc">
@@ -104,6 +112,25 @@ function CheckboxPage() {
                 </label>
             </span>
             </div>
+
+            <div className="ui-doc__group">
+            <h3 className="ui-doc__group-title">Indeterminate (일부 선택, JS로 input.indeterminate = true)</h3>
+            <label className="ui-checkbox ui-checkbox--wrap">
+                <input type="checkbox" className="ui-checkbox__input" ref={setIndeterminate} />
+                <span className="ui-checkbox__control"></span>
+                <span className="ui-checkbox__label">Indeterminate</span>
+            </label>
+            <label className="ui-checkbox ui-checkbox--wrap">
+                <input type="checkbox" className="ui-checkbox__input" ref={setIndeterminate} disabled />
+                <span className="ui-checkbox__control"></span>
+                <span className="ui-checkbox__label">Indeterminate Disabled</span>
+            </label>
+            <label className="ui-checkbox ui-checkbox--wrap">
+                <input type="checkbox" className="ui-checkbox__input" ref={setIndeterminate} defaultChecked />
+                <span className="ui-checkbox__control"></span>
+                <span className="ui-checkbox__label">Indeterminate + Checked</span>
+            </label>
+            </div>
         </section>
         <section className="ui-doc__section">
         <h2 className="ui-doc__section-title">2. React Checkbox Component</h2>
@@ -183,6 +210,19 @@ function CheckboxPage() {
             value="no-label"
             aria-label="라벨 없는 체크박스"
             />
+        </div>
+
+        <div className="ui-doc__group">
+            <h3 className="ui-doc__group-title">Indeterminate (일부 선택, ref)</h3>
+            <Checkbox ref={setIndeterminate} name="react-indeterminate" value="indeterminate">
+            Indeterminate
+            </Checkbox>
+            <Checkbox ref={setIndeterminate} name="react-indeterminate-disabled" value="indeterminate-disabled" disabled>
+            Indeterminate Disabled
+            </Checkbox>
+            <Checkbox ref={setIndeterminate} name="react-indeterminate-checked" value="indeterminate-checked" defaultChecked>
+            Indeterminate + Checked
+            </Checkbox>
         </div>
         </section>
         </main>

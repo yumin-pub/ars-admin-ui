@@ -66,6 +66,7 @@ import { Checkbox } from '@/components/Checkbox';
 | `disabled` | `boolean` | `false` | 비활성화 여부 |
 | `id` | `string` | - | Detached 구조에서 label 연결용 id |
 | `className` | `string` | `''` | 추가 클래스 |
+| `ref` | `Ref<HTMLInputElement>` | - | 실제 `<input>` 요소의 ref (React 19의 일반 prop). 일부 선택(indeterminate) 표시에 쓴다 |
 
 `CheckboxProps`는 `InputHTMLAttributes<HTMLInputElement>`를 확장하므로 기본 input 속성을 함께 사용할 수 있습니다.
 
@@ -133,6 +134,26 @@ HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할
 </Checkbox>
 ```
 
+### Indeterminate (일부 선택)
+
+"전체 선택" 체크박스에서 일부만 선택된 상태를 가로줄로 보여 줍니다.
+`indeterminate`는 HTML 속성이 아니라 DOM 속성이라 `ref`로 줍니다. 스크린리더는 "부분 선택"(mixed)으로 읽습니다.
+모두 선택되면 `indeterminate`를 끄고 `checked`를 켭니다. (둘 다 켜져 있으면 가로줄로 보입니다)
+
+```tsx
+const allRef = useRef<HTMLInputElement>(null);
+
+useEffect(() => {
+  if (allRef.current) allRef.current.indeterminate = someChecked;
+}, [someChecked]);
+
+<Checkbox ref={allRef} checked={allChecked} onChange={toggleAll}>
+  전체 선택
+</Checkbox>
+```
+
+<Canvas of={CheckboxStories.Indeterminate} />
+
 ---
 
 ## HTML Class Usage
@@ -166,6 +187,28 @@ HTML 클래스 방식과 React 컴포넌트 방식을 한 화면에서 비교할
   </label>
 </span>
 ```
+
+### Indeterminate (일부 선택)
+
+`indeterminate`는 HTML 속성이 아니라 DOM 속성이라 마크업만으로는 줄 수 없습니다.
+HTML 클래스 방식에서도 **JS로 `input.indeterminate = true`를 줘야** 가로줄이 보이고, 스크린리더가 "부분 선택"으로 읽습니다.
+
+```html
+<label class="ui-checkbox ui-checkbox--wrap">
+  <input id="select-all" type="checkbox" class="ui-checkbox__input" />
+  <span class="ui-checkbox__control"></span>
+  <span class="ui-checkbox__label">전체 선택</span>
+</label>
+
+<script>
+  document.getElementById('select-all').indeterminate = true;
+</script>
+```
+
+- `checked`와 함께여도 가로줄로 보입니다. (브라우저 기본 체크박스와 같습니다)
+- `disabled`와 함께면 회색 배경에 회색 가로줄로 보입니다.
+
+<Canvas of={CheckboxStories.IndeterminateStates} />
 
 ---
 
