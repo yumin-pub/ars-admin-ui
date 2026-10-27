@@ -191,6 +191,8 @@ npm run lint
 
 ## Storybook
 
+Storybook 보기: https://yumin-pub.github.io/ars-admin-ui/ (`main`에 push되면 `.github/workflows/deploy-storybook.yml`이 GitHub Pages에 자동 배포)
+
 ### Run Storybook
 
 ```bash
