@@ -4,6 +4,7 @@ function Input({
     id,
     label,
     helperText,
+    helperTextId,
     counter,
     variant = 'outline',
     size = 'md',
@@ -40,6 +41,14 @@ function Input({
         .filter(Boolean)
         .join(' ');
 
+    /**
+     * helperTextId가 있고 helperText가 보일 때만 aria-describedby에 메시지 id를 덧붙인다.
+     * 넘긴 aria-describedby가 있으면 그 뒤에 잇는다. helperTextId가 없으면 기존 DOM 그대로다.
+     */
+    const describedByWithHelper = helperTextId && helperText
+        ? [props['aria-describedby'], helperTextId].filter(Boolean).join(' ')
+        : undefined;
+
     return (
         <div className={fieldClassNameList}>
         <div className="ui-field__content">
@@ -60,6 +69,7 @@ function Input({
                 readOnly={readOnly}
                 aria-invalid={state === 'error'}
                 {...props}
+                {...(describedByWithHelper && { 'aria-describedby': describedByWithHelper })}
             />
             {clearable && (
                 <button
@@ -81,7 +91,7 @@ function Input({
             {(helperText || counter) && (
             <div className="ui-field__meta">
                 {helperText && (
-                <p className="ui-field__message">{helperText}</p>
+                <p className="ui-field__message" id={helperTextId}>{helperText}</p>
                 )}
 
                 {counter && (

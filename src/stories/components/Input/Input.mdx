@@ -75,6 +75,8 @@ import { Input } from '@/components/Input';
 | --- | --- | --- | --- |
 | `label` | `ReactNode` | - | Label |
 | `helperText` | `ReactNode` | - | Helper Message |
+| `helperTextId` | `string` | - | Helper Message 요소의 id. 지정하면 input의 `aria-describedby`에 연결된다. 지정하지 않으면 기존 DOM과 같다 |
+| `ref` | `Ref<HTMLInputElement>` | - | 실제 `<input>` 요소의 ref (React 19의 일반 prop) |
 | `counter` | `ReactNode` | - | Counter |
 | `variant` | `'outline' \| 'underline' \| 'ghost'` | `'outline'` | Input 스타일 |
 | `InputSize` | `'md' \| 'lg'` | `'md'` | Input 크기 |
@@ -192,6 +194,37 @@ const [value, setValue] = useState('');
 
 <Canvas of={InputStories.Clearable} />
 
+### 오류 메시지 연결 (helperTextId)
+
+`helperTextId`를 주면 helperText 요소에 그 id가 붙고, input의 `aria-describedby`에 연결됩니다.
+스크린리더는 입력칸에 들어갈 때 라벨과 함께 오류 메시지를 읽어 줍니다.
+이미 `aria-describedby`를 넘겼다면 그 값 뒤에 이어 붙습니다. helperText가 비어 있으면 연결하지 않습니다.
+
+```tsx
+<Input
+  id="post-title"
+  label="제목"
+  state={error ? 'error' : 'default'}
+  helperText={error}
+  helperTextId="post-title-error"
+/>
+// → <input id="post-title" aria-invalid="true" aria-describedby="post-title-error">
+//   <p class="ui-field__message" id="post-title-error">제목을 입력해 주세요.</p>
+```
+
+<Canvas of={InputStories.ErrorDescribed} />
+
+### ref
+
+React 19에서는 `ref`가 일반 prop입니다. 실제 `<input>` 요소를 가리키므로, 값을 지운 뒤나 제출 오류 때 포커스를 옮길 수 있습니다.
+
+```tsx
+const inputRef = useRef<HTMLInputElement>(null);
+
+<Input ref={inputRef} id="keyword" label="검색어" />
+// inputRef.current?.focus();
+```
+
 ---
 
 ## HTML Class Usage
@@ -246,9 +279,10 @@ ui-field
 
 - `id`를 전달하면 Label의 `htmlFor`와 input의 `id`가 연결됩니다.
 - Error 상태에서는 `aria-invalid`를 제공합니다.
+- `helperTextId`를 주면 오류·도움말 메시지가 `aria-describedby`로 입력과 연결됩니다.
 - Clear Button에는 `aria-label`을 제공합니다.
 - Clear Button은 native `button`이라 Tab으로 이동해 Enter·Space로 `onClear`를 실행할 수 있고, `:focus-visible` 표시가 있습니다.
-- 값을 지운 뒤 포커스를 입력창으로 돌려주는 일은 사용하는 쪽에서 합니다. (Input은 아직 `ref`를 받지 않습니다)
+- 값을 지운 뒤 포커스를 입력창으로 돌려주는 일은 사용하는 쪽에서 합니다. `ref`로 input 요소를 받아 `focus()`를 부릅니다.
 - Disabled와 Readonly는 HTML 기본 속성을 사용합니다.
 
 예시

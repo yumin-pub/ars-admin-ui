@@ -1,6 +1,7 @@
 import type {
     InputHTMLAttributes,
     ReactNode,
+    Ref,
 } from 'react';
 
 // Input 스타일 종류
@@ -43,6 +44,15 @@ export interface InputProps
 
     // Helper Message
     helperText?: ReactNode;
+
+    // Helper Message 요소의 id (선택)
+    // 지정하면 helperText 요소에 id가 붙고 input의 aria-describedby에 연결된다.
+    // (넘긴 aria-describedby가 있으면 그 뒤에 잇는다) 지정하지 않으면 기존 DOM과 같다.
+    helperTextId?: string;
+
+    // input 요소 ref (선택, React 19에서는 ref가 일반 prop이다)
+    // 예: 값을 지운 뒤 입력창으로 포커스를 돌려줄 때
+    ref?: Ref<HTMLInputElement>;
 
     // Counter
     counter?: ReactNode;

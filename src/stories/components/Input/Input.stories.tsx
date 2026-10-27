@@ -48,6 +48,16 @@ const meta = {
             description: 'Helper Message',
         },
 
+        helperTextId: {
+            control: 'text',
+            description: 'Helper Message 요소의 id. 지정하면 input의 aria-describedby에 연결된다',
+        },
+
+        ref: {
+            control: false,
+            description: 'input 요소 ref (React 19의 일반 prop)',
+        },
+
         placeholder: {
             control: 'text',
             description: 'Placeholder',
@@ -156,6 +166,19 @@ export const Clearable: Story = {
     },
 
     render: (args) => <ClearableInput {...args} />,
+};
+
+/**
+ * 오류 메시지를 aria-describedby로 연결 (helperTextId)
+ */
+export const ErrorDescribed: Story = {
+    args: {
+        id: 'input-error-described',
+        label: '제목',
+        state: 'error',
+        helperText: '제목을 입력해 주세요.',
+        helperTextId: 'input-error-described-message',
+    },
 };
 
 export const Examples: Story = {
