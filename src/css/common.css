@@ -266,6 +266,21 @@ body {
 	border-color: #f7f7f7;
 }
 
+.ui-btn--solid.ui-btn--danger {
+	color: #ffffff;
+	background-color: #dc2626;
+	border-color: #dc2626;
+}
+.ui-btn--solid.ui-btn--danger:hover, .ui-btn--solid.ui-btn--danger:active, .ui-btn--solid.ui-btn--danger.is-pressed, .ui-btn--solid.ui-btn--danger.is-selected {
+	background-color: #bb2020;
+	border-color: #bb2020;
+}
+.ui-btn--solid.ui-btn--danger:disabled, .ui-btn--solid.ui-btn--danger[aria-disabled=true], .ui-btn--solid.ui-btn--danger.is-disabled {
+	color: #ffffff;
+	background-color: #f1a8a8;
+	border-color: #f1a8a8;
+}
+
 .ui-btn--outline.ui-btn--primary {
 	color: #e6007e;
 	background-color: #ffffff;
@@ -310,6 +325,22 @@ body {
 .ui-btn--outline.ui-btn--neutral:disabled, .ui-btn--outline.ui-btn--neutral[aria-disabled=true], .ui-btn--outline.ui-btn--neutral.is-disabled {
 	color: #9ca3af;
 	border-color: #e5e7eb;
+	background-color: #ffffff;
+}
+
+.ui-btn--outline.ui-btn--danger {
+	color: #dc2626;
+	background-color: #ffffff;
+	border-color: #dc2626;
+}
+.ui-btn--outline.ui-btn--danger:hover, .ui-btn--outline.ui-btn--danger:active, .ui-btn--outline.ui-btn--danger.is-pressed, .ui-btn--outline.ui-btn--danger.is-selected {
+	color: #ffffff;
+	background-color: #dc2626;
+	border-color: #dc2626;
+}
+.ui-btn--outline.ui-btn--danger:disabled, .ui-btn--outline.ui-btn--danger[aria-disabled=true], .ui-btn--outline.ui-btn--danger.is-disabled {
+	color: #f1a8a8;
+	border-color: #f1a8a8;
 	background-color: #ffffff;
 }
 
@@ -427,6 +458,27 @@ body {
 	transform: rotate(45deg);
 }
 
+.ui-checkbox__input:indeterminate + .ui-checkbox__control,
+.ui-checkbox__input:indeterminate + .ui-checkbox__wrapper .ui-checkbox__control {
+	border-color: #e6007e;
+	background-color: #e6007e;
+}
+
+.ui-checkbox__input:indeterminate + .ui-checkbox__control::after,
+.ui-checkbox__input:indeterminate + .ui-checkbox__wrapper .ui-checkbox__control::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 4px;
+	right: 4px;
+	width: auto;
+	height: 0;
+	border-top: 2px solid #ffffff;
+	border-right: 0;
+	border-bottom: 0;
+	transform: translateY(-50%);
+}
+
 .ui-checkbox__input:focus-visible + .ui-checkbox__control,
 .ui-checkbox__input:focus-visible + .ui-checkbox__wrapper .ui-checkbox__control {
 	outline: 2px solid #e6007e;
@@ -453,6 +505,11 @@ body {
 
 .ui-checkbox__input:checked:disabled + .ui-checkbox__control::after,
 .ui-checkbox__input:checked:disabled + .ui-checkbox__wrapper .ui-checkbox__control::after {
+	border-color: #9ca3af;
+}
+
+.ui-checkbox__input:indeterminate:disabled + .ui-checkbox__control::after,
+.ui-checkbox__input:indeterminate:disabled + .ui-checkbox__wrapper .ui-checkbox__control::after {
 	border-color: #9ca3af;
 }
 
