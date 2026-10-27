@@ -1,0 +1,60 @@
+name: Deploy Storybook
+
+# Storybook을 빌드해 GitHub Pages에 배포한다.
+# 주소: https://yumin-pub.github.io/ars-admin-ui/ (프로젝트 페이지라 하위 경로 /ars-admin-ui/ 에서 열린다)
+# storybook-static은 에셋을 상대 경로(./)로 불러서 하위 경로에서도 따로 설정할 것이 없다.
+# tsc·lint·테스트·a11y 검사는 ci.yml이 맡고, 여기서는 Storybook 빌드와 배포만 한다.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# 필요한 최소 권한만 준다.
+# - contents: 저장소 읽기 (checkout)
+# - pages: Pages 배포
+# - id-token: deploy-pages가 OIDC 토큰으로 배포 요청을 인증
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포가 겹치지 않게 한 번에 하나만 실행한다. 진행 중인 배포는 끊지 않는다.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Node 버전과 npm 캐시는 ci.yml과 같게 맞춘다.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: storybook-static
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
