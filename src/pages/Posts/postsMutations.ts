@@ -29,6 +29,7 @@ import {
     removeRows,
 } from './postsOverlay';
 import type { PostPatch, PostRef, PostsOverlay } from './postsOverlay';
+import { POSTS_REQUEST_OPTIONS } from './postsConfig';
 
 /* ==========================
  * 저장소
@@ -41,9 +42,23 @@ export interface PostsOverlayState {
     overlay: PostsOverlay;
 
     /**
-     * 마지막으로 실패한 요청의 오류 메시지 (화면에서는 role="alert"로 보여준다)
+     * 마지막으로 실패한 요청의 오류 (화면에서는 role="alert"로 보여준다)
+     * 새 변경을 시작해도 지우지 않는다. clearError로만 지운다.
      */
-    errorMessage: string | null;
+    error: PostsError | null;
+}
+
+export interface PostsError {
+    /**
+     * 사용자에게 보여줄 한국어 문구
+     */
+    message: string;
+
+    /**
+     * 알릴 때마다 1씩 오르는 번호
+     * 같은 문구가 연달아 나와도 번호가 달라 화면이 다시 알릴 수 있다.
+     */
+    version: number;
 }
 
 export interface PostsOverlayStore {
@@ -63,10 +78,14 @@ export interface PostsOverlayStore {
     updateOverlay: (update: (overlay: PostsOverlay) => PostsOverlay) => void;
 
     /**
-     * 사용자에게 보여줄 오류 메시지를 바꾼다. null이면 지운다.
-     * 같은 값이면 알리지 않는다. (같은 문구가 연달아 나오면 화면이 다시 알리지 않는다는 뜻이기도 하다)
+     * 오류를 알린다. 같은 문구여도 version을 올려 새 알림으로 만든다.
      */
-    setErrorMessage: (message: string | null) => void;
+    reportError: (message: string) => void;
+
+    /**
+     * 오류를 지운다. (화면의 닫기 버튼)
+     */
+    clearError: () => void;
 
     /**
      * 추가한 행에 붙일 임시 id (-1, -2 …)
@@ -84,9 +103,10 @@ export interface PostsOverlayStore {
 export function createPostsOverlayStore(
     initialOverlay: PostsOverlay = initialPostsOverlay,
 ): PostsOverlayStore {
-    let state: PostsOverlayState = { overlay: initialOverlay, errorMessage: null };
+    let state: PostsOverlayState = { overlay: initialOverlay, error: null };
     let nextLocalId = Math.min(0, ...initialOverlay.added.map((row) => row.id)) - 1;
     let nextRequestId = 1;
+    let errorVersion = 0;
     const listeners = new Set<() => void>();
 
     const setState = (next: PostsOverlayState) => {
@@ -107,8 +127,12 @@ export function createPostsOverlayStore(
             const overlay = update(state.overlay);
             if (overlay !== state.overlay) setState({ ...state, overlay });
         },
-        setErrorMessage: (errorMessage) => {
-            if (errorMessage !== state.errorMessage) setState({ ...state, errorMessage });
+        reportError: (message) => {
+            errorVersion += 1;
+            setState({ ...state, error: { message, version: errorVersion } });
+        },
+        clearError: () => {
+            if (state.error) setState({ ...state, error: null });
         },
         createLocalId: () => nextLocalId--,
         createRequestId: () => nextRequestId++,
@@ -227,9 +251,9 @@ export interface PostsMutationOptions {
 export function createPostsMutationOptions(store: PostsOverlayStore): PostsMutationOptions {
     return {
         add: {
+            ...POSTS_REQUEST_OPTIONS,
             onMutate: (post) => {
                 const id = store.createLocalId();
-                store.setErrorMessage(null);
                 store.updateOverlay((overlay) =>
                     addRow(overlay, { id, title: post.title, tags: post.tags, likes: 0, views: 0 }),
                 );
@@ -245,13 +269,13 @@ export function createPostsMutationOptions(store: PostsOverlayStore): PostsMutat
                         removeRow(overlay, { id: context.id, title: post.title }, LOCAL_REQUEST_ID),
                     );
                 }
-                store.setErrorMessage(toPostErrorMessage('추가', postTarget(post.title), error));
+                store.reportError(toPostErrorMessage('추가', postTarget(post.title), error));
             },
         },
 
         edit: {
+            ...POSTS_REQUEST_OPTIONS,
             onMutate: ({ requestId, row, patch }) => {
-                store.setErrorMessage(null);
                 store.updateOverlay((overlay) => editRow(overlay, row, patch, requestId));
             },
             // 추가한 행은 서버에 없으므로 요청하지 않는다.
@@ -262,13 +286,13 @@ export function createPostsMutationOptions(store: PostsOverlayStore): PostsMutat
             },
             onError: (error, { requestId, row }) => {
                 store.updateOverlay((overlay) => discardEdit(overlay, row.id, requestId));
-                store.setErrorMessage(toPostErrorMessage('수정', postTarget(row.title), error));
+                store.reportError(toPostErrorMessage('수정', postTarget(row.title), error));
             },
         },
 
         remove: {
+            ...POSTS_REQUEST_OPTIONS,
             onMutate: ({ requestId, rows }) => {
-                store.setErrorMessage(null);
                 store.updateOverlay((overlay) => removeRows(overlay, rows, requestId));
             },
             // 이 요청이 맡은 삭제만 보낸다.
@@ -309,7 +333,7 @@ export function createPostsMutationOptions(store: PostsOverlayStore): PostsMutat
                 );
 
                 const cause = error instanceof DeletePostsError ? error.cause : error;
-                store.setErrorMessage(toPostErrorMessage('삭제', deleteTarget(rows, failedIds), cause));
+                store.reportError(toPostErrorMessage('삭제', deleteTarget(rows, failedIds), cause));
             },
         },
     };

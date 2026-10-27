@@ -39,14 +39,14 @@ export interface MergeServerPostsParams {
 
 /**
  * @example
- * const { merge, addPost, editPost, removePosts, errorMessage } = usePostsOverlay();
+ * const { merge, addPost, editPost, removePosts, error, clearError } = usePostsOverlay();
  * const { rows, total } = merge({ rows: data.rows, total: data.total, q, page });
  * editPost(row, { title: '새 제목' });   // row는 화면에 보이는 행
- * {errorMessage && <p role="alert">{errorMessage}</p>}
+ * // error는 PostsErrorAlert(항상 DOM에 있는 role="alert")로 보여준다.
  */
 export function usePostsOverlay() {
     const [store] = useState(() => createPostsOverlayStore());
-    const { overlay, errorMessage } = useSyncExternalStore(store.subscribe, store.getState);
+    const { overlay, error } = useSyncExternalStore(store.subscribe, store.getState);
     const options = useMemo(() => createPostsMutationOptions(store), [store]);
 
     const addMutation = useMutation(options.add);
@@ -72,7 +72,8 @@ export function usePostsOverlay() {
         (rows: readonly PostRef[]) => remove({ requestId: store.createRequestId(), rows }),
         [remove, store],
     );
-    const clearError = useCallback(() => store.setErrorMessage(null), [store]);
+    const clearError = useCallback(() => store.clearError(), [store]);
+    const reportError = useCallback((message: string) => store.reportError(message), [store]);
 
     return {
         overlay,
@@ -82,11 +83,17 @@ export function usePostsOverlay() {
         removePosts,
 
         /**
-         * 마지막으로 실패한 요청의 오류 메시지. 화면에서는 role="alert"로 보여준다.
-         * 새 변경을 시작하거나 clearError를 부르면 지워진다.
+         * 마지막으로 실패한 요청의 오류 ({ message, version }). 화면에서는 role="alert"로 보여준다.
+         * 같은 문구여도 version이 바뀌므로 다시 알릴 수 있다.
+         * 새 변경을 시작해도 지워지지 않고 clearError(닫기 버튼)로만 지워진다.
          */
-        errorMessage,
+        error,
         clearError,
+
+        /**
+         * 화면에서 직접 오류를 알린다. (예: 수정하려던 행이 그 사이 사라진 경우)
+         */
+        reportError,
 
         /**
          * 종류별 마지막 요청이 진행 중인지 (useMutation의 isPending)

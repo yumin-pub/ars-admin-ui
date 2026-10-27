@@ -33,6 +33,101 @@
 }
 
 // ========================================
+// Header
+// - 목록 제목 + "게시글 추가" 버튼
+// ========================================
+
+.ui-posts__header {
+    @include flex(space-between, center, $space-4, wrap);
+
+    margin-bottom: $space-4;
+}
+
+// 목록 제목. 다른 영역 클래스(.ui-doc__section-title)에 기대지 않고 같은 토큰으로 스스로 정한다.
+// 아래 여백은 header가 맡는다.
+.ui-posts__title {
+    margin: $space-0;
+
+    font-size: $fs-lg;
+    font-weight: $fw-semibold;
+}
+
+// ========================================
+// Alert
+// - 추가·수정 실패 알림 (role="alert", 항상 DOM에 있다)
+// - 비어 있을 때는 상자를 그리지 않는다. display: none으로 숨기면
+//   live 영역이 접근성 트리에서 빠져 알림을 놓칠 수 있어 쓰지 않는다.
+// ========================================
+
+.ui-posts__alert {
+    &.is-visible {
+        @include flex(space-between, flex-start, $space-3);
+
+        margin-bottom: $space-4;
+        padding: $space-3 $space-4;
+
+        border: 1px solid rgba($error, .3);
+        border-left: $space-1 solid $error;
+        border-radius: $radius-md;
+
+        background-color: rgba($error, .04);
+    }
+}
+
+// role="alert" 영역 (메시지만 담는다. 닫기 버튼은 이 밖에 있다)
+.ui-posts__alert-live {
+    flex: 1;
+    min-width: 0;
+}
+
+.ui-posts__alert-message {
+    margin: $space-0;
+
+    color: $error;
+
+    font-size: $fs-md;
+    line-height: $lh-base;
+
+    // 긴 영문 제목도 상자 밖으로 넘치지 않게
+    overflow-wrap: anywhere;
+}
+
+.ui-posts__alert-close {
+    @include flex(center, center);
+    @include size($space-8);
+
+    flex-shrink: 0;
+    border: 0;
+    border-radius: $radius-md;
+    background: transparent;
+
+    font-size: $fs-xl;
+    line-height: 1;
+    color: $gray-600;
+
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba($error, .08);
+        color: $gray-900;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $primary;
+        outline-offset: 2px;
+    }
+}
+
+// ========================================
+// Form
+// - 추가·수정 모달 안의 입력 배치
+// ========================================
+
+.ui-posts__form {
+    @include flex-column(flex-start, stretch, $space-5);
+}
+
+// ========================================
 // Search
 // - role="search" 영역. 입력은 공통 Input을 그대로 쓰고 폭만 정한다.
 // ========================================
@@ -93,6 +188,32 @@
     color: $error;
 
     font-size: $fs-md;
+}
+
+// ========================================
+// Stale
+// - 이미 받은 목록이 있는데 다시 불러오기만 실패했을 때, 표 위에 붙는 안내
+// ========================================
+
+.ui-posts__stale {
+    @include flex(space-between, center, $space-3, wrap);
+
+    margin-bottom: $space-3;
+    padding: $space-3 $space-4;
+
+    border: 1px solid rgba($error, .3);
+    border-radius: $radius-md;
+
+    background-color: rgba($error, .04);
+}
+
+.ui-posts__stale-message {
+    margin: $space-0;
+
+    color: $error;
+
+    font-size: $fs-md;
+    line-height: $lh-base;
 }
 
 // ========================================

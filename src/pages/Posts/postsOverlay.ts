@@ -17,9 +17,11 @@
  * 바뀐 것이 없으면 받은 객체를 그대로 돌려준다. (참조 비교로 변경 여부를 알 수 있다)
  *
  * 알려진 한계
- * - 추가한 행은 1페이지 맨 앞에 붙고 잘라내지 않는다. 그래서 1페이지는 PAGE_SIZE보다 많을 수 있다.
+ * - 추가한 행은 1페이지 맨 앞에 붙고 잘라내지 않는다. 그래서 1페이지는 POSTS_PAGE_SIZE보다 많을 수 있다.
  * - 추가한 행은 총 건수에 들어가 총 페이지 수를 늘리지만, 그 행은 1페이지에만 보인다.
- * - 추가한 행의 id는 음수 임시 id(-1, -2 …)다. 번호 열에 그대로 보이므로 UI 단계에서 "신규"로 표시해야 한다.
+ *   (화면은 추가가 접수되면 검색어를 유지한 채 1페이지로 이동한다)
+ * - 검색어가 있을 때 새 제목이 검색어에 맞지 않으면 추가한 행은 1페이지에서도 보이지 않고 총 건수에도 들어가지 않는다.
+ * - 추가한 행의 id는 음수 임시 id(-1, -2 …)다. 화면(PostsPage)은 번호 열에 숫자 대신 "신규"를 보여준다.
  * - 서버 행을 수정해 검색 조건을 벗어나면 그 행은 숨기지만, 총 건수에는 지금 보이는 페이지의 행만 반영된다.
  * - 수정해서 새로 검색어에 맞게 된 행은 서버 응답에 없으면 보이지 않는다.
  * - 서버 검색은 제목·본문을 보지만 여기서는 제목만 본다. 본문만 검색어에 맞는 삭제 행은 총 건수에서 빠지지 않는다.
@@ -29,6 +31,8 @@
  * ========================== */
 
 import type { PostInput, PostRow } from '../../api/posts';
+
+import { normalizeSearch } from './postsConfig';
 
 /**
  * 수정 내용. 바꿀 수 있는 필드는 title, tags뿐이다.
@@ -135,7 +139,7 @@ export function isLocalPostId(id: number) {
  * 제목이 검색어에 맞는지 (대소문자 무시, 빈 검색어는 모두 맞음)
  */
 export function matchesSearch(title: string, q: string) {
-    const keyword = q.trim().toLowerCase();
+    const keyword = normalizeSearch(q).toLowerCase();
 
     return keyword === '' || title.toLowerCase().includes(keyword);
 }

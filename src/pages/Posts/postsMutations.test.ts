@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { MutationObserver, QueryClient } from '@tanstack/react-query';
+import { MutationObserver, onlineManager, QueryClient } from '@tanstack/react-query';
 
 import type { PostInput, PostRow } from '../../api/posts';
 
@@ -72,7 +72,7 @@ function setup(initialOverlay?: PostsOverlay) {
     const store = createPostsOverlayStore(initialOverlay);
     const options = createPostsMutationOptions(store);
 
-    // 실패한 요청의 오류는 store.errorMessage로 확인하므로 여기서는 삼킨다.
+    // 실패한 요청의 오류는 store.error로 확인하므로 여기서는 삼킨다.
     const ignore = () => undefined;
 
     return {
@@ -142,7 +142,7 @@ describe('롤백', () => {
 
         expect(visible().rows[1]).toEqual(row(2, 'second'));
         expect(store.getState().overlay.edited).toEqual({});
-        expect(store.getState().errorMessage).toBe("'second' 게시글 수정에 실패했습니다. (오류 코드 500)");
+        expect(store.getState().error?.message).toBe("'second' 게시글 수정에 실패했습니다. (오류 코드 500)");
     });
 
     it('삭제 요청이 실패하면 행이 다시 나타난다', async () => {
@@ -159,7 +159,7 @@ describe('롤백', () => {
 
         expect(visibleIds()).toEqual([1, 2, 3]);
         expect(visible().total).toBe(3);
-        expect(store.getState().errorMessage).toBe("'first' 게시글 삭제에 실패했습니다. (오류 코드 404)");
+        expect(store.getState().error?.message).toBe("'first' 게시글 삭제에 실패했습니다. (오류 코드 404)");
     });
 
     it('추가 요청이 실패하면 추가한 행이 사라진다', async () => {
@@ -174,7 +174,7 @@ describe('롤백', () => {
         await done;
 
         expect(visibleIds()).toEqual([1, 2, 3]);
-        expect(store.getState().errorMessage).toBe("'new' 게시글 추가에 실패했습니다. (오류 코드 500)");
+        expect(store.getState().error?.message).toBe("'new' 게시글 추가에 실패했습니다. (오류 코드 500)");
     });
 
     it('추가 요청 중에 그 행을 고쳤어도, 추가가 실패하면 행이 사라진다 (수정 요청 없음)', async () => {
@@ -203,7 +203,7 @@ describe('롤백', () => {
         expect(visibleIds()).toEqual([2, 3]);
         expect(visible().total).toBe(2);
         expect(store.getState().overlay.deleted[1].confirmed).toBe(true);
-        expect(store.getState().errorMessage).toBe("'second' 게시글 삭제에 실패했습니다. (오류 코드 500)");
+        expect(store.getState().error?.message).toBe("'second' 게시글 삭제에 실패했습니다. (오류 코드 500)");
     });
 
     it('여러 행이 모두 실패하면 건수로 알린다', async () => {
@@ -216,7 +216,7 @@ describe('롤백', () => {
         await done;
 
         expect(visibleIds()).toEqual([1, 2, 3]);
-        expect(store.getState().errorMessage).toBe('게시글 2건 삭제에 실패했습니다. 네트워크 연결을 확인해 주세요.');
+        expect(store.getState().error?.message).toBe('게시글 2건 삭제에 실패했습니다. 네트워크 연결을 확인해 주세요.');
     });
 });
 
@@ -299,7 +299,7 @@ describe('추가한 행 (서버에 없는 id)', () => {
 
         // 추가 요청 하나만 나갔다
         expect(fetch).toHaveBeenCalledTimes(1);
-        expect(store.getState().errorMessage).toBeNull();
+        expect(store.getState().error).toBeNull();
     });
 
     it('임시 id는 다시 쓰지 않는다 (먼저 추가한 행의 실패가 나중 행을 지우지 않음)', async () => {
@@ -454,7 +454,7 @@ describe('중복 삭제', () => {
         await first;
 
         expect(visibleIds()).toEqual([1, 2, 3]);
-        expect(store.getState().errorMessage).toBe("'first' 게시글 삭제에 실패했습니다. (오류 코드 500)");
+        expect(store.getState().error?.message).toBe("'first' 게시글 삭제에 실패했습니다. (오류 코드 500)");
     });
 
     it('삭제 요청이 끝나기 전에 같은 행을 다시 삭제하고 첫 요청이 성공하면 삭제된 채 남는다', async () => {
@@ -484,7 +484,7 @@ describe('중복 삭제', () => {
 
         expect(requests).toHaveLength(1);
         expect(visibleIds()).toEqual([2, 3]);
-        expect(store.getState().errorMessage).toBeNull();
+        expect(store.getState().error).toBeNull();
     });
 });
 
@@ -498,7 +498,7 @@ describe('없는 id', () => {
 
         expect(fetch).not.toHaveBeenCalled();
         expect(store.getState().overlay).toBe(before);
-        expect(store.getState().errorMessage).toBeNull();
+        expect(store.getState().error).toBeNull();
     });
 
     it('목록에 없는 서버 id 수정이 실패해도 오류 없이 되돌린다', async () => {
@@ -523,8 +523,8 @@ describe('오류 메시지', () => {
         requests[0].failNetwork();
         await done;
 
-        expect(store.getState().errorMessage).toBe("'first' 게시글 수정에 실패했습니다. 네트워크 연결을 확인해 주세요.");
-        expect(store.getState().errorMessage).not.toContain('Failed to fetch');
+        expect(store.getState().error?.message).toBe("'first' 게시글 수정에 실패했습니다. 네트워크 연결을 확인해 주세요.");
+        expect(store.getState().error?.message).not.toContain('Failed to fetch');
     });
 
     it('알 수 없는 오류는 영어 메시지를 노출하지 않는다', () => {
@@ -532,21 +532,45 @@ describe('오류 메시지', () => {
             .toBe("'a' 게시글 추가에 실패했습니다. 잠시 후 다시 시도해 주세요.");
     });
 
-    it('새 변경을 시작하면 이전 오류 메시지를 지운다', async () => {
+    it('새 변경을 시작해도, 성공해도 이전 오류는 지우지 않고 clearError로만 지운다', async () => {
         const { edit, store } = setup();
 
         const failed = edit(serverRows[0], { title: 'a' });
         await waitForRequests(1);
         requests[0].respond(500);
         await failed;
-        expect(store.getState().errorMessage).not.toBeNull();
+        const error = store.getState().error;
+        expect(error).not.toBeNull();
 
         const next = edit(serverRows[0], { title: 'b' });
         await waitForRequests(2);
-        expect(store.getState().errorMessage).toBeNull();
+        expect(store.getState().error).toBe(error);
 
         requests[1].respond(200);
         await next;
+        expect(store.getState().error).toBe(error);
+
+        store.clearError();
+        expect(store.getState().error).toBeNull();
+    });
+
+    it('같은 문구가 연달아 나와도 version이 올라 새 알림이 된다', async () => {
+        const { edit, store } = setup();
+
+        const first = edit(serverRows[0], { title: 'a' });
+        await waitForRequests(1);
+        requests[0].respond(500);
+        await first;
+        const firstError = store.getState().error;
+
+        const second = edit(serverRows[0], { title: 'a' });
+        await waitForRequests(2);
+        requests[1].respond(500);
+        await second;
+        const secondError = store.getState().error;
+
+        expect(secondError?.message).toBe(firstError?.message);
+        expect(secondError?.version).toBe((firstError?.version ?? 0) + 1);
     });
 
     it('구독자에게 변경을 알린다', async () => {
@@ -634,7 +658,7 @@ describe('보강', () => {
 
         expect(visibleIds()).toEqual([1, 2]);
         expect(store.getState().overlay.deleted[3].confirmed).toBe(true);
-        expect(store.getState().errorMessage).toBe('게시글 2건 삭제에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+        expect(store.getState().error?.message).toBe('게시글 2건 삭제에 실패했습니다. 잠시 후 다시 시도해 주세요.');
     });
 
     it('같은 id가 중복된 목록을 삭제하다 실패하면 1건으로 알린다', async () => {
@@ -647,6 +671,54 @@ describe('보강', () => {
 
         expect(requests).toHaveLength(1);
         expect(visibleIds()).toEqual([1, 2, 3]);
-        expect(store.getState().errorMessage).toBe("'first' 게시글 삭제에 실패했습니다. (오류 코드 500)");
+        expect(store.getState().error?.message).toBe("'first' 게시글 삭제에 실패했습니다. (오류 코드 500)");
+    });
+});
+
+/**
+ * 브라우저가 오프라인일 때 (onlineManager로 흉내)
+ * networkMode 기본값('online')이면 요청이 멈춰 waitForRequests에서 실패한다.
+ * POSTS_REQUEST_OPTIONS(networkMode: 'always')가 있어야 요청을 보내 실패하고 롤백된다.
+ */
+describe('오프라인', () => {
+    beforeEach(() => onlineManager.setOnline(false));
+    afterEach(() => onlineManager.setOnline(true));
+
+    it('수정: 요청을 보내 실패시키고, 롤백 + 네트워크 안내', async () => {
+        const { edit, store, visible } = setup();
+
+        const done = edit(serverRows[0], { title: 'offline' });
+        await waitForRequests(1);
+        expect(visible().rows[0].title).toBe('offline');
+
+        requests[0].failNetwork();
+        await done;
+
+        expect(visible().rows[0].title).toBe('first');
+        expect(store.getState().error?.message).toBe("'first' 게시글 수정에 실패했습니다. 네트워크 연결을 확인해 주세요.");
+    });
+
+    it('추가: 요청을 보내 실패시키고, 추가한 행을 지운다', async () => {
+        const { add, store, visibleIds } = setup();
+
+        const done = add({ title: 'new', tags: [] });
+        await waitForRequests(1);
+        requests[0].failNetwork();
+        await done;
+
+        expect(visibleIds()).toEqual([1, 2, 3]);
+        expect(store.getState().error?.message).toBe("'new' 게시글 추가에 실패했습니다. 네트워크 연결을 확인해 주세요.");
+    });
+
+    it('삭제: 요청을 보내 실패시키고, 행을 되살린다', async () => {
+        const { remove, store, visibleIds } = setup();
+
+        const done = remove([serverRows[0]]);
+        await waitForRequests(1);
+        requests[0].failNetwork();
+        await done;
+
+        expect(visibleIds()).toEqual([1, 2, 3]);
+        expect(store.getState().error?.message).toBe("'first' 게시글 삭제에 실패했습니다. 네트워크 연결을 확인해 주세요.");
     });
 });
