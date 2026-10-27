@@ -162,6 +162,18 @@ const primitiveColors: PrimitiveColor[] = [
     },
     {
         category: 'Status',
+        name: 'Error Pressed',
+        token: '$error-pressed',
+        value: '#bb2020',
+    },
+    {
+        category: 'Status',
+        name: 'Error Disabled',
+        token: '$error-disabled',
+        value: '#f1a8a8',
+    },
+    {
+        category: 'Status',
         name: 'Info',
         token: '$info',
         value: '#2563eb',

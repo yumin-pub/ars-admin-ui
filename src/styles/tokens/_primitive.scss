@@ -37,4 +37,8 @@ $warning: #f59e0b;
 $success-text: #166534;
 $warning-text: #92400e;
 $error: #dc2626;
+// 위험(danger) 버튼의 인터랙션 상태 (brand의 -pressed / -disabled 규칙과 같다)
+// pressed: 흰 글자 대비 6.29:1 / disabled: 비활성이라 대비 기준 대상 아님
+$error-pressed: #bb2020;
+$error-disabled: #f1a8a8;
 $info: #2563eb;
