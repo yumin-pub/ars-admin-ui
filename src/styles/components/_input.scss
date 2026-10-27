@@ -175,7 +175,9 @@
     font-size: $fs-xs;
     line-height: 1;
     color: $white;
-    background-color: $gray-400;
+    // 흰 "×"(12px) 4.5:1 이상, 원과 입력 배경(흰색·읽기 전용 $gray-50·비활성 $gray-100) 3:1 이상이 되는 가장 옅은 회색
+    // 흰 글자 4.83:1 / 원 대 흰색 4.83:1, $gray-50 4.63:1, $gray-100 4.39:1 ($gray-400일 때는 2.54:1로 미달)
+    background-color: $gray-500;
 
     cursor: pointer;
 
