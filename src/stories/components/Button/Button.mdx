@@ -36,7 +36,7 @@ Button은 클릭, 제출, 확인, 취소 등 사용자의 명시적인 액션을
 ## Features
 
 - `solid`, `outline`, `icon`, `box` 스타일 지원
-- `primary`, `secondary`, `neutral` 색상 지원
+- `primary`, `secondary`, `neutral`, `danger` 색상 지원 (`danger`는 삭제처럼 되돌리기 어려운 동작용)
 - `lg`, `md` 크기 지원
 - `disabled` 상태 지원
 - `is-selected` 상태 클래스 지원
@@ -57,7 +57,7 @@ import { Button } from '@/components/Button';
 | --- | --- | --- | --- |
 | `children` | `ReactNode` | - | 버튼 내부에 표시할 콘텐츠 |
 | `variant` | `'solid' \| 'outline' \| 'icon' \| 'box'` | `'solid'` | 버튼 스타일 |
-| `color` | `'primary' \| 'secondary' \| 'neutral'` | `'primary'` | 버튼 색상 |
+| `color` | `'primary' \| 'secondary' \| 'neutral' \| 'danger'` | `'primary'` | 버튼 색상. `danger`는 삭제 등 위험한 동작에 쓴다 |
 | `size` | `'lg' \| 'md'` | `'md'` | 버튼 크기 |
 | `className` | `string` | `''` | 추가 클래스 |
 | `disabled` | `boolean` | `false` | 버튼 비활성화 여부 |
@@ -118,6 +118,21 @@ HTML 클래스 방식과 React 컴포넌트 방식의 버튼 예제를 한 화�
 
 <Button color="neutral">
   Neutral
+</Button>
+```
+
+### Danger
+
+삭제처럼 되돌리기 어려운 동작에 씁니다. `solid`와 `outline` 모두 지원합니다.
+흰 글자 대비는 4.83:1입니다. 색만으로 위험을 전달하지 말고 "삭제"처럼 동작을 드러내는 문구를 함께 씁니다.
+
+```tsx
+<Button color="danger">
+  삭제
+</Button>
+
+<Button variant="outline" color="danger">
+  삭제
 </Button>
 ```
 
@@ -188,6 +203,17 @@ React를 사용하지 않는 화면에서는 동일한 SCSS 클래스 구조를 
 </button>
 ```
 
+### Danger
+
+```html
+<button
+  type="button"
+  class="ui-btn ui-btn--solid ui-btn--danger ui-btn--md"
+>
+  삭제
+</button>
+```
+
 ### Selected
 
 ```html
@@ -223,6 +249,7 @@ ui-btn
 ├── ui-btn--primary
 ├── ui-btn--secondary
 ├── ui-btn--neutral
+├── ui-btn--danger
 ├── ui-btn--lg
 ├── ui-btn--md
 └── is-selected
@@ -252,6 +279,7 @@ class="ui-btn ui-btn--outline ui-btn--secondary ui-btn--lg is-selected"
 - 실행할 수 없는 버튼은 `disabled` 속성을 사용합니다.
 - 기본 `type`은 `button`이며, 폼 제출 버튼은 `type="submit"`을 명시합니다.
 - 클릭 이벤트가 필요한 요소는 `<div>`나 `<span>` 대신 `<button>`을 사용합니다.
+- `danger` 색은 위험을 색으로만 알리지 않도록 "삭제"처럼 동작이 드러나는 문구와 함께 씁니다.
 
 아이콘 버튼 예시:
 

@@ -133,6 +133,31 @@
     }
 }
 
+// Danger (삭제처럼 되돌리기 어려운 동작)
+// 흰 글자 대비: $error 4.83:1, $error-pressed 6.29:1
+
+.ui-btn--solid.ui-btn--danger {
+    color: $white;
+    background-color: $error;
+    border-color: $error;
+
+    &:hover,
+    &:active,
+    &.is-pressed,
+    &.is-selected {
+        background-color: $error-pressed;
+        border-color: $error-pressed;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'],
+    &.is-disabled {
+        color: $white;
+        background-color: $error-disabled;
+        border-color: $error-disabled;
+    }
+}
+
 // ========================================
 // Outline
 // ========================================
@@ -201,6 +226,29 @@
     &.is-disabled {
         color: $gray-400;
         border-color: $gray-200;
+        background-color: $white;
+    }
+}
+
+.ui-btn--outline.ui-btn--danger {
+    color: $error;
+    background-color: $white;
+    border-color: $error;
+
+    &:hover,
+    &:active,
+    &.is-pressed,
+    &.is-selected {
+        color: $white;
+        background-color: $error;
+        border-color: $error;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'],
+    &.is-disabled {
+        color: $error-disabled;
+        border-color: $error-disabled;
         background-color: $white;
     }
 }

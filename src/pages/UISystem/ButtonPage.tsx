@@ -1,7 +1,7 @@
 import { Button } from '../../components/Button';
 
 const variants = ['solid', 'outline'] as const;
-const colors = ['primary', 'secondary', 'neutral'] as const;
+const colors = ['primary', 'secondary', 'neutral', 'danger'] as const;
 const sizes = ['lg', 'md'] as const;
 
 function ButtonPage() {

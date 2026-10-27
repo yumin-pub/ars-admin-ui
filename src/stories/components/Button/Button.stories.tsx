@@ -18,7 +18,7 @@ const meta: Meta<typeof Button> = {
         },
         color: {
             control: 'select',
-            options: ['primary', 'secondary', 'neutral'],
+            options: ['primary', 'secondary', 'neutral', 'danger'],
         },
         size: {
             control: 'radio',
