@@ -1,0 +1,30 @@
+name: Release Please
+
+# main에 push되면 커밋 제목(Conventional Commits)을 읽어 릴리스 PR을 만들거나 갱신한다.
+# 릴리스 PR을 병합하면 태그(vX.Y.Z)와 GitHub Release를 만든다.
+# 갱신 대상: CHANGELOG.md, package.json, package-lock.json의 version (release-type: node)
+# 설정: release-please-config.json, .release-please-manifest.json
+on:
+  push:
+    branches: [main]
+
+# 필요한 최소 권한만 준다.
+# - contents: 릴리스 브랜치 커밋, 태그(vX.Y.Z)와 GitHub Release 생성
+# - pull-requests: 릴리스 PR 생성·갱신
+# - issues: 릴리스 PR에 라벨(autorelease: pending / tagged)을 만들고 붙인다. 라벨은 issues 권한 영역이고,
+#   release-please는 병합된 릴리스 PR을 이 라벨로 찾아 태그와 릴리스를 만든다.
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # googleapis/release-please-action v4.4.1 (태그가 가리키는 커밋으로 고정, 내장 release-please ^17.3.0)
+      - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

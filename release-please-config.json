@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/v17.3.0/schemas/config.json",
+  "bootstrap-sha": "4ed9225e173c7b01ff6cf4c712fecc6f0f53c7d0",
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "ars-admin",
+      "changelog-path": "CHANGELOG.md",
+      "include-component-in-tag": false,
+      "bump-minor-pre-major": true,
+      "bump-patch-for-minor-pre-major": false,
+      "changelog-sections": [
+        { "type": "feat", "section": "Added" },
+        { "type": "change", "section": "Changed" },
+        { "type": "refactor", "section": "Code Refactoring", "hidden": true },
+        { "type": "perf", "section": "Changed" },
+        { "type": "fix", "section": "Fixed" },
+        { "type": "docs", "section": "Documentation", "hidden": true },
+        { "type": "chore", "section": "Miscellaneous", "hidden": true },
+        { "type": "style", "section": "Styles", "hidden": true },
+        { "type": "test", "section": "Tests", "hidden": true },
+        { "type": "build", "section": "Build", "hidden": true },
+        { "type": "ci", "section": "CI", "hidden": true }
+      ]
+    }
+  }
+}
