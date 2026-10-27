@@ -1,0 +1,132 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction/Compatibility Policy" />
+
+# Compatibility Policy
+
+ARS Admin UI System의 하위호환 정책이다.
+
+컴포넌트를 쓰는 화면이 업데이트 후에도 그대로 동작하도록, 무엇을 바꿀 수 있고 무엇을 바꾸면 안 되는지, 바꿀 때 어떻게 알리는지를 정한다.
+
+변경 내역은 저장소 루트의 `CHANGELOG.md`에 기록한다.
+
+---
+
+## 버전 규칙
+
+유의적 버전(`major.minor.patch`)을 따른다.
+
+| 구분 | 언제 올리는가 |
+| --- | --- |
+| major | 기존 사용처가 고치지 않으면 깨지는 변경 (breaking change) |
+| minor | 하위호환을 지키는 기능 추가 |
+| patch | 하위호환을 지키는 버그 수정 |
+
+- 지금은 `0.x` 구간이다. `0.x`에서는 minor 버전에서도 동작 변경이 있을 수 있다.
+- 그런 경우 CHANGELOG의 `Changed`에 반드시 적는다.
+
+---
+
+## 하위호환 규칙
+
+- 새 props는 **선택(optional)** 으로 추가한다.
+- 새 props를 생략하면 기존과 **같은 결과**를 유지한다. DOM 구조, 클래스, aria 속성이 모두 같아야 한다.
+- 기존 props를 제거하거나 **기본값을 바꾸는 것은 breaking change**로 본다.
+- 새 선택 값(예: `color`의 새 값)을 더하는 것은 하위호환 변경이다. 기존 값의 이름, 기본값, 모양은 바꾸지 않는다.
+
+다음 두 경우는 props를 생략한 사용처에도 영향이 갈 수 있으므로, 하위호환 변경이더라도 CHANGELOG의 `Changed`로 알린다.
+
+- **유니온 타입이 넓어지는 경우**: `color`, `variant`, `role`처럼 값을 고르는 유니온 타입에 새 값을 더하면, 사용처에서 값을 전부 나열하는 코드(`Record<ButtonColor, …>`, 빠짐없는 `switch`의 `never` 검사 등)가 컴파일 오류를 낼 수 있다.
+- **prop과 무관한 공통 CSS 모양 변경**: 공통 컴포넌트 SCSS에서 모양이 바뀌면(예: Checkbox의 일부 선택 스타일 추가), 아무 prop도 바꾸지 않은 사용처의 화면도 달라진다.
+
+---
+
+## 동작 변경 규칙
+
+- 접근성 개선 등으로 동작이 바뀌면 CHANGELOG의 `Changed`에 기록한다.
+- 무엇이 왜 바뀌었는지 이유를 한 줄 적는다.
+- props 이름과 기본값을 유지하더라도, 사용처에서 보이는 결과(DOM, 이벤트 호출)가 달라지면 동작 변경이다.
+
+---
+
+## 지원 중단 (deprecation) 절차
+
+1. 먼저 문서(해당 컴포넌트 mdx)와 CHANGELOG에 지원 중단을 표기한다. 대신 쓸 방법을 함께 적는다.
+2. 다음 minor 이상의 버전을 한 번 이상 거친다.
+3. 그 뒤에 제거한다. 제거는 CHANGELOG의 `Removed`에 적는다.
+
+---
+
+## 실제 사례
+
+### 1. Input: `helperTextId` 생략 시 `aria-describedby` 불변
+
+`helperTextId`는 선택 prop이다. 지정하고 `helperText`가 있을 때만 메시지에 id를 붙이고 `aria-describedby`에 이어 붙인다.
+생략하면 덮어쓰지 않으므로 사용처가 넘긴 `aria-describedby`가 그대로 남는다. (`src/components/Input/Input.tsx`)
+
+```tsx
+const describedByWithHelper = helperTextId && helperText
+    ? [props['aria-describedby'], helperTextId].filter(Boolean).join(' ')
+    : undefined;
+
+<input
+    {...props}
+    {...(describedByWithHelper && { 'aria-describedby': describedByWithHelper })}
+/>
+
+<p className="ui-field__message" id={helperTextId}>{helperText}</p>
+```
+
+`helperTextId`를 생략하면 `id={undefined}`라 메시지 요소에도 id 속성이 생기지 않는다.
+
+### 2. Modal: `role` / `ariaDescribedBy` 생략 시 DOM 동일
+
+`role`의 기본값은 기존과 같은 `'dialog'`이다. `ariaDescribedBy`를 생략하면 값이 `undefined`라 React가 속성을 만들지 않는다.
+그래서 기존 사용처의 DOM은 바뀌지 않는다. (`src/components/Modal/Modal.tsx`)
+
+```tsx
+role = 'dialog',
+ariaDescribedBy,
+
+<section
+    role={role}
+    aria-modal="true"
+    aria-labelledby={title ? titleId : undefined}
+    aria-describedby={ariaDescribedBy}
+>
+```
+
+### 3. Pagination: `disabled` → `aria-disabled` (동작 변경)
+
+props는 그대로지만 사용처에서 보이는 결과가 바뀐 동작 변경이라 CHANGELOG의 `Changed`에 기록했다.
+
+- 현재 페이지와 이동할 수 없는 버튼에서 `disabled` 속성을 없앴다.
+- 현재 페이지는 `aria-current="page"`와 `is-active`로, 처음·이전·다음·마지막 버튼은 `aria-disabled`와 `is-disabled`로 표시한다.
+- 이유: `disabled`가 되면 누른 버튼에서 키보드 포커스가 사라진다.
+- 대신 컴포넌트 안에서 `onPageChange` 호출을 막는다. (`src/components/Pagination/Pagination.tsx`)
+
+```tsx
+const handleEdgeClick = (isDisabled: boolean, nextPage: number) => {
+    if (!isDisabled) {
+        onPageChange(nextPage);
+    }
+};
+
+<button
+    aria-disabled={isFirstPage ? true : undefined}
+    onClick={() => handleEdgeClick(isFirstPage, 1)}
+>
+```
+
+---
+
+## CHANGELOG 작성 규칙
+
+- 형식은 Keep a Changelog를 따르고, 항목은 `## [버전] - 날짜` 구조로 쌓는다.
+- 분류는 `Added`(추가), `Changed`(동작 변경), `Deprecated`(지원 중단 예고), `Removed`(제거), `Fixed`(버그 수정)를 쓴다.
+- 새 항목은 맨 위(최신순)에 추가한다.
+- 릴리스 자동화(release-please)는 아직 설정하지 않았다. 도입할 때 다음을 정해야 한다.
+  - 항목 제목 형식: release-please 기본 형식은 `## [버전](비교 링크) (날짜)`라서 지금의 `## [버전] - 날짜`와 다르다.
+  - 분류 이름: 기본 분류는 Features·Bug Fixes 등이라, `Added`·`Changed`·`Fixed`를 유지하려면 분류 매핑 설정이 필요하다.
+  - 커밋 제목 규칙: Conventional Commits(`feat:`, `fix:` 등)를 따르지 않는 커밋 제목은 자동 분류에서 빠진다.
+  - 0.x 버전 올림: 0.x 구간에서 `feat`가 minor를 올릴지 patch를 올릴지 설정해야 한다. (위 "버전 규칙"과 맞춘다)
