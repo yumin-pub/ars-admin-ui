@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -11,11 +11,21 @@
       // "<base>?__spa=<인코딩된 원래 경로+쿼리+해시>"로 넘긴다. 여기서 라우터가 뜨기 전에 원래 주소로 되돌린다.
       // 원래 쿼리(?page=, ?q= 등)는 통째로 __spa 값 안에 인코딩돼 있어 다른 쿼리와 섞이지 않는다.
       // __spa가 없으면(로컬 개발, 보통 접근) 아무것도 하지 않는다.
+      // __spa는 주소창에서 누구나 바꿀 수 있는 값이다. 되돌릴 주소를 new URL()로 먼저 계산해,
+      // 같은 origin이고 경로가 데모 base(배포에서는 /ars-admin-ui/demo/) 안일 때만 쓴다.
+      // ..·백슬래시로 base 밖으로 나가는 값, 다른 origin(https://…), javascript: 같은 값은 데모 홈으로 둔다.
       (function () {
         var spa = new URLSearchParams(window.location.search).get('__spa');
         if (spa === null) return;
         var base = window.location.pathname.replace(/[^/]*$/, '');
-        window.history.replaceState(null, '', base + spa.replace(/^\/+/, ''));
+        var target;
+        try {
+          target = new URL(spa.replace(/^\/+/, ''), window.location.origin + base);
+        } catch (e) {
+          target = null;
+        }
+        var safe = target && target.origin === window.location.origin && target.pathname.indexOf(base) === 0;
+        window.history.replaceState(null, '', safe ? target.pathname + target.search + target.hash : base);
       })();
     </script>
   </head>
