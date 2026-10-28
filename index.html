@@ -5,6 +5,19 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ars-admin</title>
+    <script>
+      // GitHub Pages 새로고침·직접 접근 복원 (pages/404.html과 짝)
+      // Pages는 없는 경로에 사이트 루트의 404.html을 주고, 404.html은 데모 경로를
+      // "<base>?__spa=<인코딩된 원래 경로+쿼리+해시>"로 넘긴다. 여기서 라우터가 뜨기 전에 원래 주소로 되돌린다.
+      // 원래 쿼리(?page=, ?q= 등)는 통째로 __spa 값 안에 인코딩돼 있어 다른 쿼리와 섞이지 않는다.
+      // __spa가 없으면(로컬 개발, 보통 접근) 아무것도 하지 않는다.
+      (function () {
+        var spa = new URLSearchParams(window.location.search).get('__spa');
+        if (spa === null) return;
+        var base = window.location.pathname.replace(/[^/]*$/, '');
+        window.history.replaceState(null, '', base + spa.replace(/^\/+/, ''));
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
