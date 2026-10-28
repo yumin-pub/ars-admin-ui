@@ -51,14 +51,14 @@ HTML과 SCSS 기반의 UI 구조를 유지하면서 React와 TypeScript를 결�
 
 ### Admin CRUD
 
-추후 관리자 CRUD 예제를 통해 다음 기능을 구성할 예정입니다.
+게시글 관리 화면(/ui/posts)에서 다음 기능을 구현했습니다.
 
 - 목록 조회
 - 상세 조회
 - 등록
 - 수정
 - 삭제
-- Mock API 연동
+- 공개 API(DummyJSON) 연동
 - 서버 상태 관리
 
 #### 게시글 변경분 (overlay)
@@ -70,7 +70,7 @@ DummyJSON은 추가·수정·삭제 요청을 받아도 저장하지 않습니�
   - 수정은 id별로 확정 값과 대기 중인 요청 목록을 따로 두고, 화면 값은 필드마다 가장 나중에 보낸 요청의 값을 씁니다.
   - 요청이 성공하면 확정으로 옮기고, 실패하면 그 요청만 뺍니다. 응답 순서와 상관없이 다른 요청의 변경은 남습니다.
   - 이미 삭제 중이거나 삭제한 행은 다시 요청하지 않습니다. 삭제 스냅샷에는 서버 원본 제목을 기억합니다.
-- `src/pages/Posts/usePostsOverlay.ts`: 위를 묶은 훅 (아직 화면에 연결하지 않음)
+- `src/pages/Posts/usePostsOverlay.ts`: 위를 묶은 훅 (게시글 화면에서 사용)
 
 수정·추가할 수 있는 필드는 `title`, `tags`뿐입니다. (`likes`, `views`는 서버 값)
 
@@ -334,7 +334,7 @@ src/styles
 | Loading | Implemented | Implemented | Implemented |
 | Empty State | Planned | - | - |
 | Error State | Planned | - | - |
-| CRUD Example | Planned | - | - |
+| CRUD Example | Implemented | - | - |
 
 `Implemented`는 React 컴포넌트 구현뿐 아니라 Storybook Stories, MDX 문서 및 실제 예제 페이지와의 일치 여부를 검토한 상태를 의미합니다.
 
