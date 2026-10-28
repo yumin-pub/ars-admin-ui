@@ -12,14 +12,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# 필요한 최소 권한만 준다.
-# - contents: 저장소 읽기 (checkout)
-# - pages: Pages 배포
-# - id-token: deploy-pages가 OIDC 토큰으로 배포 요청을 인증
+# 기본 권한은 저장소 읽기(checkout)뿐이다.
+# 배포 권한(pages, id-token)은 deploy 잡에만 준다. build 잡은 npm ci로 의존성 설치 스크립트를 실행하므로,
+# 의존성이 침해되더라도 배포 권한(OIDC 토큰)을 얻지 못하게 한다.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # 배포가 겹치지 않게 한 번에 하나만 실행한다. 진행 중인 배포는 끊지 않는다.
 concurrency:
@@ -30,8 +27,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # configure-pages가 Pages 사이트 정보(GET /repos/{owner}/{repo}/pages)를 읽는다. 이 API는 Pages 읽기 권한이 필요하다.
+    # 쓰기 권한과 id-token은 주지 않는다.
+    permissions:
+      contents: read
+      pages: read
     steps:
+      # 저장소 자격 증명을 .git/config에 남기지 않는다. (이후 npm 스크립트가 읽지 못하게)
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       # Node 버전과 npm 캐시는 ci.yml과 같게 맞춘다.
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -40,6 +45,10 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      # 타입 오류가 있으면 여기서 실패해 배포까지 가지 않는다. (vite build는 타입을 검사하지 않는다)
+      - name: Type check
+        run: npx tsc -b
 
       - name: Build Storybook
         run: npm run build-storybook
@@ -66,6 +75,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # 배포에 필요한 권한은 이 잡에만 준다. 이 잡은 코드를 체크아웃하거나 실행하지 않는다.
+    # - pages: Pages 배포 / id-token: deploy-pages가 OIDC 토큰으로 배포 요청을 인증
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

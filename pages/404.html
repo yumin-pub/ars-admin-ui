@@ -9,9 +9,12 @@
       // 데모 앱(/ars-admin-ui/demo/…)의 직접 접근·새로고침이면, 원래 경로+쿼리+해시를 __spa 하나로 인코딩해
       // 데모 index.html로 넘긴다. 데모 index.html의 복원 스크립트가 원래 주소로 되돌린다.
       // 그 밖의 경로는 아래 안내(Storybook 링크)를 보여 준다.
+      // 이미 __spa가 붙은 주소로 다시 이 파일이 열렸다면(데모 index.html이 없는 등 배포가 깨진 경우)
+      // 다시 넘기지 않고 안내를 보여 준다. 넘기면 같은 요청이 끝없이 반복된다.
       (function () {
         var demoBase = '/ars-admin-ui/demo/';
         var l = window.location;
+        if (new URLSearchParams(l.search).has('__spa')) return;
         var path = l.pathname === '/ars-admin-ui/demo' ? demoBase : l.pathname;
         if (path.indexOf(demoBase) !== 0) return;
         var rest = path.slice(demoBase.length) + l.search + l.hash;

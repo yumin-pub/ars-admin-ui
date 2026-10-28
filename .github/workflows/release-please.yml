@@ -18,6 +18,11 @@ permissions:
   pull-requests: write
   issues: write
 
+# 연속 push로 실행이 겹치지 않게 한 번에 하나만 실행한다. 진행 중인 실행은 끊지 않는다.
+concurrency:
+  group: release-please
+  cancel-in-progress: false
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
