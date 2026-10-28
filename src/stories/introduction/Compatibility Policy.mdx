@@ -31,7 +31,7 @@ ARS Admin UI System의 하위호환 정책이다.
 | 커밋 | 0.1.0에서 | 설명 |
 | --- | --- | --- |
 | `fix:`, `change:`, `perf:` | 0.1.1 | patch |
-| `refactor:`, `docs:`, `chore:` 등 숨김 타입만 | 그대로 | 릴리스하지 않음 |
+| `!` 없는 숨김 타입(`refactor:`, `docs:`, `chore:` 등)만 | 그대로 | 릴리스하지 않음 (`refactor!:`처럼 `!`가 있으면 0.2.0) |
 | `feat:` | 0.2.0 | minor |
 | `feat!:`, `fix!:`, `change!:` | 0.2.0 | breaking도 0.x에서는 minor (`bump-minor-pre-major: true`) |
 
@@ -138,7 +138,8 @@ const handleEdgeClick = (isDisabled: boolean, nextPage: number) => {
 ## CHANGELOG 작성 규칙
 
 - CHANGELOG는 release-please(`.github/workflows/release-please.yml`)가 만든다. `main`에 push되면 커밋 제목을 읽어 릴리스 PR을 만들고, 그 PR을 병합하면 태그(`vX.Y.Z`)와 릴리스를 만든다. 직접 고치지 않는다.
-- 항목 제목은 `## 0.1.0 (날짜)` 형식이고, 0.1.0 이후에는 이전 버전과의 비교 링크가 붙는다. (`## [0.2.0](비교 링크) (날짜)`)
+- 항목 제목은 `## 0.1.0 (날짜)` 형식이고, 이전 버전 태그가 있으면 비교 링크가 붙는다. (`## [0.2.0](…/compare/v0.1.0...v0.2.0) (날짜)`)
+- 기준점: release-please는 manifest의 버전(0.1.0)에 맞는 GitHub Release나 태그(`v0.1.0`)를 찾아, 그 커밋 이후의 커밋만 읽고 비교 링크도 그 태그를 기준으로 만든다. 그런 태그가 없을 때만 `release-please-config.json`의 `bootstrap-sha` 이후 커밋부터 읽고, 첫 항목에는 비교 링크가 붙지 않는다.
 - 새 항목은 맨 위(최신순)에 추가된다.
 - 분류는 커밋 타입으로 정해진다.
 
@@ -150,7 +151,7 @@ const handleEdgeClick = (isDisabled: boolean, nextPage: number) => {
 | 타입 뒤에 `!` | ⚠ BREAKING CHANGES (해당 분류 절에도 함께 나온다. 숨김 타입이어도 `!`가 있으면 나온다) |
 | `refactor`, `docs`, `chore`, `style`, `test`, `build`, `ci` | 나오지 않음 (내부 정리는 CHANGELOG와 릴리스에 올리지 않는다) |
 
-- 릴리스 PR은 CHANGELOG에 나오는 커밋이 하나라도 있으면 생긴다. 단독 `change:` 커밋도 CHANGELOG에 나오므로 **릴리스 PR을 만들고 patch를 올린다.** 숨김 타입(`refactor`, `docs`, `chore` 등)만 있으면 릴리스 PR이 생기지 않는다.
+- 릴리스 PR은 CHANGELOG에 나오는 커밋이 하나라도 있으면 생긴다. 단독 `change:` 커밋도 CHANGELOG에 나오므로 **릴리스 PR을 만들고 patch를 올린다.** `!` 없는 숨김 타입(`refactor`, `docs`, `chore` 등)만 있으면 릴리스 PR이 생기지 않는다.
 
 ---
 

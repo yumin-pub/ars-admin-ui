@@ -3,6 +3,7 @@
 이 프로젝트의 주요 변경 사항을 기록합니다.
 분류는 [Keep a Changelog](https://keepachangelog.com/ko/1.1.0/)의 Added·Changed·Fixed를, 버전은 [유의적 버전](https://semver.org/lang/ko/)을 따릅니다.
 0.1.0 이후 항목은 release-please가 커밋 제목을 읽어 이 문서 맨 위에 자동으로 추가합니다. 직접 고치지 않습니다.
+릴리스 자동화는 `v0.1.0` 태그(없으면 `release-please-config.json`의 `bootstrap-sha`) 이후의 커밋부터 읽고, 비교 링크는 `v0.1.0` 태그를 기준으로 만듭니다.
 하위호환 기준과 커밋 제목 규칙은 Storybook의 `Introduction/Compatibility Policy` 문서(`src/stories/introduction/Compatibility Policy.mdx`)를 따릅니다.
 
 ## 0.1.0 (2026-10-27)
