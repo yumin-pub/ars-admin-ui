@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>페이지를 찾을 수 없습니다 · ARS Admin UI</title>
+    <script>
+      // GitHub Pages는 없는 경로에 사이트 루트의 이 파일을 준다. (사이트: /ars-admin-ui/)
+      // 데모 앱(/ars-admin-ui/demo/…)의 직접 접근·새로고침이면, 원래 경로+쿼리+해시를 __spa 하나로 인코딩해
+      // 데모 index.html로 넘긴다. 데모 index.html의 복원 스크립트가 원래 주소로 되돌린다.
+      // 그 밖의 경로는 아래 안내(Storybook 링크)를 보여 준다.
+      (function () {
+        var demoBase = '/ars-admin-ui/demo/';
+        var l = window.location;
+        var path = l.pathname === '/ars-admin-ui/demo' ? demoBase : l.pathname;
+        if (path.indexOf(demoBase) !== 0) return;
+        var rest = path.slice(demoBase.length) + l.search + l.hash;
+        l.replace(demoBase + '?__spa=' + encodeURIComponent(rest));
+      })();
+    </script>
+    <style>
+      /* 이 파일은 사이트 루트에서 단독으로 쓰여 프로젝트 SCSS·토큰을 불러올 수 없다. 기본 글꼴과 여백만 둔다. */
+      body { margin: 0; padding: 48px 24px; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; line-height: 1.6; }
+      main { max-width: 640px; margin: 0 auto; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>페이지를 찾을 수 없습니다</h1>
+      <p>주소가 바뀌었거나 없는 페이지입니다.</p>
+      <ul>
+        <li><a href="/ars-admin-ui/">Storybook으로 가기</a></li>
+        <li><a href="/ars-admin-ui/demo/">데모 앱으로 가기</a></li>
+      </ul>
+    </main>
+  </body>
+</html>
